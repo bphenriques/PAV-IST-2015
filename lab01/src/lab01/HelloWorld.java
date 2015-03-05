@@ -15,7 +15,7 @@ public class HelloWorld implements Message {
 			messageClass = br.readLine();
 			System.out.println(messageClass);
 			
-			Class interfaceCalled = Class.forName(messageClass);
+			Class<?> interfaceCalled = Class.forName(messageClass);
 			
 			Message message = (Message)interfaceCalled.newInstance();
 			message.say();
