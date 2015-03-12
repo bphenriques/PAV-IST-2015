@@ -16,7 +16,7 @@ public class RunTests {
 		try {
 			Class classTestClass = Class.forName(classTestName);
 			Method[] methods = classTestClass.getDeclaredMethods();
-
+			//TODO: Recursivamente procurar nos pais da classe e acumular metodos
 			for (Method m : methods) {
 
 				if (m.isAnnotationPresent(Setup.class)) {
