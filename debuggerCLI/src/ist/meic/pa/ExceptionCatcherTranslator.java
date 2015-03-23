@@ -12,7 +12,7 @@ public class ExceptionCatcherTranslator implements Translator {
 	
 	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" + "try {"
 			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
-			+ "Object resultValue = ist.meic.pa.DInterface.run(e);"
+			+ "Object resultValue = ist.meic.pa.DInterface.run(e, $0);"
 			+ "return ($r) resultValue;" + "}" + "}";
 
 	@Override
@@ -51,11 +51,10 @@ public class ExceptionCatcherTranslator implements Translator {
 			ctMethod.setBody(String.format(EXCEPTION_CATCHER_NEW_BODY, name));
 			ctClass.addMethod(ctMethod);
 		} catch (NotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.err.println("Error finding something: " + e1);
+			System.exit(-1);
 		} catch (CannotCompileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Error compiling: " + e);
 		}
 
 	}
