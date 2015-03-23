@@ -6,17 +6,14 @@ public final class CommandManager {
 			new GetCommand(), new InfoCommand(), new RetryCommand(),
 			new SetCommand(), new ThrowCommand() };
 
-	public static Command executeCommand(Exception exception, String args) throws CommandException {
+	public static Command executeCommand(Exception exception, String args,
+			Object target) throws CommandException {
 
 		String[] commandInput = args.split(" ");
-		
-		for(String a: commandInput) {
-			System.out.println(a);
-		}
-		
+
 		for (Command c : COMMAND_LIST) {
 			if (commandInput[0].equals(c.getCommandName())) {
-				c.execute(commandInput, exception, null);
+				c.execute(commandInput, exception, target);
 				return c;
 			}
 		}

@@ -19,7 +19,7 @@ public final class DInterface {
 		Scanner sc = new Scanner(System.in);
 		try {
 			String input;
-			printClassesInStack(thrownException.getStackTrace());
+			//printClassesInStack(thrownException.getStackTrace());
 			System.out.println(thrownException);
 
 			while (true) {
@@ -28,7 +28,7 @@ public final class DInterface {
 
 				try {
 					Command c = CommandManager.executeCommand(thrownException,
-							input);
+							input, target);
 					if (c.isReturnable()) {
 						return c.getResult();
 					}

@@ -18,9 +18,9 @@ public class GetCommand extends Command {
 		try {
 			@SuppressWarnings("rawtypes")
 			Class targetClass = target.getClass();
-			if (args.length == 2)
+			if (args.length != 2)
 				throw new WrongNumberOfArgumentsException(1, args.length);
-			Field targetField = targetClass.getField(args[1]);
+			Field targetField = targetClass.getDeclaredField(args[1]);
 
 			targetField.setAccessible(true);
 			System.out.println(targetField.get(target));
