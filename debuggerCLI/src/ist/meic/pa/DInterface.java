@@ -2,7 +2,7 @@ package ist.meic.pa;
 
 import java.util.Scanner;
 
-public class DInterface {
+public final class DInterface {
 
 	private final static String STACK_TRACE_PRINT = "Inside %s.%s";
 
@@ -14,23 +14,17 @@ public class DInterface {
 	private final static String SET_COMMAND = "Set";
 	private final static String RETRY_COMMAND = "Retry";
 
-	public Exception thrownException;
 
-	public DInterface(Exception thrownException) {
-		super();
-		this.thrownException = thrownException;
-	}
 
-	public void run() throws Exception {
-
+	public static Object run(Exception thrownException) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		try {
 			String input;
-
 			printClassesInStack(thrownException.getStackTrace());
-			printCommandPrompt();
+
 
 			while (true) {
+				printCommandPrompt();
 				input = sc.next();
 
 				switch (input) {
@@ -67,17 +61,19 @@ public class DInterface {
 
 	}
 
-	private void printCommandPrompt() {
+	private static void printCommandPrompt() {
 		System.out.print("DebuggerCLI:> ");
 		System.out.flush();
 	}
 
-	private void printClassesInStack(StackTraceElement[] stackTraceElements) {
+	private static void printClassesInStack(StackTraceElement[] stackTraceElements) {
 		for (StackTraceElement ste : stackTraceElements) {
 			String className = ste.getClassName();
 			String methodName = ste.getMethodName();
+			if(methodName.contains("$original")) continue;
 			System.out.println(String.format(STACK_TRACE_PRINT, className,
 					methodName));
+			if (methodName.equals("main")) return;
 		}
 
 	}

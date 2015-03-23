@@ -4,16 +4,16 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import javassist.CtNewMethod;
 import javassist.NotFoundException;
 import javassist.Translator;
 
 public class ExceptionCatcherTranslator implements Translator {
-
-	private static final String EXCEPTION_CATCHER_BODY = "{" + "try {"
-			+ "DInterface debugInterface = new DInterface($e);"
-			+ "Object resultValue = debugInterface.run();"
-			+ "return ($r) resultValue;" + "} catch (Exception e) {"
-			+ "throw e;" + "}" + "}";
+	
+	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" + "try {"
+			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
+			+ "Object resultValue = ist.meic.pa.DInterface.run(e);"
+			+ "return ($r) resultValue;" + "}" + "}";
 
 	@Override
 	public void onLoad(ClassPool pool, String className)
@@ -31,23 +31,34 @@ public class ExceptionCatcherTranslator implements Translator {
 
 	private void insertExceptionCatchers(CtClass ctClass) {
 		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
-			insertExceptionCatcher(ctClass, ctMethod);
+			
+				insertExceptionCatcher(ctClass, ctMethod);
 		}
 
 	}
 
 	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
 		try {
-			CtClass etype = ClassPool.getDefault().get("java.lang.Exception");
-			ctMethod.addCatch(EXCEPTION_CATCHER_BODY, etype);
-		} catch (CannotCompileException e) {
+			String name = ctMethod.getName();
+
+			ctMethod.setName(name + "$original");
+
+			ctMethod = CtNewMethod.copy(ctMethod, name, ctClass, null);
+			CtClass eType = ClassPool.getDefault().get("java.lang.Exception");
+
+			CtClass[] eTypes = { eType };
+			ctMethod.setExceptionTypes(eTypes); //To catch and throw checked exceptions
+			ctMethod.setBody(String.format(EXCEPTION_CATCHER_NEW_BODY, name));
+			ctClass.addMethod(ctMethod);
+		} catch (NotFoundException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotFoundException e) {
+			e1.printStackTrace();
+		} catch (CannotCompileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+
 
 }
