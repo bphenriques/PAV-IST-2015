@@ -14,7 +14,7 @@ public class NonReturnableCommandException extends CommandException {
 	}
 	
 	@Override
-	public String toString(){
+	public String getMessage(){
 		return "Command \""+ _command + "\" doesn't have a return";
 	}
 

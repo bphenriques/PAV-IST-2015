@@ -29,7 +29,7 @@
 	<target name="run-tests" depends="compile">
 		<java classname="ist.meic.pa.DebuggerCLI">
 			<classpath refid="classpath" />
-			<arg value="ist.meic.pa.test.Example" />
+			<arg value="test.Example" />
 		</java>
 	</target>
 

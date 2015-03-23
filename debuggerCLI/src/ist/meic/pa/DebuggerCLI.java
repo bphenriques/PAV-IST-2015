@@ -6,7 +6,7 @@ import javassist.Translator;
 
 public class DebuggerCLI {
 
-
+	
 	public static void main(String[] args) throws Throwable {
 		if (args.length < 1) {
 			System.err

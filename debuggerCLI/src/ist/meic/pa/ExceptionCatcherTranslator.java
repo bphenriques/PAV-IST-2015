@@ -1,5 +1,7 @@
 package ist.meic.pa;
 
+import java.lang.reflect.Modifier;
+
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -14,12 +16,21 @@ public class ExceptionCatcherTranslator implements Translator {
 			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
 			+ "Object resultValue = ist.meic.pa.DInterface.run(e, $0);"
 			+ "return ($r) resultValue;" + "}" + "}";
+	
+	private static final String EXCEPTION_CATCHER_NEW_STATIC_BODY = "{" + "try {"
+			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
+			+ "Object resultValue = ist.meic.pa.DInterface.run(e);"
+			+ "return ($r) resultValue;" + "}" + "}";
 
 	@Override
 	public void onLoad(ClassPool pool, String className)
 			throws NotFoundException, CannotCompileException {
+		//FIXME: Fix this shit, it will ignore classes with package ist.meic.pa
+		if (className.startsWith("ist.meic.pa")) return;
 		CtClass ctClass = pool.get(className);
 		insertExceptionCatchers(ctClass);
+		
+		
 
 	}
 
@@ -48,7 +59,13 @@ public class ExceptionCatcherTranslator implements Translator {
 
 			CtClass[] eTypes = { eType };
 			ctMethod.setExceptionTypes(eTypes); //To catch and throw checked exceptions
-			ctMethod.setBody(String.format(EXCEPTION_CATCHER_NEW_BODY, name));
+			String body;
+			if (Modifier.isStatic(ctMethod.getModifiers())) {
+				body = EXCEPTION_CATCHER_NEW_STATIC_BODY;
+			} else {
+				body = EXCEPTION_CATCHER_NEW_BODY;
+			}
+			ctMethod.setBody(String.format(body, name));
 			ctClass.addMethod(ctMethod);
 		} catch (NotFoundException e1) {
 			System.err.println("Error finding something: " + e1);

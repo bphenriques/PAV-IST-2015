@@ -17,7 +17,7 @@ public class WrongNumberOfArgumentsException extends CommandException {
 	}
 	
 	@Override
-	public String toString(){
+	public String getMessage(){
 		return "Error while executing command: Expected "+ _expected + " arguments but was provided " + _gotten;
 	}
 	

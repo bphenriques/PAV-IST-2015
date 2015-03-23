@@ -5,9 +5,13 @@ public class SetCommand extends Command {
 	private static final String _name = "Set";
 
 	@Override
+	public void execute(String[] args, Exception exception) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
 	public void execute(String[] args, Exception exception, Object target) {
 		// TODO Auto-generated method stub
-
 	}
 	
 	@Override

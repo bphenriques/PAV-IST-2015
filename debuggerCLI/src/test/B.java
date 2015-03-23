@@ -1,4 +1,4 @@
-package ist.meic.pa.test;
+package test;
 
 public class B {
 	double b = 3.14;

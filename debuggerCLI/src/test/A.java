@@ -1,4 +1,4 @@
-package ist.meic.pa.test;
+package test;
 
 public class A {
 	int a = 1;

@@ -1,4 +1,4 @@
-package ist.meic.pa.test;
+package test;
 
 public class Example {
 	public static void main(String[] args) {
