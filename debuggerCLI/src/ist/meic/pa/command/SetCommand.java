@@ -1,8 +1,8 @@
 package ist.meic.pa.command;
 
-import java.lang.reflect.Constructor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
@@ -16,35 +16,38 @@ public class SetCommand extends Command {
 		// TODO Auto-generated method stub
 	}
 	
+	private Object convert(Class<?> targetType, String text) {
+	    PropertyEditor editor = PropertyEditorManager.findEditor(targetType);
+	    editor.setAsText(text);
+	    return editor.getValue();
+	}
+	
 	@Override
 	public void execute(String[] args, Exception exception, Object target) throws CommandException {
 		try {
-			@SuppressWarnings("rawtypes")
-			Class targetClass = target.getClass();
 			if (args.length != 3)
 				throw new WrongNumberOfArgumentsException(1, args.length);
 			
+			@SuppressWarnings("rawtypes")
+			Class targetClass = target.getClass();
+		
 			String fieldName = args[1];
 			String toValue = args[2];
-
 			
 			Field targetField = targetClass.getDeclaredField(fieldName);
 			
-			Class<?> valueClass = target.getClass();
-			Constructor<?> c = valueClass.getConstructor(String.class);
-			Object value = c.newInstance(toValue);
+			Class<?> valueClass = targetField.getType();
 			
 			boolean wasAccessible = targetField.isAccessible();
 			
-			targetField.setAccessible(false);
-			targetField.set(target, value);
+			targetField.setAccessible(true);
+			targetField.set(target, convert(valueClass, toValue));
 			
 			if (wasAccessible)
-				targetField.setAccessible(true);
+				targetField.setAccessible(false);
 			
-		} catch (InvocationTargetException | InstantiationException | 
-				IllegalAccessException | IllegalArgumentException | 
-				SecurityException | NoSuchFieldException | NoSuchMethodException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | 
+				SecurityException | NoSuchFieldException e) {
 			throw new CommandException(e.toString());
 		}
 
