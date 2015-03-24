@@ -7,10 +7,10 @@ public final class CommandManager {
 
 	private final static Command[] COMMAND_LIST = { new AbortCommand(),
 			new GetCommand(), new InfoCommand(), new RetryCommand(),
-			new SetCommand(), new ThrowCommand() };
+			new SetCommand(), new ThrowCommand(), new ReturnCommand() };
 
 	public static Command executeCommand(Exception exception, String args,
-			Object target) throws CommandException {
+			Object target) throws Exception {
 
 		String[] commandInput = args.split(" ");
 

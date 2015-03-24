@@ -12,37 +12,6 @@ import javassist.Translator;
 
 public class ExceptionCatcherTranslator implements Translator {
 
-	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" 
-			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$args);"
-			+ "try{"
-			+ "while(true){"
-			+ "try {"
-			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
-			+ "ist.meic.pa.command.Command resultCommand = ist.meic.pa.DInterface.run(e, $0);"
-			+ "if (resultCommand.isReturnable())" 
-			+	"return ($r) resultCommand.getResult();"
-			+ "}" 
-			+ "}"
-			+ "} finally {"
-			+ "ist.meic.pa.DInterface.popStack();" 
-			+ "}"
-			+ "}";
-
-	private static final String EXCEPTION_CATCHER_NEW_STATIC_BODY = "{"
-			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$args);"
-			+ "try {"
-			+ "while(true){"
-			+ "try {" 
-			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
-			+ "ist.meic.pa.command.Command resultCommand = ist.meic.pa.DInterface.run(e);"
-			+ "if (resultCommand.isReturnable())" 
-			+	"return ($r) resultCommand.getResult();"
-			+ "}"
-			+ "}"
-			+ "} finally {"
-			+ "ist.meic.pa.DInterface.popStack();"
-			+ "}" 
-			+ "}";
 
 	@Override
 	public void onLoad(ClassPool pool, String className)
@@ -63,6 +32,30 @@ public class ExceptionCatcherTranslator implements Translator {
 		// Do nothing.
 	}
 
+	public String generate_catcher(boolean isStatic){
+		
+		String packageName = this.getClass().getPackage().getName();
+		String runArguments = !isStatic ? "e, $0" : "e";
+		
+		return  "{" 
+				+ packageName + ".DInterface.pushToStack(\"%s\",$args);"
+				+ "try{"
+				+ "		while(true){"
+				+ "			try {"
+				+ "				return ($r) %s$original($$);"
+				+ 			"} catch (Exception e) {"
+				+ 				packageName + ".command.Command resultCommand = " + packageName + ".DInterface.run(" + runArguments + ");"
+				+ 				"if (resultCommand.isReturnable())" 
+				+					"return ($r) resultCommand.getResult();"
+				+ 			"}"
+				+ 		"}"
+				+ "} finally {"
+				+ 	packageName + ".DInterface.popStack();" 
+				+ "}"
+			+ "}";
+		
+	}
+	
 	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
 		try {
 			String methodName = ctMethod.getName();
@@ -75,12 +68,8 @@ public class ExceptionCatcherTranslator implements Translator {
 
 			CtClass[] eTypes = { eType };
 			ctMethod.setExceptionTypes(eTypes); //To catch and throw checked exceptions
-			String body;
-			if (Modifier.isStatic(ctMethod.getModifiers())) {
-				body = EXCEPTION_CATCHER_NEW_STATIC_BODY;
-			} else {
-				body = EXCEPTION_CATCHER_NEW_BODY;
-			}
+			String body = generate_catcher(Modifier.isStatic(ctMethod.getModifiers()));
+			
 			ctMethod.setBody(String.format(body, completeMethodName, methodName));
 			
 			ctClass.addMethod(ctMethod);

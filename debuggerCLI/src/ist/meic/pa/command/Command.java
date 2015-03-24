@@ -6,8 +6,8 @@ import ist.meic.pa.command.exception.NonReturnableCommandException;
 public abstract class Command {
 	
 	
-	public abstract void execute(String[] args, Exception exception) throws CommandException;
-	public abstract void execute(String[] args, Exception exception, Object target) throws CommandException;
+	public abstract void execute(String[] args, Exception exception) throws CommandException, Exception;
+	public abstract void execute(String[] args, Exception exception, Object target) throws CommandException, Exception;
 	public abstract String getCommandName();
 	
 	public boolean isReturnable(){
