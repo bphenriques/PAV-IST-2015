@@ -13,12 +13,18 @@ import javassist.Translator;
 public class ExceptionCatcherTranslator implements Translator {
 	
 	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" + "try {"
-			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
+			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$$);"
+			+ "Object result$result = ($r) %s$original($$);"
+			+ "ist.meic.pa.DInterface.popStack();"
+			+ "return ($r) result$result;" + "} catch (Exception e) {"
 			+ "Object resultValue = ist.meic.pa.DInterface.run(e, $0);"
 			+ "return ($r) resultValue;" + "}" + "}";
 	
 	private static final String EXCEPTION_CATCHER_NEW_STATIC_BODY = "{" + "try {"
-			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
+			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$$);"
+			+ "Object result$result = ($r) %s$original($$);"
+			+ "ist.meic.pa.DInterface.popStack();"
+			+ "return ($r) result$result;" + "} catch (Exception e) {"
 			+ "Object resultValue = ist.meic.pa.DInterface.run(e);"
 			+ "return ($r) resultValue;" + "}" + "}";
 
@@ -65,7 +71,7 @@ public class ExceptionCatcherTranslator implements Translator {
 			} else {
 				body = EXCEPTION_CATCHER_NEW_BODY;
 			}
-			ctMethod.setBody(String.format(body, name));
+			ctMethod.setBody(String.format(body, name, name));
 			ctClass.addMethod(ctMethod);
 		} catch (NotFoundException e1) {
 			System.err.println("Error finding something: " + e1);

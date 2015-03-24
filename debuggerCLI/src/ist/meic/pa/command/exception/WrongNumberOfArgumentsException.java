@@ -1,4 +1,4 @@
-package ist.meic.pa.command;
+package ist.meic.pa.command.exception;
 
 public class WrongNumberOfArgumentsException extends CommandException {
 	

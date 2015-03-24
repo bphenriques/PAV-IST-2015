@@ -1,4 +1,6 @@
-package ist.meic.pa.command;
+package ist.meic.pa.command.exception;
+
+import ist.meic.pa.command.Command;
 
 public class InvalidCommandOnStaticException extends CommandException {
 	

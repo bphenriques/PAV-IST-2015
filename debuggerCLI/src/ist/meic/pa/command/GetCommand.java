@@ -1,16 +1,21 @@
 package ist.meic.pa.command;
 
+import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.InvalidCommandOnStaticException;
+import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
+
 import java.lang.reflect.Field;
 
 public class GetCommand extends Command {
 
 	private static final String NAME = "Get";
-	
+
 	@Override
-	public void execute(String[] args, Exception exception) throws CommandException {
+	public void execute(String[] args, Exception exception)
+			throws CommandException {
 		throw new InvalidCommandOnStaticException(this);
 	}
-	
+
 	@Override
 	public void execute(String[] args, Exception exception, Object target)
 			throws CommandException {
@@ -25,7 +30,8 @@ public class GetCommand extends Command {
 			targetField.setAccessible(true);
 			System.out.println(targetField.get(target));
 			targetField.setAccessible(false);
-			
+
+			// FIXME: Maybe throwing a generic exception isn't the best idea...
 		} catch (NoSuchFieldException e) {
 			throw new CommandException(e.toString());
 		} catch (SecurityException e) {

@@ -1,5 +1,8 @@
 package ist.meic.pa.command;
 
+import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.CommandNotFoundException;
+
 public final class CommandManager {
 
 	private final static Command[] COMMAND_LIST = { new AbortCommand(),

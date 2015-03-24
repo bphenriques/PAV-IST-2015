@@ -1,7 +1,11 @@
 package ist.meic.pa.command;
 
+import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.NonReturnableCommandException;
+
 public abstract class Command {
-	//FIXME: It shouldn't throw so many exceptions.
+	
+	
 	public abstract void execute(String[] args, Exception exception) throws CommandException;
 	public abstract void execute(String[] args, Exception exception, Object target) throws CommandException;
 	public abstract String getCommandName();

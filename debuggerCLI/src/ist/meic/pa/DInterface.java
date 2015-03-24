@@ -1,15 +1,19 @@
 package ist.meic.pa;
 
 import ist.meic.pa.command.Command;
-import ist.meic.pa.command.CommandException;
 import ist.meic.pa.command.CommandManager;
+import ist.meic.pa.command.exception.CommandException;
 
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Stack;
 
 public final class DInterface {
 
-	private final static String STACK_TRACE_PRINT = "Inside %s.%s";
+	
+	private final static Stack<MethodPrint> stack = new Stack<MethodPrint>(); 
 
+	
 	public static Object run(Exception thrownException) throws Exception {
 		return run(thrownException, null);
 	}
@@ -43,24 +47,24 @@ public final class DInterface {
 
 	}
 
+	public static void pushToStack(String methodName, Object... args) {
+		MethodPrint method = new MethodPrint(methodName, args);
+		stack.push(method);
+	}
+	
+	public static void popStack() {
+		stack.pop();
+	}
+	
+	public static Iterator<MethodPrint> getStackIterator() {
+		return stack.iterator();
+	}
+	
 	private static void printCommandPrompt() {
 		System.out.print("DebuggerCLI:> ");
 		System.out.flush();
 	}
 
-	private static void printClassesInStack(
-			StackTraceElement[] stackTraceElements) {
-		for (StackTraceElement ste : stackTraceElements) {
-			String className = ste.getClassName();
-			String methodName = ste.getMethodName();
-			if (methodName.contains("$original"))
-				continue;
-			System.out.println(String.format(STACK_TRACE_PRINT, className,
-					methodName));
-			if (methodName.equals("main"))
-				return;
-		}
 
-	}
 
 }
