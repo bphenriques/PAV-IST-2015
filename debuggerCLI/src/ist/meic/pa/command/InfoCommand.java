@@ -1,6 +1,10 @@
 package ist.meic.pa.command;
 
+import ist.meic.pa.DInterface;
+import ist.meic.pa.MethodPrint;
+
 import java.lang.reflect.Field;
+import java.util.Iterator;
 
 public class InfoCommand extends Command {
 
@@ -25,14 +29,26 @@ public class InfoCommand extends Command {
 	}
 
 	private void printCallStack(Exception exception) {
-		StackTraceElement[] stack = exception.getStackTrace();
-		System.out.println("Call stack:");
 		
-		for (StackTraceElement stackElement : stack) {
-			
+		System.out.println("Call stack:");
+		Iterator<MethodPrint> iterator = DInterface.getStackIterator();
+		
+		while(iterator.hasNext()) {
+			MethodPrint mp = iterator.next();
+			System.out.print(mp.getMethodName());
+			printArguments(mp);
 		}
 	}
 	
+	private void printArguments(MethodPrint mp) {
+		System.out.print("(");
+		Object[] args=mp.getArguments();
+		for(int i=0;i<(args.length-1);i++) {
+			System.out.print(args[i] + ", ");
+		}
+		System.out.println(args[args.length-1] + ")");
+	}
+
 	private void printObjectInfo(Object target) {
 		System.out.println("Called Object:" + target);
 

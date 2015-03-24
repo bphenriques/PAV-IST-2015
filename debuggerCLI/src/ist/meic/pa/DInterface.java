@@ -47,7 +47,7 @@ public final class DInterface {
 
 	}
 
-	public static void pushToStack(String methodName, Object... args) {
+	public static void pushToStack(String methodName, Object[] args) {
 		MethodPrint method = new MethodPrint(methodName, args);
 		stack.push(method);
 	}
