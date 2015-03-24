@@ -1,8 +1,9 @@
-package ist.meic.pa;
+package ist.meic.pa.debugger;
 
-import ist.meic.pa.command.Command;
-import ist.meic.pa.command.CommandManager;
+import ist.meic.pa.MethodPrint;
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.debugger.command.Command;
+import ist.meic.pa.debugger.command.CommandManager;
 
 import java.util.Iterator;
 import java.util.Scanner;
@@ -16,12 +17,11 @@ public final class DInterface {
 	public static Command run(Exception thrownException) throws Exception {
 		return run(thrownException, null);
 	}
-
+	
 	public static Command run(Exception thrownException, Object target)
 			throws Exception {
 
 		String input;
-		// printClassesInStack(thrownException.getStackTrace());
 		System.out.println(thrownException);
 
 		while (true) {
@@ -29,8 +29,7 @@ public final class DInterface {
 			input = sc.nextLine();
 
 			try {
-				Command c = CommandManager.executeCommand(thrownException,
-						input, target);
+				Command c = CommandManager.executeCommand(thrownException, input, target);
 				if (c.isReturnable() || c.isRetriable()) {
 					return c;
 				}
@@ -43,15 +42,20 @@ public final class DInterface {
 	}
 
 
-	public static void pushToStack(String methodName, Object[] args) {
-		MethodPrint method = new MethodPrint(methodName, args);
+	public static void pushToStack(String className, String methodName, Object[] args) {
+		
+		MethodPrint method = new MethodPrint(className, methodName, args);
 		stack.push(method);
 	}
 
 	public static void popStack() {
 		stack.pop();
 	}
-
+	
+	public static MethodPrint getMostRecentMethodCall(){
+		return stack.get(stack.size() - 1);
+	}
+	
 	public static Iterator<MethodPrint> getStackIterator() {
 		return stack.iterator();
 	}

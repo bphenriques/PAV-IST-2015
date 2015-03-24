@@ -1,6 +1,5 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.CommandNotFoundException;
 
 public final class CommandManager {

@@ -1,4 +1,4 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
 public class RetryCommand extends Command {
 
@@ -7,14 +7,12 @@ public class RetryCommand extends Command {
 	
 	@Override
 	public void execute(String[] args, Exception exception) {
-		// TODO Auto-generated method stub
-
+		/* intentionally left empty */
 	}
 	
 	@Override
 	public void execute(String[] args, Exception exception, Object target) {
-		// TODO Auto-generated method stub
-
+		/* intentionally left empty */
 	}
 	
 	@Override

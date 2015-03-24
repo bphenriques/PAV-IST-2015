@@ -1,7 +1,7 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.DInterface;
 import ist.meic.pa.MethodPrint;
+import ist.meic.pa.debugger.DInterface;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -12,8 +12,7 @@ public class InfoCommand extends Command {
 
 	@Override
 	public void execute(String[] args, Exception exception) {
-		// TODO Auto-generated method stub
-
+		printCallStack(exception);
 	}
 
 	@Override

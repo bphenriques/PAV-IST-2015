@@ -1,4 +1,4 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
 
 

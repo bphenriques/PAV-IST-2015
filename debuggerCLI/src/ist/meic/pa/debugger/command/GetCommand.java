@@ -1,4 +1,4 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.InvalidCommandOnStaticException;
@@ -13,6 +13,7 @@ public class GetCommand extends Command {
 	@Override
 	public void execute(String[] args, Exception exception)
 			throws CommandException {
+		//FIXME FIXME
 		throw new InvalidCommandOnStaticException(this);
 	}
 
@@ -21,8 +22,7 @@ public class GetCommand extends Command {
 			throws CommandException {
 
 		try {
-			@SuppressWarnings("rawtypes")
-			Class targetClass = target.getClass();
+			Class<?> targetClass = target.getClass();
 			if (args.length != 2)
 				throw new WrongNumberOfArgumentsException(1, args.length);
 			Field targetField = targetClass.getDeclaredField(args[1]);
@@ -32,13 +32,7 @@ public class GetCommand extends Command {
 			targetField.setAccessible(false);
 
 			// FIXME: Maybe throwing a generic exception isn't the best idea...
-		} catch (NoSuchFieldException e) {
-			throw new CommandException(e.toString());
-		} catch (SecurityException e) {
-			throw new CommandException(e.toString());
-		} catch (IllegalArgumentException e) {
-			throw new CommandException(e.toString());
-		} catch (IllegalAccessException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | SecurityException | NoSuchFieldException e) {
 			throw new CommandException(e.toString());
 		}
 

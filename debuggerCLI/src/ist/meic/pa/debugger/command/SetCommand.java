@@ -1,11 +1,10 @@
-package ist.meic.pa.command;
+package ist.meic.pa.debugger.command;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
-import java.lang.reflect.Field;
-
+import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
+
+import java.lang.reflect.Field;
 
 public class SetCommand extends Command {
 
@@ -13,13 +12,7 @@ public class SetCommand extends Command {
 
 	@Override
 	public void execute(String[] args, Exception exception) throws CommandException {
-		// TODO Auto-generated method stub
-	}
-	
-	private Object convert(Class<?> targetType, String text) {
-	    PropertyEditor editor = PropertyEditorManager.findEditor(targetType);
-	    editor.setAsText(text);
-	    return editor.getValue();
+		//FIXME FIXME FIXME FIXME
 	}
 	
 	@Override
@@ -28,8 +21,7 @@ public class SetCommand extends Command {
 			if (args.length != 3)
 				throw new WrongNumberOfArgumentsException(1, args.length);
 			
-			@SuppressWarnings("rawtypes")
-			Class targetClass = target.getClass();
+			Class<?> targetClass = target.getClass();
 		
 			String fieldName = args[1];
 			String toValue = args[2];
@@ -41,7 +33,11 @@ public class SetCommand extends Command {
 			boolean wasAccessible = targetField.isAccessible();
 			
 			targetField.setAccessible(true);
-			targetField.set(target, convert(valueClass, toValue));
+		
+			ObjectContructorFromString c = new ObjectContructorFromString();
+			Object targetObj = c.convert(valueClass, toValue);
+			
+			targetField.set(target, targetObj);
 			
 			if (wasAccessible)
 				targetField.setAccessible(false);
