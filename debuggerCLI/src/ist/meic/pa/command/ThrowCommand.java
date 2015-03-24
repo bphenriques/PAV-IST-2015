@@ -2,7 +2,7 @@ package ist.meic.pa.command;
 
 public class ThrowCommand extends Command {
 
-	private static final String _name = "Throw";
+	private static final String COMMAND_NAME = "Throw";
 
 	@Override
 	public void execute(String[] args, Exception exception) {
@@ -17,7 +17,7 @@ public class ThrowCommand extends Command {
 	
 	@Override
 	public String getCommandName() {
-		return _name;
+		return COMMAND_NAME;
 	}
 
 }

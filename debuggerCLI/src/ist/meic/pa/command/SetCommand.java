@@ -2,7 +2,7 @@ package ist.meic.pa.command;
 
 public class SetCommand extends Command {
 
-	private static final String _name = "Set";
+	private static final String COMMAND_NAME = "Set";
 
 	@Override
 	public void execute(String[] args, Exception exception) {
@@ -16,7 +16,7 @@ public class SetCommand extends Command {
 	
 	@Override
 	public String getCommandName() {
-		return _name;
+		return COMMAND_NAME;
 	}
 
 }

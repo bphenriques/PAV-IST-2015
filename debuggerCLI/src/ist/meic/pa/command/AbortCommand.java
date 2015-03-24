@@ -4,7 +4,7 @@ package ist.meic.pa.command;
 
 public class AbortCommand extends Command {
 
-	private final static String _name = "Abort";
+	private final static String COMMAND_NAME = "Abort";
 	
 	
 	@Override
@@ -19,7 +19,7 @@ public class AbortCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return _name;
+		return COMMAND_NAME;
 	}
 
 }

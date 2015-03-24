@@ -2,7 +2,7 @@ package ist.meic.pa.command;
 
 public class ReturnCommand extends ReturnableCommand {
 
-	private static final String NAME = "Return";
+	private static final String COMMAND_NAME = "Return";
 	
 	@Override
 	public void execute(String[] args, Exception exception) {
@@ -18,6 +18,6 @@ public class ReturnCommand extends ReturnableCommand {
 	
 	@Override
 	public String getCommandName() {
-		return NAME;
+		return COMMAND_NAME;
 	}
 }

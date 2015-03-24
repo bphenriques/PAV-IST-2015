@@ -2,7 +2,7 @@ package ist.meic.pa.command;
 
 public class RetryCommand extends Command {
 
-	private static final String _name = "Retry";
+	private static final String COMMAND_NAME = "Retry";
 
 	
 	@Override
@@ -19,7 +19,7 @@ public class RetryCommand extends Command {
 	
 	@Override
 	public String getCommandName() {
-		return _name;
+		return COMMAND_NAME;
 	}
 
 }

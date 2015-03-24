@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 
 public class GetCommand extends Command {
 
-	private static final String NAME = "Get";
+	private static final String COMMAND_NAME = "Get";
 
 	@Override
 	public void execute(String[] args, Exception exception)
@@ -46,7 +46,7 @@ public class GetCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return NAME;
+		return COMMAND_NAME;
 	}
 
 }

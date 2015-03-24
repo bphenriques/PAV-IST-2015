@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class InfoCommand extends Command {
 
-	private static final String NAME = "Info";
+	private static final String COMMAND_NAME = "Info";
 
 	@Override
 	public void execute(String[] args, Exception exception) {
@@ -21,7 +21,7 @@ public class InfoCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return NAME;
+		return COMMAND_NAME;
 	}
 
 	private void printCallStack(Exception exception) {

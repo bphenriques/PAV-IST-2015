@@ -31,13 +31,14 @@ public class ExceptionCatcherTranslator implements Translator {
 	@Override
 	public void onLoad(ClassPool pool, String className)
 			throws NotFoundException, CannotCompileException {
-		//FIXME: Fix this shit, it will ignore classes with package ist.meic.pa
-		if (className.startsWith("ist.meic.pa")) return;
+		//FIXME: it will ignore classes with package ist.meic.pa
+		if (className.startsWith("ist.meic.pa")) 
+			return;
+		
 		CtClass ctClass = pool.get(className);
-		insertExceptionCatchers(ctClass);
-		
-		
-
+		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {	
+			insertExceptionCatcher(ctClass, ctMethod);
+		}
 	}
 
 	@Override
@@ -46,21 +47,13 @@ public class ExceptionCatcherTranslator implements Translator {
 		// Do nothing.
 	}
 
-	private void insertExceptionCatchers(CtClass ctClass) {
-		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
-			
-				insertExceptionCatcher(ctClass, ctMethod);
-		}
-
-	}
-
 	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
 		try {
-			String name = ctMethod.getName();
+			String methodName = ctMethod.getName();
 
-			ctMethod.setName(name + "$original");
-
-			ctMethod = CtNewMethod.copy(ctMethod, name, ctClass, null);
+			ctMethod.setName(methodName + "$original");
+			ctMethod = CtNewMethod.copy(ctMethod, methodName, ctClass, null);
+			
 			CtClass eType = ClassPool.getDefault().get("java.lang.Exception");
 
 			CtClass[] eTypes = { eType };
@@ -71,7 +64,7 @@ public class ExceptionCatcherTranslator implements Translator {
 			} else {
 				body = EXCEPTION_CATCHER_NEW_BODY;
 			}
-			ctMethod.setBody(String.format(body, name, name));
+			ctMethod.setBody(String.format(body, methodName, methodName));
 			ctClass.addMethod(ctMethod);
 		} catch (NotFoundException e1) {
 			System.err.println("Error finding something: " + e1);
@@ -79,8 +72,5 @@ public class ExceptionCatcherTranslator implements Translator {
 		} catch (CannotCompileException e) {
 			System.err.println("Error compiling: " + e);
 		}
-
 	}
-
-
 }
