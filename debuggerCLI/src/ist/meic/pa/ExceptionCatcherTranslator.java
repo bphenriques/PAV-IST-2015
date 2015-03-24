@@ -12,19 +12,37 @@ import javassist.Translator;
 
 public class ExceptionCatcherTranslator implements Translator {
 
-	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" + "try {"
+	private static final String EXCEPTION_CATCHER_NEW_BODY = "{" 
 			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$args);"
+			+ "try{"
+			+ "while(true){"
+			+ "try {"
 			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
-			+ "Object resultValue = ist.meic.pa.DInterface.run(e, $0);"
-			+ "return ($r) resultValue;" + "} finally {"
-			+ "ist.meic.pa.DInterface.popStack();" + "}" + "}";
+			+ "ist.meic.pa.command.Command resultCommand = ist.meic.pa.DInterface.run(e, $0);"
+			+ "if (resultCommand.isReturnable())" 
+			+	"return ($r) resultCommand.getResult();"
+			+ "}" 
+			+ "}"
+			+ "} finally {"
+			+ "ist.meic.pa.DInterface.popStack();" 
+			+ "}"
+			+ "}";
 
 	private static final String EXCEPTION_CATCHER_NEW_STATIC_BODY = "{"
-			+ "try {" + "ist.meic.pa.DInterface.pushToStack(\"%s\",$args);"
+			+ "ist.meic.pa.DInterface.pushToStack(\"%s\",$args);"
+			+ "try {"
+			+ "while(true){"
+			+ "try {" 
 			+ "return ($r) %s$original($$);" + "} catch (Exception e) {"
-			+ "Object resultValue = ist.meic.pa.DInterface.run(e);"
-			+ "return ($r) resultValue;" + "} finally {"
-			+ "ist.meic.pa.DInterface.popStack();" + "}" + "}";
+			+ "ist.meic.pa.command.Command resultCommand = ist.meic.pa.DInterface.run(e);"
+			+ "if (resultCommand.isReturnable())" 
+			+	"return ($r) resultCommand.getResult();"
+			+ "}"
+			+ "}"
+			+ "} finally {"
+			+ "ist.meic.pa.DInterface.popStack();"
+			+ "}" 
+			+ "}";
 
 	@Override
 	public void onLoad(ClassPool pool, String className)

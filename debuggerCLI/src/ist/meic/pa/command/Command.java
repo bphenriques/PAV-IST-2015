@@ -14,6 +14,11 @@ public abstract class Command {
 		return false;
 	}
 	
+	public boolean isRetriable(){
+		return false;
+	}
+	
+	
 	public Object getResult() throws NonReturnableCommandException{
 		throw new NonReturnableCommandException(getCommandName());
 	}

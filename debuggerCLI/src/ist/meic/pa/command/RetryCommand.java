@@ -21,5 +21,10 @@ public class RetryCommand extends Command {
 	public String getCommandName() {
 		return COMMAND_NAME;
 	}
+	
+	@Override
+	public boolean isRetriable(){
+		return true;
+	}
 
 }
