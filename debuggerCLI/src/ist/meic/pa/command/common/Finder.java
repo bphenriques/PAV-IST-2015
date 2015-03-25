@@ -11,7 +11,7 @@ public final class Finder {
 			if (type == Object.class) {
 				throw new NoSuchFieldException(name);
 			} else {
-				return getField(type, name);
+				return getField(type.getSuperclass(), name);
 			}
 		} catch (SecurityException e) {
 			e.printStackTrace();
