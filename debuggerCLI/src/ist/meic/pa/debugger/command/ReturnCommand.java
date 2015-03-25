@@ -28,7 +28,6 @@ public class ReturnCommand extends ReturnableCommand {
 			executeReturn(targetClass, returnValueString);
 		
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -44,6 +43,8 @@ public class ReturnCommand extends ReturnableCommand {
 			
 			String returnValueString = args[1];	
 			Class<?> targetClass = target.getClass();
+			
+
 			
 			executeReturn(targetClass, returnValueString);
 			
@@ -66,9 +67,11 @@ public class ReturnCommand extends ReturnableCommand {
 			if(m.getName().equals(methodName)){
 				method = m;
 				break;
-			}	
+			}
+
 		}
 
+		System.out.println("CLASSE: " + targetClass.getName() + ", METODO: " + methodName);
 		boolean originalAccessibleValue = method.isAccessible();
 		
 		method.setAccessible(true);

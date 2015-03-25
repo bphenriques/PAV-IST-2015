@@ -99,14 +99,14 @@ public class ExceptionCatcherTranslator implements Translator {
 			ExprEditor editor = new ExprEditor(){
 				public void edit(MethodCall methodCall) throws CannotCompileException{
 					
-					CtClass ctClass = methodCall.getEnclosingClass();
+					String className = methodCall.getClassName();
 					String methodName = methodCall.getMethodName();
 					
-					String completeMethodName = ctClass.getName() + "." + methodName;
+					String completeMethodName = className + "." + methodName;
 
 					String methodCallBody = generateMethodCallBody(false, methodName);
 					
-					methodCall.replace(String.format(methodCallBody, methodName, completeMethodName));
+					methodCall.replace(String.format(methodCallBody, className, completeMethodName));
 				
 				}
 			
