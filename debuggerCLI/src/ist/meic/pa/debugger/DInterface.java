@@ -16,14 +16,12 @@ public final class DInterface {
 	private final static Scanner sc = new Scanner(System.in);
 
 	public static Command run(Exception thrownException) throws Exception {
-		return run(thrownException, null);
+		return run(null, null);
 	}
 	
-	public static Command run(Exception thrownException, Object target)
-			throws Exception {
+	public static Command run(Class<?> methodClass, Object target) { 
 
 		String input;
-		System.out.println(thrownException);
 
 		while (true) {
 			printCommandPrompt();

@@ -60,34 +60,12 @@ public class ExceptionCatcherTranslator implements Translator {
 	}
 	
 	private final String generateMethodCallBody(boolean isStatic, String methodName){
-		String runArguments = isStatic ? "e" : "e, $0";
 		
-		return "{ "
+		return "{"
 				+ PACKAGE_NAME + ".DInterface.pushToStack(\"%s\", \"%s\" , $args);"
-				+ "try{"
-				+ 	 "boolean retry = true;"
-				+ 	 "while(retry){"
-				+	 	"try{"
-				+	 		"$_ = $proceed($$);"
-				+ 			"System.out.println(\""+ methodName +"\");"
-				+ 			"break;"
-				+	 	"}catch(Exception e){ "
-				+			 PACKAGE_NAME + ".command.Command resultCommand = " + PACKAGE_NAME + ".DInterface.run(" + runArguments + ");"
-				+ 				"System.out.println(\""+ methodName +"\");"
-				+ 			"if (resultCommand.isReturnable()){" 
-				+ 				"System.out.println(\""+ methodName +"\");"
-				+				"$_ = ($r) resultCommand.getResult();"
-				+ 				"System.out.println(\""+ methodName +"\");"
-		//		+ 				"break;"
-				+ 			"}"
-		//		+				"if(!resultCommand.isRetriable())"
-		//		+ 					"continue;"
-				+ 			"throw e;"
-				+	 	"}"
-				+ 	"}"
-				+ "}finally{"
-				+ 	PACKAGE_NAME + ".DInterface.popStack();" 
-				+ "}" 
+				+ PACKAGE_NAME + ".DInterface.run($class, \"%s\" , $args);"
+				+"$_ = $proceed($$);"
+				+ PACKAGE_NAME + ".DInterface.popStack();" 
 				+"}";
 		
 	}
@@ -106,7 +84,7 @@ public class ExceptionCatcherTranslator implements Translator {
 
 					String methodCallBody = generateMethodCallBody(false, methodName);
 					
-					methodCall.replace(String.format(methodCallBody, className, completeMethodName));
+					methodCall.replace(String.format(methodCallBody, className, completeMethodName, methodName));
 				
 				}
 			
