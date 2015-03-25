@@ -3,9 +3,9 @@ package ist.meic.pa;
 
 public class MethodPrint {
 	
-	private Object[] arguments;
-	private String methodName;
-	private String className;
+	private final Object[] arguments;
+	private final String methodName;
+	private final String className;
 	
 	public MethodPrint(String className, String methodName, Object... arguments) {
 		super();

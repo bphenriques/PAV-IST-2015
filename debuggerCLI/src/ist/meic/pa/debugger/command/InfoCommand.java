@@ -4,7 +4,7 @@ import ist.meic.pa.MethodPrint;
 import ist.meic.pa.debugger.DInterface;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
+import java.util.Enumeration;
 
 public class InfoCommand extends Command {
 
@@ -20,7 +20,6 @@ public class InfoCommand extends Command {
 		printObjectInfo(target);
 		printCallStack(exception);
 	}
-	
 
 	@Override
 	public String getCommandName() {
@@ -28,25 +27,38 @@ public class InfoCommand extends Command {
 	}
 
 	private void printCallStack(Exception exception) {
-		
+
 		System.out.println("Call stack:");
-		Iterator<MethodPrint> iterator = DInterface.getStackIterator();
+		Enumeration<MethodPrint> methodPrintEnumeration = DInterface.getStackEnumeration();
+
+		MethodPrint methodPrint;
+
+		String stackString;
 		
-		while(iterator.hasNext()) {
-			MethodPrint mp = iterator.next();
-			System.out.print(mp.getMethodName());
-			printArguments(mp);
+		while (methodPrintEnumeration.hasMoreElements()) {
+			
+			methodPrint = methodPrintEnumeration.nextElement();
+			
+			
+			stackString = methodPrint.getMethodName() + "(";
+			
+			int i;
+			Object[] argumentArray = methodPrint.getArguments();
+			for (i = 0;  i < argumentArray.length; i++){
+				stackString += argumentArray[i].toString();
+				
+				if(i != argumentArray.length - 1)
+					stackString += ",";
+				else
+					stackString += ")";
+			}
+			
+			System.out.println(stackString);
+			
 		}
+
 	}
-	
-	private void printArguments(MethodPrint mp) {
-		System.out.print("(");
-		Object[] args=mp.getArguments();
-		for(int i=0;i<(args.length-1);i++) {
-			System.out.print(args[i] + ", ");
-		}
-		System.out.println(args[args.length-1] + ")");
-	}
+
 
 	private void printObjectInfo(Object target) {
 		System.out.println("Called Object:" + target);
@@ -54,12 +66,12 @@ public class InfoCommand extends Command {
 		Class<?> targetClass = target.getClass();
 		Field[] fields = targetClass.getDeclaredFields();
 
-		if(fields.length>0) {
+		if (fields.length > 0) {
 			System.out.println("       Fields:" + fields[0].getName());
 		}
-		
+
 		for (int i = 1; i < fields.length; i++) {
-			System.out.println("              " + fields[i].getName()); 
+			System.out.println("              " + fields[i].getName());
 		}
 	}
 

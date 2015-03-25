@@ -36,7 +36,7 @@ public class ExceptionCatcherTranslator implements Translator {
 
 	private final String generateCatcherBody(boolean isStatic){
 		
-		String runArguments = !isStatic ? "e, $0" : "e";
+		String runArguments = isStatic ? "e" : "e, $0";
 		
 		return  "{" 
 				+ PACKAGE_NAME + ".DInterface.pushToStack(\"%s\", \"%s\" , $args);"

@@ -5,13 +5,14 @@ import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.command.CommandManager;
 
-import java.util.Iterator;
+import java.util.ConcurrentModificationException;
+import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.Stack;
 
 public final class DInterface {
 
-	private final static Stack<MethodPrint> stack = new Stack<MethodPrint>();
+	private final static Stack<MethodPrint> _stack = new Stack<MethodPrint>();
 	private final static Scanner sc = new Scanner(System.in);
 
 	public static Command run(Exception thrownException) throws Exception {
@@ -36,6 +37,9 @@ public final class DInterface {
 
 			} catch (CommandException e) {
 				System.err.println(e.toString());
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+				System.err.println(e);
 			}
 		}
 
@@ -45,19 +49,23 @@ public final class DInterface {
 	public static void pushToStack(String className, String methodName, Object[] args) {
 		
 		MethodPrint method = new MethodPrint(className, methodName, args);
-		stack.push(method);
+		_stack.push(method);
 	}
 
 	public static void popStack() {
-		stack.pop();
+		_stack.pop();
 	}
 	
 	public static MethodPrint getMostRecentMethodCall(){
-		return stack.get(stack.size() - 1);
+		return _stack.get(_stack.size() - 1);
 	}
 	
-	public static Iterator<MethodPrint> getStackIterator() {
-		return stack.iterator();
+	public static Enumeration<MethodPrint> getStackEnumeration() {
+		
+		
+	return	_stack.elements();
+		
+
 	}
 
 	private static void printCommandPrompt() {
