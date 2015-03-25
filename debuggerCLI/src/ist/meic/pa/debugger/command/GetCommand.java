@@ -1,5 +1,6 @@
 package ist.meic.pa.debugger.command;
 
+import ist.meic.pa.command.common.Finder;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.InvalidCommandOnStaticException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
@@ -25,11 +26,12 @@ public class GetCommand extends Command {
 			Class<?> targetClass = target.getClass();
 			if (args.length != 2)
 				throw new WrongNumberOfArgumentsException(1, args.length);
-			Field targetField = targetClass.getDeclaredField(args[1]);
+			Field targetField = Finder.getField(targetClass, args[1]);
 
+			boolean previousAccessiblValue = targetField.isAccessible();
 			targetField.setAccessible(true);
 			System.out.println(targetField.get(target));
-			targetField.setAccessible(false);
+			targetField.setAccessible(previousAccessiblValue);
 
 			// FIXME: Maybe throwing a generic exception isn't the best idea...
 		} catch (IllegalAccessException | IllegalArgumentException | SecurityException | NoSuchFieldException e) {

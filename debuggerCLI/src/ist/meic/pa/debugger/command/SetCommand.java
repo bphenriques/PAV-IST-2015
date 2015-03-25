@@ -1,5 +1,6 @@
 package ist.meic.pa.debugger.command;
 
+import ist.meic.pa.command.common.Finder;
 import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
@@ -26,11 +27,11 @@ public class SetCommand extends Command {
 			String fieldName = args[1];
 			String toValue = args[2];
 			
-			Field targetField = targetClass.getDeclaredField(fieldName);
+			Field targetField = Finder.getField(targetClass, fieldName);
 			
 			Class<?> valueClass = targetField.getType();
 			
-			boolean wasAccessible = targetField.isAccessible();
+			boolean lastAccessibleValue = targetField.isAccessible();
 			
 			targetField.setAccessible(true);
 		
@@ -39,8 +40,7 @@ public class SetCommand extends Command {
 			
 			targetField.set(target, targetObj);
 			
-			if (wasAccessible)
-				targetField.setAccessible(false);
+			targetField.setAccessible(lastAccessibleValue);
 			
 		} catch (IllegalAccessException | IllegalArgumentException | 
 				SecurityException | NoSuchFieldException e) {
