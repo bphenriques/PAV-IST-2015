@@ -20,7 +20,6 @@ public class ReturnCommand extends ReturnableCommand {
 		
 		String returnValueString = args[1];	
 		
-		
 		MethodPrint lastCalledMethod = DInterface.getMostRecentMethodCall();
 		String className = lastCalledMethod.getClassName();
 		
@@ -53,7 +52,6 @@ public class ReturnCommand extends ReturnableCommand {
 			e.printStackTrace();
 		}
 	}
-
 
 	private void executeReturn(Class<?> targetClass, String returnValueString) {
 		MethodPrint lastCalledMethod = DInterface.getMostRecentMethodCall(); 

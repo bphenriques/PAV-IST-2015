@@ -1,6 +1,6 @@
 package test;
 
-public class B {
+public class B extends DadOfB{
 	double b = 3.14;
 
 	static String myString = "hello debugger";

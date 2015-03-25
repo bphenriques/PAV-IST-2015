@@ -1,6 +1,6 @@
 package test;
 
-public class A {
+public class A{
 	int a = 1;
 	
 	public double foo(B b) {
