@@ -9,6 +9,8 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 import javassist.Translator;
+import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 
 public class ExceptionCatcherTranslator implements Translator {
 
@@ -57,12 +59,63 @@ public class ExceptionCatcherTranslator implements Translator {
 		
 	}
 	
+	private final String generateMethodCallBody(boolean isStatic, String methodName){
+		String runArguments = isStatic ? "e" : "e, $0";
+		
+		return "{ "
+				+ PACKAGE_NAME + ".DInterface.pushToStack(\"%s\", \"%s\" , $args);"
+				+ "try{"
+				+ 	 "boolean retry = true;"
+				+ 	 "while(retry){"
+				+	 	"try{"
+				+	 		"$_ = $proceed($$);"
+				+ 			"System.out.println(\""+ methodName +"\");"
+				+ 			"break;"
+				+	 	"}catch(Exception e){ "
+				+			 PACKAGE_NAME + ".command.Command resultCommand = " + PACKAGE_NAME + ".DInterface.run(" + runArguments + ");"
+				+ 				"System.out.println(\""+ methodName +"\");"
+				+ 			"if (resultCommand.isReturnable()){" 
+				+ 				"System.out.println(\""+ methodName +"\");"
+				+				"$_ = ($r) resultCommand.getResult();"
+				+ 				"System.out.println(\""+ methodName +"\");"
+		//		+ 				"break;"
+				+ 			"}"
+		//		+				"if(!resultCommand.isRetriable())"
+		//		+ 					"continue;"
+				+ 			"throw e;"
+				+	 	"}"
+				+ 	"}"
+				+ "}finally{"
+				+ 	PACKAGE_NAME + ".DInterface.popStack();" 
+				+ "}" 
+				+"}";
+		
+	}
+	
 	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
 		try {
-			String methodName = ctMethod.getName();
-			String completeMethodName = ctClass.getName() + "." + ctMethod.getName();
+			
+			//codemakeoverimminent
+			ExprEditor editor = new ExprEditor(){
+				public void edit(MethodCall methodCall) throws CannotCompileException{
+					
+					CtClass ctClass = methodCall.getEnclosingClass();
+					String methodName = methodCall.getMethodName();
+					
+					String completeMethodName = ctClass.getName() + "." + methodName;
 
-			ctMethod.setName(methodName + "$original");
+					String methodCallBody = generateMethodCallBody(false, methodName);
+					
+					methodCall.replace(String.format(methodCallBody, methodName, completeMethodName));
+				
+				}
+			
+			};
+			
+			ctMethod.instrument(editor);
+			
+			///codemakeoveeeeer
+			/*ctMethod.setName(methodName + "$original");
 			ctMethod = CtNewMethod.copy(ctMethod, methodName, ctClass, null);
 			
 			CtClass eType = ClassPool.getDefault().get("java.lang.Exception");
@@ -73,11 +126,11 @@ public class ExceptionCatcherTranslator implements Translator {
 			
 			ctMethod.setBody(String.format(body, ctClass.getName(), completeMethodName, methodName));
 			
-			ctClass.addMethod(ctMethod);
-		} catch (NotFoundException e1) {
+			ctClass.addMethod(ctMethod);*/
+		}/* catch (NotFoundException e1) {
 			System.err.println("Error finding something: " + e1);
 			System.exit(-1);
-		} catch (CannotCompileException e) {
+		}*/ catch (CannotCompileException e) {
 			System.err.println("Error compiling: " + e);
 		}
 	}

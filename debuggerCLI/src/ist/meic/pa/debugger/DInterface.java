@@ -36,7 +36,7 @@ public final class DInterface {
 				}
 
 			} catch (CommandException e) {
-				System.err.println(e.toString());
+				System.err.println(e);
 			} catch (ConcurrentModificationException e) {
 				e.printStackTrace();
 				System.err.println(e);
