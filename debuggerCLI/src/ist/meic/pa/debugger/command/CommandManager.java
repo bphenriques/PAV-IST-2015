@@ -4,9 +4,15 @@ import ist.meic.pa.command.exception.CommandNotFoundException;
 
 public final class CommandManager {
 	
-	private final static Command[] COMMAND_LIST = { new AbortCommand(),
-			new GetCommand(), new InfoCommand(), new RetryCommand(),
-			new SetCommand(), new ThrowCommand(), new ReturnCommand() };
+	private final static Command[] COMMAND_LIST = { 
+		new AbortCommand(),
+		new GetCommand(), 
+		new InfoCommand(), 
+		new RetryCommand(),
+		new SetCommand(), 
+		new ThrowCommand(), 
+		new ReturnCommand() 
+	};
 
 	public Command executeCommand(Throwable exception, String args,
 			Class<?> targetClass, Object targetObj) throws Throwable {
@@ -17,13 +23,11 @@ public final class CommandManager {
 			if (commandInput[0].equals(c.getCommandName())) {
 				
 				if(targetObj == null){
-					System.out.println("CALLING STATIC METHOD");
 					c.execute(commandInput, exception, targetClass);
 				}else{
-					System.out.println("CALLING OBJECT METHOD");
 					c.execute(commandInput, exception, targetObj);
 				}
-				
+		
 				return c;
 			}
 		}

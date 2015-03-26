@@ -1,6 +1,6 @@
 package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.command.common.Finder;
+import ist.meic.pa.command.common.FieldFinder;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.DebuggerCLIStackManager;
 import ist.meic.pa.debugger.MethodPrint;
@@ -13,6 +13,9 @@ public class InfoCommand extends Command {
 
 	private static final String COMMAND_NAME = "Info";
 
+	public static final FieldFinder fieldFinder = new FieldFinder();
+	
+	
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable{
 		System.out.println("CALLED STATIC METHOD");
@@ -66,7 +69,7 @@ public class InfoCommand extends Command {
 	private void printObjectInfo(Class<?> targetClass, Object target) {
 		System.out.println("Called Object:\t" + target);
 
-		List<Field> fields = Finder.getDeclaredFields(targetClass);
+		List<Field> fields = FieldFinder.getDeclaredFields(targetClass);
 		
 		System.out.print("       Fields:\t");
 		for (Field f : fields) {

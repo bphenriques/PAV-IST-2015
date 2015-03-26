@@ -11,8 +11,14 @@ import javassist.expr.MethodCall;
 
 public class ExceptionCatcherTranslator implements Translator {
 
-	private final String PACKAGE_NAME = this.getClass().getPackage().getName() + ".debugger";
+	private final String PACKAGE_NAME = this.getClass().getPackage().getName();
 	private final String JAVA_ASSIST_PACKAGE = "javassist";
+	
+	private final Class<?> desiredInterfaceClass;
+	
+	public ExceptionCatcherTranslator(Class<?> desiredInterfaceClass) {
+		this.desiredInterfaceClass = desiredInterfaceClass;
+	}
 	
 	@Override
 	public void onLoad(ClassPool pool, String className)
@@ -23,6 +29,7 @@ public class ExceptionCatcherTranslator implements Translator {
 
 		CtClass ctClass = pool.get(className);
 		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
+			//System.out.println("CHANGING: " + ctMethod.getName());
 			insertExceptionCatcher(ctClass, ctMethod);
 		}
 	}
@@ -34,11 +41,12 @@ public class ExceptionCatcherTranslator implements Translator {
 	}
 	
 	private final String generateMethodCallBody(String methodName){		
-		String DInterfaceTyp = PACKAGE_NAME + ".DInterface";
+		
+		String interfaceClassName = desiredInterfaceClass.getName();
 		
 		return 
 			"{"
-				+ DInterfaceTyp + " d = new " + DInterfaceTyp + "();"
+				+  interfaceClassName + " d = new " + interfaceClassName + "();"
 				+ "$_ = ($r) d.run($class, $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
@@ -51,7 +59,6 @@ public class ExceptionCatcherTranslator implements Translator {
 			ExprEditor editor = new ExprEditor(){
 				public void edit(MethodCall methodCall) throws CannotCompileException{
 					String methodName = methodCall.getMethodName();
-					//String containingClassName = methodCall.getClassName();
 					String methodCallBody = generateMethodCallBody(methodName);
 					methodCall.replace(methodCallBody);
 				}

@@ -7,7 +7,7 @@ import ist.meic.pa.debugger.command.CommandManager;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
-public final class DInterface {
+public final class DInterfaceSimple {
 
 	private final static Scanner sc = new Scanner(System.in);
 

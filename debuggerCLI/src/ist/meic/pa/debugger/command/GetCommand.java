@@ -1,8 +1,7 @@
 package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.command.common.Finder;
+import ist.meic.pa.command.common.FieldFinder;
 import ist.meic.pa.command.exception.CommandException;
-import ist.meic.pa.command.exception.InvalidCommandOnStaticException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 
 import java.lang.reflect.Field;
@@ -13,30 +12,39 @@ public class GetCommand extends Command {
 
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable {
-		//FIXME FIXME
-		throw new InvalidCommandOnStaticException(this);
+		
+		if (args.length != 2)
+			throw new WrongNumberOfArgumentsException(1, args.length);
+		
+		try {			
+			Field targetField = FieldFinder.getDeclaredField(targetClass, args[1]);
+			System.out.println(FieldFinder.getFieldObject(null, targetField));
+
+		} catch (IllegalAccessException | IllegalArgumentException | SecurityException | NoSuchFieldException e) {
+			throw new CommandException(e.toString());
+		}
 	}
 
 	@Override
 	public void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable {
 
+		if (args.length != 2)
+			throw new WrongNumberOfArgumentsException(1, args.length);
+		
 		try {
 			Class<?> targetClass = target.getClass();
-			if (args.length != 2)
-				throw new WrongNumberOfArgumentsException(1, args.length);
-			Field targetField = Finder.getDeclaredField(targetClass, args[1]);
+			Field targetField = FieldFinder.getDeclaredField(targetClass, args[1]);
+			targetField.isAccessible();
+			System.out.println(FieldFinder.getFieldObject(target, targetField));
 
-			boolean previousAccessiblValue = targetField.isAccessible();
-			targetField.setAccessible(true);
-			System.out.println(targetField.get(target));
-			targetField.setAccessible(previousAccessiblValue);
-
-			// FIXME: Maybe throwing a generic exception isn't the best idea...
 		} catch (IllegalAccessException | IllegalArgumentException | SecurityException | NoSuchFieldException e) {
 			throw new CommandException(e.toString());
 		}
-
 	}
+	
+	
+	
+	
 
 	@Override
 	public String getCommandName() {
