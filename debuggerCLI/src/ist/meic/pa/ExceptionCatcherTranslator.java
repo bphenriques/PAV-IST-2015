@@ -15,14 +15,31 @@ public class ExceptionCatcherTranslator implements Translator {
 	private final String JAVA_ASSIST_PACKAGE = "javassist";
 	
 	private final Class<?> desiredInterfaceClass;
+	private final Class<?> desiredMainClass;
 	
-	public ExceptionCatcherTranslator(Class<?> desiredInterfaceClass) {
+	public ExceptionCatcherTranslator(Class<?> desiredInterfaceClass, Class<?> desiredMainClass) {
 		this.desiredInterfaceClass = desiredInterfaceClass;
+		this.desiredMainClass = desiredMainClass;
 	}
 	
 	@Override
 	public void onLoad(ClassPool pool, String className)
 			throws NotFoundException, CannotCompileException {
+		
+		if(className.startsWith(PACKAGE_NAME + ".DebugRunner")){
+			//This guarantees that their main method is ran with the debugger, since it's an ordinary methodCall
+			CtClass mainClass = pool.get(className);
+			
+			CtMethod mainMethod = mainClass.getDeclaredMethod("main");
+			
+			String mainBody = "{"
+			+  desiredMainClass.getName() + ".main($1);" 
+			+ "}";
+			
+			
+			mainMethod.setBody(mainBody);
+			insertExceptionCatcher(mainClass, mainMethod);
+		}
 		
 		if (className.startsWith(PACKAGE_NAME) || className.startsWith(JAVA_ASSIST_PACKAGE))
 			return;

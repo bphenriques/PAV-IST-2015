@@ -18,7 +18,6 @@ public class InfoCommand extends Command {
 	
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable{
-		System.out.println("CALLED STATIC METHOD");
 		printObjectInfo(targetClass, null);
 		printCallStack(exception);
 	}

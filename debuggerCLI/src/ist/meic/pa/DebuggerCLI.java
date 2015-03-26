@@ -13,7 +13,8 @@ public class DebuggerCLI {
 			System.err.println("Usage: java ist.meic.pa.DebuggerCLI <Package>.<Class> <Args>");
 			System.exit(1);
 		} else {
-			Translator exceptionCatcherTrans = new ExceptionCatcherTranslator(DInterfaceSimple.class);
+			String className = args[0];
+			Translator exceptionCatcherTrans = new ExceptionCatcherTranslator(DInterfaceSimple.class, Class.forName(className));
 			Loader classLoader = new Loader();
 			
 			ClassPool pool = ClassPool.getDefault();
@@ -22,9 +23,9 @@ public class DebuggerCLI {
 			String[] restArgs = new String[args.length - 1];
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);
 
-			String className = args[0];
-			classLoader.run(className, restArgs);
-
+			//classLoader.run(className, restArgs);
+			classLoader.run("ist.meic.pa.DebugRunner", restArgs);
+			
 		}
 	}
 

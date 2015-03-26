@@ -15,9 +15,9 @@ public class ReturnCommand extends ReturnableCommand {
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable {
 
-		if(args.length != 2){
+		/*if(args.length != 2){
 			throw new WrongNumberOfArgumentsException(1, args.length);
-		}
+		}*/
 		
 		String returnValueString = args[1];	
 		executeReturn(targetClass, returnValueString);
@@ -28,9 +28,9 @@ public class ReturnCommand extends ReturnableCommand {
 
 		try {
 			
-			if(args.length != 2){
+			/*if(args.length != 2){
 				throw new WrongNumberOfArgumentsException(1, args.length);
-			}
+			}*/
 			
 			String returnValueString = args[1];	
 			Class<?> targetClass = target.getClass();

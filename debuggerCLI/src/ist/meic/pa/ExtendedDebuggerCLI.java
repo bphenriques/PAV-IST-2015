@@ -12,10 +12,10 @@ public class ExtendedDebuggerCLI {
 			System.err.println("Usage: java ist.meic.pa.DebuggerCLI <Package>.<Class> <Args>");
 			System.exit(1);
 		} else {
-			
+		/*	
 			
 			//FIXME FIXME FIXME FIXME
-			Translator exceptionCatcherTrans = new ExceptionCatcherTranslator( /* HERE ---> */ DInterfaceSimple.class);
+			Translator exceptionCatcherTrans = new ExceptionCatcherTranslator( /* HERE --->  DInterfaceSimple.class);
 			Loader classLoader = new Loader();
 			
 			ClassPool pool = ClassPool.getDefault();
@@ -25,7 +25,7 @@ public class ExtendedDebuggerCLI {
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);
 
 			String className = args[0];
-			classLoader.run(className, restArgs);
+			classLoader.run(className, restArgs);*/
 
 		}
 

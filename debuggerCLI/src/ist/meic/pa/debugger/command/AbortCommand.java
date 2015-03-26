@@ -9,12 +9,12 @@ public class AbortCommand extends Command {
 	
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable {
-		System.exit(0);
+		System.exit(1);
 	}
 	
 	@Override
 	public void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable {
-		System.exit(0);
+		System.exit(1);
 	}
 
 	@Override

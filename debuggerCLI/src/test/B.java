@@ -4,7 +4,7 @@ public class B extends DadOfB{
 	double b = 3.14;
 
 	static String myString = "hello debugger";
-	static int bubu = 10;
+	static final int bubu = 10;
 	
 	public double bar(int x) {
 		System.out.println("Inside B.bar");
