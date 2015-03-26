@@ -32,8 +32,9 @@ public class ExceptionCatcherTranslator implements Translator {
 			
 			CtMethod mainMethod = mainClass.getDeclaredMethod("main");
 			
-			String mainBody = "{"
-			+  desiredMainClass.getName() + ".main($1);" 
+			String mainBody = 
+			  "{"
+			+	  desiredMainClass.getName() + ".main($1);" 
 			+ "}";
 			
 			

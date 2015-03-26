@@ -3,7 +3,7 @@ package ist.meic.pa;
 public class DebugRunner {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// To be instrumented in the Translator in order to call the target main function
 
 	}
 

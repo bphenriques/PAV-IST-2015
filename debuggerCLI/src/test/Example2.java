@@ -21,8 +21,7 @@ public class Example2 {
 	
 	public static void main(String[] args) {
 
-		throw new RuntimeException("foo < 1");
-		/*System.out.println("Started");
+		System.out.println("Started");
 		for(String arg : args) {
 			try {
 				System.out.println(fact(bar(arg)));
@@ -30,7 +29,7 @@ public class Example2 {
 				System.out.println("Exception caught!");
 			}
 		}
-		System.out.println("Finished");*/
+		System.out.println("Finished");
 	}
 
 }
