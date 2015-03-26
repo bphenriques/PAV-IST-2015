@@ -2,9 +2,6 @@ package ist.meic.pa.command.exception;
 
 public class WrongNumberOfArgumentsException extends CommandException {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int _expected;
