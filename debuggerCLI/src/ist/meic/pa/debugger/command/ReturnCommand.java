@@ -71,7 +71,6 @@ public class ReturnCommand extends ReturnableCommand {
 
 		}
 
-		System.out.println("CLASSE: " + targetClass.getName() + ", METODO: " + methodName);
 		boolean originalAccessibleValue = method.isAccessible();
 		
 		method.setAccessible(true);

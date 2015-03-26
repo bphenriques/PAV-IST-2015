@@ -11,7 +11,7 @@ public final class DInterface {
 
 	private final static Scanner sc = new Scanner(System.in);
 
-	public Object run(String className, Object target,
+	public Object run(Class<?> targetClass, Object target,
 			Class<?> returnType, String methodName, Class<?> parameterTypes[],
 			Object args[]) throws Throwable {
 		/*
@@ -25,9 +25,9 @@ public final class DInterface {
 		 * System.out.println("----------------------------------------");
 		 */
 
-		DebuggerCLIStackManager.push(new MethodPrint(className, methodName, args));
+		DebuggerCLIStackManager.push(new MethodPrint(targetClass.getName(), methodName, args));
 
-		Method callingMethod = Class.forName(className).getDeclaredMethod(
+		Method callingMethod = targetClass.getDeclaredMethod(
 				methodName, parameterTypes);
 		boolean previousAccessibility = callingMethod.isAccessible();
 		callingMethod.setAccessible(true);

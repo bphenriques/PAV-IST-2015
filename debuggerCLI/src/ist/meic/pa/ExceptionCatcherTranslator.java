@@ -33,13 +33,13 @@ public class ExceptionCatcherTranslator implements Translator {
 		// Do nothing.
 	}
 	
-	private final String generateMethodCallBody(String className, String methodName){		
+	private final String generateMethodCallBody(String methodName){		
 		String DInterfaceTyp = PACKAGE_NAME + ".DInterface";
 		
 		return 
 			"{"
 				+ DInterfaceTyp + " d = new " + DInterfaceTyp + "();"
-				+ "$_ = ($r) d.run(" + "\"" + className + "\", $0, $type, \"" + methodName + "\", $sig, $args);"
+				+ "$_ = ($r) d.run( $class, $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
 		
@@ -50,15 +50,9 @@ public class ExceptionCatcherTranslator implements Translator {
 			
 			ExprEditor editor = new ExprEditor(){
 				public void edit(MethodCall methodCall) throws CannotCompileException{
-					
-					String className = methodCall.getClassName();
 					String methodName = methodCall.getMethodName();
-					
-					String methodCallBody = generateMethodCallBody(className, methodName);
-					
-					String completeMethodName = className + "." + methodName;
-					methodCall.replace(String.format(methodCallBody, className, completeMethodName, methodName));
-				
+					String methodCallBody = generateMethodCallBody(methodName);
+					methodCall.replace(methodCallBody);
 				}
 			};
 			
