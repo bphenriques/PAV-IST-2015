@@ -34,13 +34,12 @@ public class ExceptionCatcherTranslator implements Translator {
 	}
 	
 	private final String generateMethodCallBody(String className, String methodName){		
+		String DInterfaceTyp = PACKAGE_NAME + ".DInterface";
 		
 		return 
 			"{"
-				//+ "System.out.println(\"BURRAAAAA\");"
-				//+ "System.out.println( \"Class: \"" + className + "\");"
-				//+ "System.out.println(\"Class:\" " + className + "\"\n target: \" + $0 + \" \nreturnType: \" + $type + \"\n MethodName:\"" + methodName + "\");"
-					+ "$_ = ($r)" + PACKAGE_NAME + ".DInterface.run(\"" + className + "\", $0, $type, \"" + methodName + "\", $sig, $args);"
+				+ DInterfaceTyp + " d = new " + DInterfaceTyp + "();"
+				+ "$_ = ($r) d.run(" + "\"" + className + "\", $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
 		

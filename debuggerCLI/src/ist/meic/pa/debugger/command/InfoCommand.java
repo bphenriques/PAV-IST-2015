@@ -1,7 +1,7 @@
 package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.MethodPrint;
-import ist.meic.pa.debugger.DInterface;
+import ist.meic.pa.debugger.DebuggerCLIStackManager;
+import ist.meic.pa.debugger.MethodPrint;
 
 import java.lang.reflect.Field;
 import java.util.Enumeration;
@@ -29,7 +29,7 @@ public class InfoCommand extends Command {
 	private void printCallStack(Throwable exception) {
 
 		System.out.println("Call stack:");
-		Enumeration<MethodPrint> methodPrintEnumeration = DInterface.getStackEnumeration();
+		Enumeration<MethodPrint> methodPrintEnumeration = DebuggerCLIStackManager.getStackEnumeration();
 
 		MethodPrint methodPrint;
 

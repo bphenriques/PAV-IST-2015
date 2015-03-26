@@ -1,9 +1,9 @@
 package ist.meic.pa.debugger.command;
 
-import ist.meic.pa.MethodPrint;
 import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
-import ist.meic.pa.debugger.DInterface;
+import ist.meic.pa.debugger.DebuggerCLIStackManager;
+import ist.meic.pa.debugger.MethodPrint;
 
 import java.lang.reflect.Method;
 
@@ -20,7 +20,7 @@ public class ReturnCommand extends ReturnableCommand {
 		
 		String returnValueString = args[1];	
 		
-		MethodPrint lastCalledMethod = DInterface.getMostRecentMethodCall();
+		MethodPrint lastCalledMethod = DebuggerCLIStackManager.getMostRecentMethodCall();
 		String className = lastCalledMethod.getClassName();
 		
 		try {
@@ -55,7 +55,7 @@ public class ReturnCommand extends ReturnableCommand {
 	}
 
 	private void executeReturn(Class<?> targetClass, String returnValueString) {
-		MethodPrint lastCalledMethod = DInterface.getMostRecentMethodCall(); 
+		MethodPrint lastCalledMethod = DebuggerCLIStackManager.getMostRecentMethodCall(); 
 		String methodPrefix = targetClass.getName() + ".";
 		String methodFullName = lastCalledMethod.getMethodName();
 		String methodName = methodFullName.replace(methodPrefix, "");

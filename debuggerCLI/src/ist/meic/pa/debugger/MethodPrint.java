@@ -1,4 +1,4 @@
-package ist.meic.pa;
+package ist.meic.pa.debugger;
 
 
 public class MethodPrint {
