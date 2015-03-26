@@ -12,7 +12,7 @@ public class ReturnCommand extends ReturnableCommand {
 	private static final String COMMAND_NAME = "Return";
 
 	@Override
-	public void execute(String[] args, Exception exception) throws WrongNumberOfArgumentsException {
+	public void execute(String[] args, Throwable exception) throws WrongNumberOfArgumentsException {
 
 		if(args.length != 2){
 			throw new WrongNumberOfArgumentsException(1, args.length);
@@ -33,7 +33,7 @@ public class ReturnCommand extends ReturnableCommand {
 	}
 		
 	@Override
-	public void execute(String[] args, Exception exception, Object target) throws WrongNumberOfArgumentsException {
+	public void execute(String[] args, Throwable exception, Object target) throws WrongNumberOfArgumentsException {
 
 		try {
 			

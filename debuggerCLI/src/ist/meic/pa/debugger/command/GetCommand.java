@@ -12,14 +12,14 @@ public class GetCommand extends Command {
 	private static final String COMMAND_NAME = "Get";
 
 	@Override
-	public void execute(String[] args, Exception exception)
+	public void execute(String[] args, Throwable exception)
 			throws CommandException {
 		//FIXME FIXME
 		throw new InvalidCommandOnStaticException(this);
 	}
 
 	@Override
-	public void execute(String[] args, Exception exception, Object target)
+	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException {
 
 		try {

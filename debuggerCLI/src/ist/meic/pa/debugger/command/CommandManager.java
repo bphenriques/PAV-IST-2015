@@ -8,8 +8,8 @@ public final class CommandManager {
 			new GetCommand(), new InfoCommand(), new RetryCommand(),
 			new SetCommand(), new ThrowCommand(), new ReturnCommand() };
 
-	public static Command executeCommand(Exception exception, String args,
-			Object target) throws Exception {
+	public static Command executeCommand(Throwable exception, String args,
+			Object target) throws Throwable {
 
 		String[] commandInput = args.split(" ");
 

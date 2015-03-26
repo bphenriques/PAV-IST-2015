@@ -12,12 +12,12 @@ public class SetCommand extends Command {
 	private static final String COMMAND_NAME = "Set";
 
 	@Override
-	public void execute(String[] args, Exception exception) throws CommandException {
+	public void execute(String[] args, Throwable exception) throws CommandException {
 		//FIXME FIXME FIXME FIXME
 	}
 	
 	@Override
-	public void execute(String[] args, Exception exception, Object target) throws CommandException {
+	public void execute(String[] args, Throwable exception, Object target) throws CommandException {
 		try {
 			if (args.length != 3)
 				throw new WrongNumberOfArgumentsException(1, args.length);

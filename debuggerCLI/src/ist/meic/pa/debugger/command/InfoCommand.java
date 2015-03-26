@@ -11,12 +11,12 @@ public class InfoCommand extends Command {
 	private static final String COMMAND_NAME = "Info";
 
 	@Override
-	public void execute(String[] args, Exception exception) {
+	public void execute(String[] args, Throwable exception) {
 		printCallStack(exception);
 	}
 
 	@Override
-	public void execute(String[] args, Exception exception, Object target) {
+	public void execute(String[] args, Throwable exception, Object target) {
 		printObjectInfo(target);
 		printCallStack(exception);
 	}
@@ -26,7 +26,7 @@ public class InfoCommand extends Command {
 		return COMMAND_NAME;
 	}
 
-	private void printCallStack(Exception exception) {
+	private void printCallStack(Throwable exception) {
 
 		System.out.println("Call stack:");
 		Enumeration<MethodPrint> methodPrintEnumeration = DInterface.getStackEnumeration();

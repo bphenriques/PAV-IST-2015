@@ -6,12 +6,12 @@ public class RetryCommand extends Command {
 
 	
 	@Override
-	public void execute(String[] args, Exception exception) {
+	public void execute(String[] args, Throwable exception) {
 		/* intentionally left empty */
 	}
 	
 	@Override
-	public void execute(String[] args, Exception exception, Object target) {
+	public void execute(String[] args, Throwable exception, Object target) {
 		/* intentionally left empty */
 	}
 	

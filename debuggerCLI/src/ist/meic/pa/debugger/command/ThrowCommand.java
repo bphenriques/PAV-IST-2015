@@ -5,13 +5,13 @@ public class ThrowCommand extends Command {
 	private static final String COMMAND_NAME = "Throw";
 
 	@Override
-	public void execute(String[] args, Exception exception) throws Exception {
+	public void execute(String[] args, Throwable exception) throws Throwable {
 		throw exception;
 	}
 	
 	
 	@Override
-	public void execute(String[] args, Exception exception, Object target) throws Exception {
+	public void execute(String[] args, Throwable exception, Object target) throws Throwable {
 		throw exception;
 	}
 	

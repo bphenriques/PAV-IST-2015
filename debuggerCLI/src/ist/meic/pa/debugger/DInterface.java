@@ -5,7 +5,7 @@ import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.command.CommandManager;
 
-import java.util.ConcurrentModificationException;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.Stack;
@@ -15,37 +15,80 @@ public final class DInterface {
 	private final static Stack<MethodPrint> _stack = new Stack<MethodPrint>();
 	private final static Scanner sc = new Scanner(System.in);
 
-	public static Command run(Exception thrownException) throws Exception {
-		return run(null, null);
-	}
-	
-	public static Command run(Class<?> methodClass, Object target) { 
+	// + "_$ = ($r)" + PACKAGE_NAME +
+	// ".DInterface.run($class, $0, $type, $proceed, $sig, $$);"
 
-		String input;
+	public static Object run(String className, Object target,
+			Class<?> returnType, String methodName, Class<?> parameterTypes[],
+			Object args[]) throws Throwable {
+		/*
+		 * System.out.println("----------------------------------------");
+		 * System.out.println("Class: " + className);
+		 * System.out.println("target: " + target);
+		 * System.out.println("returnType: " + returnType.getName());
+		 * System.out.println("MethodName" + methodName);
+		 * System.out.println("Parameter types " + parameterTypes);
+		 * System.out.println("Args: " + args);
+		 * System.out.println("----------------------------------------");
+		 */
 
-		while (true) {
-			printCommandPrompt();
-			input = sc.nextLine();
+		DInterface.pushToStack(className, methodName, args);
 
+		Method callingMethod = Class.forName(className).getDeclaredMethod(
+				methodName, parameterTypes);
+		boolean previousAccessibility = callingMethod.isAccessible();
+		callingMethod.setAccessible(true);
+
+		Object returnObject = null;
+		
+		boolean debug = true;
+		while (debug) {
 			try {
-				Command c = CommandManager.executeCommand(thrownException, input, target);
-				if (c.isReturnable() || c.isRetriable()) {
-					return c;
+				returnObject = callingMethod.invoke(target, args);
+				debug = false;
+			} catch (Exception e) {
+				Command command = debugMethod(e.getCause(), target);
+				if (command.isReturnable()) {
+					returnObject = command.getResult();
+					debug = false;
+				}else if (command.isRetriable()) {
+					continue;
 				}
-
-			} catch (CommandException e) {
-				System.err.println(e);
-			} catch (ConcurrentModificationException e) {
-				e.printStackTrace();
-				System.err.println(e);
+				
+				
 			}
 		}
 
+		callingMethod.setAccessible(previousAccessibility);
+		DInterface.popStack();
+		
+		return returnObject;
 	}
 
+	private static Command debugMethod(Throwable thrownException, Object target)
+			throws Throwable {
+		System.out.println(thrownException);
+		while (true) {
+			System.out.print("DebuggerCLI:> ");
+			System.out.flush();
 
-	public static void pushToStack(String className, String methodName, Object[] args) {
-		
+			String input = sc.nextLine();
+
+			try {
+				Command c = CommandManager.executeCommand(thrownException,
+						input, target);
+				
+				if (c.isReturnable() || c.isRetriable()){
+					return c;
+				}
+			} catch (CommandException e) {
+				System.err.println("DEBUGGER ERROR : " + e);
+			}
+		}
+	}
+
+	public static void pushToStack(String className, String methodName,
+			Object[] args) {
 		MethodPrint method = new MethodPrint(className, methodName, args);
 		_stack.push(method);
 	}
@@ -53,22 +96,13 @@ public final class DInterface {
 	public static void popStack() {
 		_stack.pop();
 	}
-	
-	public static MethodPrint getMostRecentMethodCall(){
+
+	public static MethodPrint getMostRecentMethodCall() {
 		return _stack.get(_stack.size() - 1);
 	}
-	
+
 	public static Enumeration<MethodPrint> getStackEnumeration() {
-		
-		
-	return	_stack.elements();
-		
-
-	}
-
-	private static void printCommandPrompt() {
-		System.out.print("DebuggerCLI:> ");
-		System.out.flush();
+		return _stack.elements();
 	}
 
 }
