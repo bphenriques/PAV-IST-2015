@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public final class DInterface {
 
-	private Scanner sc = new Scanner(System.in);
+	private final static Scanner sc = new Scanner(System.in);
 
 	public Object run(String className, Object target,
 			Class<?> returnType, String methodName, Class<?> parameterTypes[],
@@ -25,7 +25,7 @@ public final class DInterface {
 		 * System.out.println("----------------------------------------");
 		 */
 
-		DebuggerCLIStackManager.pushToStack(className, methodName, args);
+		DebuggerCLIStackManager.push(new MethodPrint(className, methodName, args));
 
 		Method callingMethod = Class.forName(className).getDeclaredMethod(
 				methodName, parameterTypes);
@@ -51,7 +51,7 @@ public final class DInterface {
 		}
 
 		callingMethod.setAccessible(previousAccessibility);
-		DebuggerCLIStackManager.popStack();
+		DebuggerCLIStackManager.pop();
 		
 		return returnObject;
 	}

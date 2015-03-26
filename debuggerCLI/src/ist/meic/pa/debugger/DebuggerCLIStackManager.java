@@ -6,13 +6,11 @@ import java.util.Stack;
 public final class DebuggerCLIStackManager {
 	private final static Stack<MethodPrint> _stack = new Stack<MethodPrint>();
 	
-	public static final void pushToStack(String className, String methodName,
-			Object[] args) {
-		MethodPrint method = new MethodPrint(className, methodName, args);
-		_stack.push(method);
+	public static final void push(MethodPrint mp){
+		_stack.push(mp);
 	}
 
-	public static final void popStack() {
+	public static final void pop() {
 		_stack.pop();
 	}
 
