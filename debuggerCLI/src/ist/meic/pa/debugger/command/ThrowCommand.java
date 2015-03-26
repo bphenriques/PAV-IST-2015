@@ -5,7 +5,7 @@ public class ThrowCommand extends Command {
 	private static final String COMMAND_NAME = "Throw";
 
 	@Override
-	public void execute(String[] args, Throwable exception) throws Throwable {
+	public void execute(String[] args, Throwable exception, Class<?> targetClass) throws Throwable {
 		throw exception;
 	}
 	

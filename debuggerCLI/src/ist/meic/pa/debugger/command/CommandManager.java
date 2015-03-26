@@ -9,13 +9,21 @@ public final class CommandManager {
 			new SetCommand(), new ThrowCommand(), new ReturnCommand() };
 
 	public Command executeCommand(Throwable exception, String args,
-			Object target) throws Throwable {
+			Class<?> targetClass, Object targetObj) throws Throwable {
 
 		String[] commandInput = args.split(" ");
 
 		for (Command c : COMMAND_LIST) {
 			if (commandInput[0].equals(c.getCommandName())) {
-				c.execute(commandInput, exception, target);
+				
+				if(targetObj == null){
+					System.out.println("CALLING STATIC METHOD");
+					c.execute(commandInput, exception, targetClass);
+				}else{
+					System.out.println("CALLING OBJECT METHOD");
+					c.execute(commandInput, exception, targetObj);
+				}
+				
 				return c;
 			}
 		}

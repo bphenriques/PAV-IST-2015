@@ -25,13 +25,15 @@ public final class DInterface {
 		 * System.out.println("----------------------------------------");
 		 */
 
-		DebuggerCLIStackManager.push(new MethodPrint(targetClass.getName(), methodName, args));
-
+		DebuggerCLIStackManager.push(new MethodPrint(targetClass, methodName, args));
+		
+		
 		Method callingMethod = targetClass.getDeclaredMethod(
 				methodName, parameterTypes);
 		boolean previousAccessibility = callingMethod.isAccessible();
 		callingMethod.setAccessible(true);
 
+		
 		Object returnObject = null;
 		
 		boolean debug = true;
@@ -40,7 +42,7 @@ public final class DInterface {
 				returnObject = callingMethod.invoke(target, args);
 				debug = false;
 			} catch (Exception e) {
-				Command command = debugMethod(e.getCause(), target);
+				Command command = debugMethod(e.getCause(), targetClass, target);
 				if (command.isReturnable()) {
 					returnObject = command.getResult();
 					debug = false;
@@ -56,7 +58,7 @@ public final class DInterface {
 		return returnObject;
 	}
 
-	private Command debugMethod(Throwable thrownException, Object target)
+	private Command debugMethod(Throwable thrownException, Class<?> targetClass, Object target)
 			throws Throwable {
 		System.out.println(thrownException);
 	
@@ -68,8 +70,7 @@ public final class DInterface {
 			String input = sc.nextLine();
 
 			try {
-				Command c = cm.executeCommand(thrownException,
-						input, target);
+				Command c = cm.executeCommand(thrownException, input, targetClass, target);
 				
 				if (c.isReturnable() || c.isRetriable()){
 					return c;

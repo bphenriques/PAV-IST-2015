@@ -39,7 +39,7 @@ public class ExceptionCatcherTranslator implements Translator {
 		return 
 			"{"
 				+ DInterfaceTyp + " d = new " + DInterfaceTyp + "();"
-				+ "$_ = ($r) d.run( $class, $0, $type, \"" + methodName + "\", $sig, $args);"
+				+ "$_ = ($r) d.run($class, $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
 		
@@ -51,6 +51,7 @@ public class ExceptionCatcherTranslator implements Translator {
 			ExprEditor editor = new ExprEditor(){
 				public void edit(MethodCall methodCall) throws CannotCompileException{
 					String methodName = methodCall.getMethodName();
+					//String containingClassName = methodCall.getClassName();
 					String methodCallBody = generateMethodCallBody(methodName);
 					methodCall.replace(methodCallBody);
 				}

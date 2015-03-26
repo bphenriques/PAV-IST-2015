@@ -1,23 +1,28 @@
 package ist.meic.pa.debugger.command;
 
+import ist.meic.pa.command.common.Finder;
+import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.DebuggerCLIStackManager;
 import ist.meic.pa.debugger.MethodPrint;
 
 import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.List;
 
 public class InfoCommand extends Command {
 
 	private static final String COMMAND_NAME = "Info";
 
 	@Override
-	public void execute(String[] args, Throwable exception) {
+	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable{
+		System.out.println("CALLED STATIC METHOD");
+		printObjectInfo(targetClass, null);
 		printCallStack(exception);
 	}
 
 	@Override
-	public void execute(String[] args, Throwable exception, Object target) {
-		printObjectInfo(target);
+	public void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable {
+		printObjectInfo(target.getClass(), target);
 		printCallStack(exception);
 	}
 
@@ -26,7 +31,7 @@ public class InfoCommand extends Command {
 		return COMMAND_NAME;
 	}
 
-	private void printCallStack(Throwable exception) {
+	private void printCallStack(Throwable exception){
 
 		System.out.println("Call stack:");
 		Enumeration<MethodPrint> methodPrintEnumeration = DebuggerCLIStackManager.getStackEnumeration();
@@ -35,12 +40,10 @@ public class InfoCommand extends Command {
 
 		String stackString;
 		
-		while (methodPrintEnumeration.hasMoreElements()) {
-			
+		while (methodPrintEnumeration.hasMoreElements()) {			
 			methodPrint = methodPrintEnumeration.nextElement();
-			
-			
-			stackString = methodPrint.getMethodName() + "(";
+			stackString = methodPrint.getIvokingClass().getName();
+			stackString += "." + methodPrint.getMethodName() + "(";
 			
 			int i;
 			Object[] argumentArray = methodPrint.getArguments();
@@ -60,19 +63,17 @@ public class InfoCommand extends Command {
 	}
 
 
-	private void printObjectInfo(Object target) {
-		System.out.println("Called Object:" + target);
+	private void printObjectInfo(Class<?> targetClass, Object target) {
+		System.out.println("Called Object:\t" + target);
 
-		Class<?> targetClass = target.getClass();
-		Field[] fields = targetClass.getDeclaredFields();
-
-		if (fields.length > 0) {
-			System.out.println("       Fields:" + fields[0].getName());
+		List<Field> fields = Finder.getDeclaredFields(targetClass);
+		
+		System.out.print("       Fields:\t");
+		for (Field f : fields) {
+			System.out.print(f.getName() + " ");
 		}
-
-		for (int i = 1; i < fields.length; i++) {
-			System.out.println("              " + fields[i].getName());
-		}
+		
+		System.out.println();
 	}
 
 }

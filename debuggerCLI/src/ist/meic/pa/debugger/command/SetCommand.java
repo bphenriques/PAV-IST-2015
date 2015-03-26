@@ -12,12 +12,12 @@ public class SetCommand extends Command {
 	private static final String COMMAND_NAME = "Set";
 
 	@Override
-	public void execute(String[] args, Throwable exception) throws CommandException {
+	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable {
 		//FIXME FIXME FIXME FIXME
 	}
 	
 	@Override
-	public void execute(String[] args, Throwable exception, Object target) throws CommandException {
+	public void execute(String[] args, Throwable exception, Object target)  throws CommandException, Throwable {
 		try {
 			if (args.length != 3)
 				throw new WrongNumberOfArgumentsException(1, args.length);
@@ -27,7 +27,7 @@ public class SetCommand extends Command {
 			String fieldName = args[1];
 			String toValue = args[2];
 			
-			Field targetField = Finder.getField(targetClass, fieldName);
+			Field targetField = Finder.getDeclaredField(targetClass, fieldName);
 			
 			Class<?> valueClass = targetField.getType();
 			

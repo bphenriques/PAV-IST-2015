@@ -1,6 +1,7 @@
 package ist.meic.pa.debugger.command;
 
 import ist.meic.pa.command.common.ObjectContructorFromString;
+import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.DebuggerCLIStackManager;
 import ist.meic.pa.debugger.MethodPrint;
@@ -12,28 +13,18 @@ public class ReturnCommand extends ReturnableCommand {
 	private static final String COMMAND_NAME = "Return";
 
 	@Override
-	public void execute(String[] args, Throwable exception) throws WrongNumberOfArgumentsException {
+	public void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable {
 
 		if(args.length != 2){
 			throw new WrongNumberOfArgumentsException(1, args.length);
 		}
 		
 		String returnValueString = args[1];	
-		
-		MethodPrint lastCalledMethod = DebuggerCLIStackManager.getMostRecentMethodCall();
-		String className = lastCalledMethod.getClassName();
-		
-		try {
-			Class<?> targetClass = Class.forName(className);
-			executeReturn(targetClass, returnValueString);
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		executeReturn(targetClass, returnValueString);
 	}
 		
 	@Override
-	public void execute(String[] args, Throwable exception, Object target) throws WrongNumberOfArgumentsException {
+	public void execute(String[] args, Throwable exception, Object target)  throws CommandException, Throwable {
 
 		try {
 			

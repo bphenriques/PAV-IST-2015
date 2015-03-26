@@ -6,7 +6,7 @@ import ist.meic.pa.command.exception.NonReturnableCommandException;
 public abstract class Command {
 	
 	//Execute static methods
-	public abstract void execute(String[] args, Throwable exception) throws CommandException, Throwable;
+	public abstract void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable;
 	
 	//Execute non-static methods
 	public abstract void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable;

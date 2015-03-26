@@ -12,21 +12,19 @@ public class GetCommand extends Command {
 	private static final String COMMAND_NAME = "Get";
 
 	@Override
-	public void execute(String[] args, Throwable exception)
-			throws CommandException {
+	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable {
 		//FIXME FIXME
 		throw new InvalidCommandOnStaticException(this);
 	}
 
 	@Override
-	public void execute(String[] args, Throwable exception, Object target)
-			throws CommandException {
+	public void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable {
 
 		try {
 			Class<?> targetClass = target.getClass();
 			if (args.length != 2)
 				throw new WrongNumberOfArgumentsException(1, args.length);
-			Field targetField = Finder.getField(targetClass, args[1]);
+			Field targetField = Finder.getDeclaredField(targetClass, args[1]);
 
 			boolean previousAccessiblValue = targetField.isAccessible();
 			targetField.setAccessible(true);

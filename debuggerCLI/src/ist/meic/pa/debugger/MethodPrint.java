@@ -2,15 +2,14 @@ package ist.meic.pa.debugger;
 
 
 public class MethodPrint {
-	
 	private final Object[] arguments;
 	private final String methodName;
-	private final String className;
+	private final Class<?> invokingClass;
 	
-	public MethodPrint(String className, String methodName, Object... arguments) {
+	public MethodPrint(Class<?> invokingClass, String methodName, Object... arguments) {
 		super();
 		this.methodName = methodName;
-		this.className = className;
+		this.invokingClass = invokingClass;
 		this.arguments = arguments;
 	}
 	
@@ -22,7 +21,7 @@ public class MethodPrint {
 		return methodName;
 	}
 	
-	public String getClassName() {
-		return className;
+	public Class<?> getIvokingClass() {
+		return invokingClass;
 	}
 }
