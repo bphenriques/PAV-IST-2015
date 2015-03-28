@@ -1,2 +1,1 @@
-cd classes
-java -classpath .:../lib/javassist.jar test.common.TestObjectConstructorFromString
+java -classpath -classpath debugger.jar:classes test.common.TestObjectConstructorFromString

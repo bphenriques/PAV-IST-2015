@@ -1,4 +1,4 @@
-<project name="DebuggerCLI" default="compile" basedir=".">
+<project name="DebuggerCLI" default="package" basedir=".">
 	<description>
         simple example build file
     </description>
@@ -19,22 +19,24 @@
 		<mkdir dir="${build}" />
 	</target>
 
-	<target name="compile" depends="init" description="compile the source " >
+	<target name="compile" depends="init" description="compile the source ">
 		<javac destdir="${build}" debug="on">
 			<src path="${src}" />
 			<classpath refid="classpath" />
 		</javac>
 	</target>
 
-	<target name="run-tests" depends="compile">
-		<java classname="ist.meic.pa.DebuggerCLI">
-			<classpath refid="classpath" />
-			<arg value="test.Example" />
-		</java>
+
+	<target name="package" depends="compile" description="packages the source into a .jar ">
+		<jar destfile="debugger.jar">
+			<fileset dir="${build}" excludes="test/**" />
+			<zipgroupfileset dir="lib" includes="*.jar"/>
+		</jar>
 	</target>
 
 	<target name="clean" description="clean up">
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
+		<delete file="debugger.jar" />
 	</target>
 </project>
