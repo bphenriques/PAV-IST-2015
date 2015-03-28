@@ -11,7 +11,9 @@ public abstract class DInterface {
 			Object args[]) throws Throwable {
 
 
-		DebuggerCLIStackManager.push(new MethodPrint(targetClass,  methodName, args));
+		MethodPrint m = new MethodPrint(targetClass,  methodName, args, parameterTypes);
+		m.setParametersTypes(parameterTypes);
+		DebuggerCLIStackManager.push(m);
 		Method callingMethod = targetClass.getDeclaredMethod(
 				methodName, parameterTypes);
 		

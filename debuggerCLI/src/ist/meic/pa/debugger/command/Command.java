@@ -1,7 +1,10 @@
 package ist.meic.pa.debugger.command;
 
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.NonReplaceMethodCommandException;
 import ist.meic.pa.command.exception.NonReturnableCommandException;
+
+import java.lang.reflect.Method;
 
 public abstract class Command {
 	
@@ -17,12 +20,19 @@ public abstract class Command {
 		return false;
 	}
 	
+	public boolean isReplaceMethod(){
+		return false;
+	}
+	
 	public boolean isRetriable(){
 		return false;
 	}
 	
-	
 	public Object getResult() throws NonReturnableCommandException{
 		throw new NonReturnableCommandException(getCommandName());
+	}
+	
+	public Method getMethodResult() throws NonReplaceMethodCommandException{
+		throw new NonReplaceMethodCommandException(getCommandName());
 	}
 }

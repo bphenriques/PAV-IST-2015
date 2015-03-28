@@ -10,6 +10,11 @@ public class B extends DadOfB{
 		System.out.println("Inside B.bar");
 		return (1 / x);
 	}
+	
+	public double bar2(int x) {
+		System.out.println("ALTERNATIVE BAR");
+		return 123432;
+	}
 
 	public double baz(Object x) {
 		System.out.println("Inside B.baz");
