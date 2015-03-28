@@ -27,8 +27,8 @@ public class SetCommand extends Command {
 			Field targetField = FieldFinder.getDeclaredField(targetClass, fieldName);
 			
 			Class<?> typeField = targetField.getType();
-			ObjectContructorFromString c = new ObjectContructorFromString(toValue);
-			Object targetObj = c.convert(typeField, toValue);			
+			ObjectContructorFromString c = new ObjectContructorFromString(typeField, toValue);
+			Object targetObj = c.convert();			
 			
 			FieldFinder.setFieldObject(null, targetField, targetObj);
 
@@ -52,8 +52,8 @@ public class SetCommand extends Command {
 			Field targetField = FieldFinder.getDeclaredField(target.getClass(), fieldName);
 			
 			Class<?> typeField = targetField.getType();
-			ObjectContructorFromString c = new ObjectContructorFromString();
-			Object targetObj = c.convert(typeField, toValue);
+			ObjectContructorFromString c = new ObjectContructorFromString(typeField, toValue);
+			Object targetObj = c.convert();
 			
 			FieldFinder.setFieldObject(target, targetField, targetObj);
 			

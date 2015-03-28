@@ -19,8 +19,8 @@
 		<mkdir dir="${build}" />
 	</target>
 
-	<target name="compile" depends="init" description="compile the source ">
-		<javac destdir="${build}">
+	<target name="compile" depends="init" description="compile the source " >
+		<javac destdir="${build}" debug="on">
 			<src path="${src}" />
 			<classpath refid="classpath" />
 		</javac>
