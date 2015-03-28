@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public final class ObjectContructorFromString {
 
+
 	private final Class<?> typeField;
 	private final String inputText;
 
