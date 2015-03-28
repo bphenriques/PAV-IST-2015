@@ -1,6 +1,7 @@
 package ist.meic.pa.command.common;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,24 @@ public final class FieldFinder {
 	
 	public static List<Field> getDeclaredFields(Class<?> type){	
 		List<Class<?>> listClasses = getSuperClasses(type);
-		
+
 		ArrayList<Field> result = new ArrayList<Field>();
 		for(Class<?> cl : listClasses){
 			for (Field f : cl.getDeclaredFields()){
 				result.add(f);
+			}
+		}
+		
+		return result;
+	}
+	
+	public static List<Method> getDeclaredMethods(Class<?> type){
+		List<Class<?>> listClasses = getSuperClasses(type);
+		ArrayList<Method> result = new ArrayList<Method>();
+		
+		for(Class<?> c : listClasses){
+			for(Method m : c.getDeclaredMethods()){
+				result.add(m);
 			}
 		}
 		

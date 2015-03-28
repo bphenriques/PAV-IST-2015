@@ -9,6 +9,8 @@ import ist.meic.pa.debugger.MethodPrint;
 
 import java.lang.reflect.Method;
 
+import ist.meic.pa.command.common.FieldFinder;
+
 public class ReturnCommand extends ReturnableCommand {
 
 	private static final String COMMAND_NAME = "Return";
@@ -25,7 +27,7 @@ public class ReturnCommand extends ReturnableCommand {
 		// Warning: If it doesn't find the method it will result in a
 		// nullpointer exception
 		Method method = null;
-		for (Method m : targetClass.getDeclaredMethods()) {
+		for (Method m : FieldFinder.getDeclaredMethods(targetClass)){
 			if (m.getName().equals(methodName)) {
 				method = m;
 				break;

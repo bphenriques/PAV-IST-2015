@@ -54,10 +54,9 @@ public class InfoCommand extends Command {
 				
 				if(i != argumentArray.length - 1)
 					stackString += ",";
-				else
-					stackString += ")";
 			}
 			
+			stackString += ")";			
 			System.out.println(stackString);
 			
 		}
