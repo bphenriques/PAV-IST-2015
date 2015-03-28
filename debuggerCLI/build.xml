@@ -33,6 +33,13 @@
 			<zipgroupfileset dir="lib" includes="*.jar"/>
 		</jar>
 	</target>
+	
+	<target name="packagewithtest" depends="compile" description="packages the source into a .jar ">
+		<jar destfile="debugger.jar">
+			<fileset dir="${build}" />
+			<zipgroupfileset dir="lib" includes="*.jar"/>
+		</jar>
+	</target>
 
 	<target name="clean" description="clean up">
 		<delete dir="${build}" />

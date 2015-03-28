@@ -62,28 +62,58 @@ public class InfoCommand extends Command {
 		while (methodPrintEnumeration.hasMoreElements()) {
 			methodPrint = methodPrintEnumeration.nextElement();
 			stackString = methodPrint.getIvokingClass().getName();
-			stackString += "." + methodPrint.getMethodName() + "(";
+			stackString += "." + methodPrint.getMethodName();
 
-			int i;
 			Object[] argumentArray = methodPrint.getArguments();
-			for (i = 0; i < argumentArray.length; i++) {
-				stackString += argumentArray[i];
+			if (methodPrintEnumeration.hasMoreElements() == false) {
+				// last element is main and it should be treated differently, it
+				// should print its array
+				// Warning: if Main isn't last method in stack it will fail
+				Class<?> mainArgumentsClass = argumentArray[0].getClass();
 
-				if (i != argumentArray.length - 1)
-					stackString += ",";
+				if (mainArgumentsClass.isArray()) {
+					Object[] mainArguments = (Object[]) argumentArray[0];
+					stackString += arrayToArgumentString(mainArguments);
+				}
+
+			} else {
+
+				stackString += arrayToArgumentString(argumentArray);
+
 			}
 
-			stackString += ")";
 			System.out.println(stackString);
-
 		}
 
 	}
 
-	private void printObjectInfo(Class<?> targetClass, Object target) {
-		System.out.println("Called Object:\t" + target.getClass().getName()
-				+ "@" + Integer.toHexString(target.hashCode()));
+	private String arrayToArgumentString(Object[] argumentArray) {
+		String result = "(";
+		for (int i = 0; i < argumentArray.length; i++) {
+			result += argumentArray[i];
 
+			if (i != argumentArray.length - 1)
+				result += ",";
+		}
+
+		result += ")";
+
+		return result;
+	}
+
+	private void printObjectInfo(Class<?> targetClass, Object target) {
+
+		String calledObjectString = "Called Object:\t";
+
+		if (target == null) {
+			calledObjectString += target;
+		} else {
+			calledObjectString += target.getClass().getName()
+					+ "@" + Integer.toHexString(target.hashCode());
+		}
+		System.out.println(calledObjectString);
+		
+		
 		List<Field> fields = ClassUtil.getDeclaredFields(targetClass);
 
 		System.out.print("       Fields:\t");
