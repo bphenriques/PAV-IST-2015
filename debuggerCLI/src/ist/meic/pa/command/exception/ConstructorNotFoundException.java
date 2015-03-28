@@ -4,17 +4,17 @@ package ist.meic.pa.command.exception;
 public class ConstructorNotFoundException extends CommandException {
 	
 	private static final long serialVersionUID = 1L;
-	private final String objectClass;
+	private final Class<?> objectClass;
 	private final String[] parameters;
 	
 	
-	public ConstructorNotFoundException(String objectClass, String[] parameters) {
+	public ConstructorNotFoundException(Class<?> objectClass, String[] parameters) {
 		this.objectClass = objectClass;
 		this.parameters = parameters;
 	}
 
 
-	public String getObjectClass() {
+	public Class<?> getObjectClass() {
 		return objectClass;
 	}
 

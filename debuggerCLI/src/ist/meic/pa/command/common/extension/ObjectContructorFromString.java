@@ -1,4 +1,4 @@
-package ist.meic.pa.command.common;
+package ist.meic.pa.command.common.extension;
 
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.ConstructorNotFoundException;

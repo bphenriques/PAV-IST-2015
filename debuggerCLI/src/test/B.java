@@ -5,6 +5,7 @@ public class B extends DadOfB{
 
 	static String myString = "hello debugger";
 	static final int bubu = 10;
+	A a;
 	
 	public double bar(int x) {
 		System.out.println("Inside B.bar");
