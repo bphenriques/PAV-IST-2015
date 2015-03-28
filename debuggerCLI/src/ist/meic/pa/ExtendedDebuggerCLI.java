@@ -22,7 +22,7 @@ public class ExtendedDebuggerCLI {
 	 * @param args the arguments provided by the user
 	 * @throws Throwable if the user chooses throws the user exception in the main
 	 */
-	static void main(String[] args) throws Throwable {
+	public static void main(String[] args) throws Throwable {
 		if (args.length < 1) {
 			System.err.println("Usage: java " + DEBUGGER_PACKAGE + "." + DEBUGGER_CLI + " <Package>.<Class> <Args>");
 			System.exit(1);
