@@ -5,19 +5,38 @@ import ist.meic.pa.command.exception.ConstructorNotFoundException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public final class ObjectContructorFromString {
 
+	private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS = new HashMap<Class<?>, Class<?>>();
 
 	private final Class<?> typeField;
 	private final String inputText;
 
+	// safe because both Long.class and long.class are of type Class<Long>
+	@SuppressWarnings("unchecked")
+	private static <T> Class<T> wrap(Class<T> c) {
+		return c.isPrimitive() ? (Class<T>) PRIMITIVES_TO_WRAPPERS.get(c) : c;
+	}
+
 	public ObjectContructorFromString(Class<?> typeField, String inputText) {
 		this.typeField = typeField;
 		this.inputText = inputText;
+		PRIMITIVES_TO_WRAPPERS.put(boolean.class, Boolean.class);
+		PRIMITIVES_TO_WRAPPERS.put(byte.class, Byte.class);
+		PRIMITIVES_TO_WRAPPERS.put(char.class, Character.class);
+		PRIMITIVES_TO_WRAPPERS.put(double.class, Double.class);
+		PRIMITIVES_TO_WRAPPERS.put(float.class, Float.class);
+		PRIMITIVES_TO_WRAPPERS.put(int.class, Integer.class);
+		PRIMITIVES_TO_WRAPPERS.put(long.class, Long.class);
+		PRIMITIVES_TO_WRAPPERS.put(short.class, Short.class);
+		PRIMITIVES_TO_WRAPPERS.put(void.class, Void.class);
+
 	}
 
 	public Object convert() {
@@ -25,11 +44,11 @@ public final class ObjectContructorFromString {
 		try {
 			String text = inputText.trim();
 			String[] tokens = text.split("\\(", 2);
-			
+
 			String objectName;
 			String arguments;
 			if (tokens.length < 2) {
-				objectName=typeField.getName();
+				objectName = typeField.getName();
 				arguments = tokens[0];
 			} else {
 				objectName = tokens[0];
@@ -37,10 +56,9 @@ public final class ObjectContructorFromString {
 			}
 
 			int lastPar = arguments.lastIndexOf(')');
-			if(lastPar!=-1)
-				arguments = arguments.substring(0, lastPar - 1);
+			if (lastPar != -1)
+				arguments = arguments.substring(0, lastPar);
 			String[] argumentTokens = arguments.split(",");
-
 			Object instance = construct(objectName, argumentTokens);
 
 			return instance;
@@ -78,21 +96,21 @@ public final class ObjectContructorFromString {
 		Constructor<?>[] objectConstructors = objectClass.getConstructors();
 		List<Constructor<?>> possibleObjectConstructors = new LinkedList<Constructor<?>>();
 
-		for (Constructor<?> constructor : objectConstructors) {
-			System.out.println(constructor.toString());
+		objectConstructorLoop: for (Constructor<?> constructor : objectConstructors) {
 			Class<?>[] parameterTypes = constructor.getParameterTypes();
 			if (parameterTypes.length == argumentTokens.length) {
 				for (int i = 0; i < parameterTypes.length; i++) {
 					if (inputArguments[i] != null
 							&& !parameterTypes[i].equals(inputArguments[i]
 									.getClass())) {
-						continue;
+						continue objectConstructorLoop;
 					}
-					possibleObjectConstructors.add(constructor);
 				}
+				possibleObjectConstructors.add(constructor);
 			}
 		}
 
+		System.out.println(possibleObjectConstructors);
 		if (possibleObjectConstructors.isEmpty())
 			throw new ConstructorNotFoundException(objectName, argumentTokens);
 
@@ -118,9 +136,13 @@ public final class ObjectContructorFromString {
 			for (int i = 0; i < inputArguments.length; i++) {
 				if (inputArguments[i] == null) {
 					Class<?> paramClass = parameterTypes[i];
-					Constructor<?> paramConstructor = paramClass.getConstructor(
-							String.class);
-					inputArguments[i] = paramConstructor.newInstance(argumentTokens[i]);
+					if (parameterTypes[i].isPrimitive())
+						paramClass = wrap(paramClass);
+					Constructor<?> paramConstructor = paramClass
+							.getConstructor(String.class);
+					inputArguments[i] = paramConstructor
+							.newInstance(argumentTokens[i]);
+
 				}
 			}
 
@@ -174,8 +196,11 @@ public final class ObjectContructorFromString {
 		int i = 0;
 		for (Constructor<?> constructor : possibleObjectConstructors) {
 			i++;
-			System.out.println(" " + i + " - "
-					+ constructor.toString().split(" ", 2)[1]);
+			String constructorString = constructor.toString();
+			constructorString = constructorString.split(" ", 2)[1];
+			constructorString = constructorString.split("throws", 2)[0];
+
+			System.out.println(" " + i + " - " + constructorString);
 		}
 
 		@SuppressWarnings("resource")
@@ -194,7 +219,7 @@ public final class ObjectContructorFromString {
 			}
 		}
 
-		return index;
+		return index - 1;
 	}
 
 }
