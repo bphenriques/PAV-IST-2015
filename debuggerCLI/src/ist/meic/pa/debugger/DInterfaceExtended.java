@@ -72,9 +72,10 @@ public final class DInterfaceExtended extends DInterface {
 				Command c = commandsManager.executeCommand(thrownException, input,
 						targetClass, target);
 
-				if (c.isReturnable() || c.isRetriable() || c.isReplaceMethod()) {
+				if (c.shouldExitDebugger()) {
 					return c;
 				}
+				
 			} catch (CommandException e) {
 				System.err.println("DEBUGGER ERROR : " + e);
 			}

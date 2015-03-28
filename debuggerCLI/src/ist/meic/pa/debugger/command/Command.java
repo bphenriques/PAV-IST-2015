@@ -20,6 +20,10 @@ public abstract class Command {
 		return false;
 	}
 	
+	public boolean shouldExitDebugger(){
+		return isReturnable() || isRetriable() || isReplaceMethod();
+	}
+	
 	public boolean isReplaceMethod(){
 		return false;
 	}

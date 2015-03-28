@@ -66,9 +66,10 @@ public final class DInterfaceSimple extends DInterface {
 				Command c = commandsManager.executeCommand(thrownException, input,
 						targetClass, target);
 
-				if (c.isReturnable() || c.isRetriable()) {
+				if (c.shouldExitDebugger()) {
 					return c;
 				}
+				
 			} catch (CommandException e) {
 				System.err.println("DEBUGGER ERROR : " + e);
 			}
