@@ -80,7 +80,8 @@ public class InfoCommand extends Command {
 	}
 
 	private void printObjectInfo(Class<?> targetClass, Object target) {
-		System.out.println("Called Object:\t" + target);
+		System.out.println("Called Object:\t" + target.getClass().getName()
+				+ "@" + Integer.toHexString(target.hashCode()));
 
 		List<Field> fields = FieldFinder.getDeclaredFields(targetClass);
 
