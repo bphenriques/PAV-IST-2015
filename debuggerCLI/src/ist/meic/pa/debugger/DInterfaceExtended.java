@@ -9,7 +9,7 @@ import ist.meic.pa.debugger.command.InfoCommand;
 import ist.meic.pa.debugger.command.ReplaceCommand;
 import ist.meic.pa.debugger.command.RetryCommand;
 import ist.meic.pa.debugger.command.ReturnCommand;
-import ist.meic.pa.debugger.command.SetCommand;
+import ist.meic.pa.debugger.command.extension.SetCommand;
 import ist.meic.pa.debugger.command.ThrowCommand;
 
 import java.lang.reflect.Method;
