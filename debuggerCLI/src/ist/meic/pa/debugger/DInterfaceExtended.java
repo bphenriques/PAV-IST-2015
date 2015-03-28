@@ -31,29 +31,18 @@ public final class DInterfaceExtended extends DInterface {
 	
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
-		Object returnObject = null;
-		boolean debug = true;
-		while (debug) {
+		while (true) {
 			try {
-				returnObject = callingMethod.invoke(target, args);
-				debug = false;
+				return callingMethod.invoke(target, args);
 			} catch (Exception e) {
 				Command command = debugMethod(e.getCause(), targetClass, target);
 				if (command.isReturnable()) {
-					returnObject = command.getResult();
-					debug = false;
-				} else if (command.isRetriable()) {
-					continue;
-				} else if(command.isReplaceMethod()){
+					return command.getResult();
+				}else if(command.isReplaceMethod()){
 					callingMethod = command.getMethodResult();
-					continue;
 				}
-				
-				
 			}
 		}
-		
-		return returnObject;
 	}
 
 
@@ -65,16 +54,14 @@ public final class DInterfaceExtended extends DInterface {
 		while (true) {
 			System.out.print("DebuggerCLI:> ");
 			System.out.flush();
-
 			String input = sc.nextLine();
-
+			
 			try {
-				Command c = commandsManager.executeCommand(thrownException, input,
-						targetClass, target);
-
-				if (c.isReturnable() || c.isRetriable() || c.isReplaceMethod()) {
+				Command c = commandsManager.executeCommand(thrownException, input, targetClass, target);
+				if (c.shouldExitDebugger()) {
 					return c;
 				}
+				
 			} catch (CommandException e) {
 				System.err.println("DEBUGGER ERROR : " + e);
 			}
