@@ -57,19 +57,16 @@ public abstract class DInterface {
 				args);
 		m.setParametersTypes(parameterTypes);
 		StackManager.push(m);
+		
 		Method callingMethod = targetClass.getDeclaredMethod(methodName,
 				parameterTypes);
-
-		callingMethod.setAccessible(true);
-		boolean previousAccessibility = callingMethod.isAccessible();
-
+		
 		try {
 			Object returnObject = invokeMethodWithDebug(targetClass, target,
 					callingMethod, args);
 			return returnObject;
 		} finally {
 			StackManager.pop();
-			callingMethod.setAccessible(previousAccessibility);
 		}
 	}
 

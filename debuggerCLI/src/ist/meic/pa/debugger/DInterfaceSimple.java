@@ -40,6 +40,8 @@ public final class DInterfaceSimple extends DInterface {
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
 		while (true) {
+			boolean lastAccessbileValue = callingMethod.isAccessible();
+			callingMethod.setAccessible(true);
 			try {
 				return callingMethod.invoke(target, args);
 			} catch (InvocationTargetException e) {
@@ -47,6 +49,8 @@ public final class DInterfaceSimple extends DInterface {
 				if (command.isReturnable()) {
 					return command.getResult();
 				}
+			}finally{
+				callingMethod.setAccessible(lastAccessbileValue);
 			}
 		}
 	}

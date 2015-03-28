@@ -42,6 +42,8 @@ public final class DInterfaceExtended extends DInterface {
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target,
 			Method callingMethod, Object args[]) throws Throwable {
 		while (true) {
+			boolean lastAccessbileValue = callingMethod.isAccessible();
+			callingMethod.setAccessible(true);
 			try {
 				return callingMethod.invoke(target, args);
 			} catch (Exception e) {
@@ -51,6 +53,8 @@ public final class DInterfaceExtended extends DInterface {
 				} else if (command.isReplaceMethod()) {
 					callingMethod = command.getMethodResult();
 				}
+			}finally{
+				callingMethod.setAccessible(lastAccessbileValue);
 			}
 		}
 	}
