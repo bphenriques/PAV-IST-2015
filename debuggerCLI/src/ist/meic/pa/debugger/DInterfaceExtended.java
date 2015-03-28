@@ -2,16 +2,16 @@ package ist.meic.pa.debugger;
 
 
 import ist.meic.pa.command.exception.CommandException;
-import ist.meic.pa.debugger.command.AbortCommand;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.command.CommandManager;
-import ist.meic.pa.debugger.command.GetCommand;
-import ist.meic.pa.debugger.command.InfoCommand;
-import ist.meic.pa.debugger.command.RetryCommand;
-import ist.meic.pa.debugger.command.ReturnCommand;
-import ist.meic.pa.debugger.command.ThrowCommand;
 import ist.meic.pa.debugger.command.extension.ReplaceCommand;
+import ist.meic.pa.debugger.command.extension.ReturnCommand;
 import ist.meic.pa.debugger.command.extension.SetCommand;
+import ist.meic.pa.debugger.command.simple.AbortCommand;
+import ist.meic.pa.debugger.command.simple.GetCommand;
+import ist.meic.pa.debugger.command.simple.InfoCommand;
+import ist.meic.pa.debugger.command.simple.RetryCommand;
+import ist.meic.pa.debugger.command.simple.ThrowCommand;
 
 import java.lang.reflect.Method;
 import java.util.Scanner;

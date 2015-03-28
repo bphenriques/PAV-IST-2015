@@ -5,11 +5,26 @@ import javassist.ClassPool;
 import javassist.Loader;
 import javassist.Translator;
 
+/**
+ * The Class DebuggerCLI is responsible for starting
+ * the program with the appropriate modifications
+ * made in other classes
+ */
 public class ExtendedDebuggerCLI {
 
-	public static void main(String[] args) throws Throwable {
+	private static final String DEBUGGER_CLI = "ExtendedDebuggerCLI";
+	private static final String RUNNERCLASS = "DebugRunner";
+	private static final String DEBUGGER_PACKAGE = "ist.meic.pa";
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments provided by the user
+	 * @throws Throwable if the user chooses throws the user exception in the main
+	 */
+	static void main(String[] args) throws Throwable {
 		if (args.length < 1) {
-			System.err.println("Usage: java ist.meic.pa.DebuggerCLI <Package>.<Class> <Args>");
+			System.err.println("Usage: java " + DEBUGGER_PACKAGE + "." + DEBUGGER_CLI + " <Package>.<Class> <Args>");
 			System.exit(1);
 		} else {
 			String className = args[0];
@@ -22,8 +37,7 @@ public class ExtendedDebuggerCLI {
 			String[] restArgs = new String[args.length - 1];
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);
 
-			//classLoader.run(className, restArgs);
-			classLoader.run("ist.meic.pa.DebugRunner", restArgs);
+			classLoader.run(DEBUGGER_PACKAGE + "." + RUNNERCLASS, restArgs);
 		}
 
 	}

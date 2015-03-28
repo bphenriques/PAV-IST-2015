@@ -1,8 +1,9 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.simple;
 
-import ist.meic.pa.command.common.FieldFinder;
+import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
+import ist.meic.pa.debugger.command.Command;
 
 import java.lang.reflect.Field;
 
@@ -25,9 +26,9 @@ public class GetCommand extends Command {
 			throw new WrongNumberOfArgumentsException(1, args.length);
 
 		try {
-			Field targetField = FieldFinder.getDeclaredField(targetClass,
+			Field targetField = ClassUtil.getDeclaredField(targetClass,
 					args[1]);
-			System.out.println(FieldFinder.getFieldObject(null, targetField));
+			System.out.println(ClassUtil.getFieldObject(null, targetField));
 
 		} catch (IllegalAccessException | IllegalArgumentException
 				| SecurityException | NoSuchFieldException e) {
@@ -44,10 +45,10 @@ public class GetCommand extends Command {
 
 		try {
 			Class<?> targetClass = target.getClass();
-			Field targetField = FieldFinder.getDeclaredField(targetClass,
+			Field targetField = ClassUtil.getDeclaredField(targetClass,
 					args[1]);
 			targetField.isAccessible();
-			System.out.println(FieldFinder.getFieldObject(target, targetField));
+			System.out.println(ClassUtil.getFieldObject(target, targetField));
 
 		} catch (IllegalAccessException | IllegalArgumentException
 				| SecurityException | NoSuchFieldException e) {

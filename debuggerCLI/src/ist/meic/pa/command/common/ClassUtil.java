@@ -11,7 +11,7 @@ import java.util.List;
  * and other information in a class,
  * even if they're in their superclasses
  */
-public final class FieldFinder {
+public final class ClassUtil {
 
 	/**
 	 * Gets the declared field.

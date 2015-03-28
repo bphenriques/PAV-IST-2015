@@ -13,7 +13,7 @@ import javassist.Translator;
  */
 public class DebuggerCLI {
 
-	
+
 	private static final String DEBUGGER_CLI = "DebuggerCLI";
 	private static final String RUNNERCLASS = "DebugRunner";
 	private static final String DEBUGGER_PACKAGE = "ist.meic.pa";
@@ -39,9 +39,7 @@ public class DebuggerCLI {
 			String[] restArgs = new String[args.length - 1];
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);
 
-			//classLoader.run(className, restArgs);
 			classLoader.run(DEBUGGER_PACKAGE + "." + RUNNERCLASS, restArgs);
-			
 		}
 	}
 

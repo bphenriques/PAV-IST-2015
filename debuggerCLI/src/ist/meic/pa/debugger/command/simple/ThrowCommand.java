@@ -1,4 +1,6 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.simple;
+
+import ist.meic.pa.debugger.command.Command;
 
 /**
  * The ThrowCommand class is a command for use in the debugger, representing the

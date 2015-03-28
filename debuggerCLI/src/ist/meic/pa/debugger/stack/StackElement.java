@@ -1,13 +1,13 @@
-package ist.meic.pa.debugger;
+package ist.meic.pa.debugger.stack;
 
-public class MethodPrint {
+public class StackElement {
 	private final Object[] arguments;
 	private final String methodName;
 	private final Class<?> invokingClass;
 	private Class<?> parameterTypes[] = null;
 	private Class<?> returnType = null;
 
-	public MethodPrint(Class<?> invokingClass, String methodName, Class<?> returnType, Object... arguments) {
+	public StackElement(Class<?> invokingClass, String methodName, Class<?> returnType, Object... arguments) {
 		super();
 		this.methodName = methodName;
 		this.invokingClass = invokingClass;

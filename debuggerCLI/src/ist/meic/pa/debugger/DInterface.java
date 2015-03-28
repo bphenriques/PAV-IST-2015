@@ -1,5 +1,8 @@
 package ist.meic.pa.debugger;
 
+import ist.meic.pa.debugger.stack.StackElement;
+import ist.meic.pa.debugger.stack.StackManager;
+
 import java.lang.reflect.Method;
 
 public abstract class DInterface {
@@ -10,9 +13,9 @@ public abstract class DInterface {
 			Class<?> returnType, String methodName, Class<?> parameterTypes[],
 			Object args[]) throws Throwable {
 
-		MethodPrint m = new MethodPrint(targetClass,  methodName, returnType, args);
+		StackElement m = new StackElement(targetClass,  methodName, returnType, args);
 		m.setParametersTypes(parameterTypes);
-		DebuggerCLIStackManager.push(m);
+		StackManager.push(m);
 		Method callingMethod = targetClass.getDeclaredMethod(
 				methodName, parameterTypes);
 		
@@ -23,7 +26,7 @@ public abstract class DInterface {
 			Object returnObject = invokeMethodWithDebug(targetClass, target, callingMethod, args);
 			return returnObject;
 		}finally{
-			DebuggerCLIStackManager.pop();
+			StackManager.pop();
 			callingMethod.setAccessible(previousAccessibility);
 		}
 	}
