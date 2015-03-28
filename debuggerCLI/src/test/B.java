@@ -5,7 +5,7 @@ public class B extends DadOfB{
 
 	static String myString = "hello debugger";
 	static final int bubu = 10;
-	A a;
+	private A a;
 	
 	public double bar(int x) {
 		System.out.println("Inside B.bar");
@@ -23,4 +23,10 @@ public class B extends DadOfB{
 		return b;
 	}
 
+	
+	public A getA() {
+		if(a==null)
+			throw new RuntimeException();
+		return a;
+	}
 }

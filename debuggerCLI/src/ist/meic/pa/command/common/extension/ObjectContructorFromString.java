@@ -75,29 +75,16 @@ public final class ObjectContructorFromString {
 			return instance;
 		} catch (ClassNotFoundException e) {
 			throw new CommandException(e + "\nRemember to use full class name.");
-		} catch (InstantiationException e) {
-
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CommandException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new CommandException(e.getMessage());
 		}
-		return inputText;
 
 	}
 
 	private Object construct(Class<?> objectClass, String[] argumentTokens)
 			throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, CommandException {
+			IllegalAccessException, InvocationTargetException,
+			CommandException, NoSuchMethodException, SecurityException, IllegalArgumentException {
 
 		Object[] inputArguments = checkInputArguments(argumentTokens);
 
@@ -129,6 +116,7 @@ public final class ObjectContructorFromString {
 
 		Constructor<?> constructor = possibleObjectConstructors
 				.get(selectedContructor);
+
 		instanciateConstructorArguments(constructor, argumentTokens,
 				inputArguments);
 
@@ -137,41 +125,22 @@ public final class ObjectContructorFromString {
 	}
 
 	private void instanciateConstructorArguments(Constructor<?> constructor,
-			String[] argumentTokens, Object[] inputArguments) {
-		try {
-			Class<?>[] parameterTypes = constructor.getParameterTypes();
-			for (int i = 0; i < inputArguments.length; i++) {
-				if (inputArguments[i] == null) {
-					Class<?> paramClass = parameterTypes[i];
-					if (parameterTypes[i].isPrimitive())
-						paramClass = wrap(paramClass);
-					Constructor<?> paramConstructor = paramClass
-							.getConstructor(String.class);
-					inputArguments[i] = paramConstructor
-							.newInstance(argumentTokens[i]);
+			String[] argumentTokens, Object[] inputArguments) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-				}
+		Class<?>[] parameterTypes = constructor.getParameterTypes();
+		for (int i = 0; i < inputArguments.length; i++) {
+			if (inputArguments[i] == null) {
+				Class<?> paramClass = parameterTypes[i];
+				if (parameterTypes[i].isPrimitive())
+					paramClass = wrap(paramClass);
+				Constructor<?> paramConstructor = paramClass
+						.getConstructor(String.class);
+				inputArguments[i] = paramConstructor
+						.newInstance(argumentTokens[i]);
+
 			}
-
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 	}
 
 	private Object[] checkInputArguments(String[] argumentTokens)
@@ -187,7 +156,7 @@ public final class ObjectContructorFromString {
 
 					ObjectContructorFromString ocfs = new ObjectContructorFromString(
 							typeField, argument);
-					arguments.add(ocfs.convert());
+					arg = ocfs.convert();
 				}
 			} else {
 				argumentTokens[i] = argument
@@ -195,6 +164,7 @@ public final class ObjectContructorFromString {
 			}
 			arguments.add(arg);
 		}
+
 		return arguments.toArray();
 
 	}
