@@ -59,7 +59,7 @@ public class ExceptionCatcherTranslator implements Translator {
 			
 			
 			mainMethod.setBody(mainBody);
-			insertExceptionCatcher(mainClass, mainMethod);
+			insertExceptionCatcher(mainMethod);
 		}
 		
 		if (className.startsWith(PACKAGE_NAME) || className.startsWith(JAVA_ASSIST_PACKAGE))
@@ -67,8 +67,7 @@ public class ExceptionCatcherTranslator implements Translator {
 
 		CtClass ctClass = pool.get(className);
 		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
-			//System.out.println("CHANGING: " + ctMethod.getName());
-			insertExceptionCatcher(ctClass, ctMethod);
+			insertExceptionCatcher(ctMethod);
 		}
 	}
 
@@ -103,10 +102,9 @@ public class ExceptionCatcherTranslator implements Translator {
 	/**
 	 * Instruments the user code inserting the debugger.
 	 *
-	 * @param ctClass the ct class
 	 * @param ctMethod the method to be instrumented
 	 */
-	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
+	private void insertExceptionCatcher(CtMethod ctMethod) {
 		try {
 			
 			ExprEditor editor = new ExprEditor(){
