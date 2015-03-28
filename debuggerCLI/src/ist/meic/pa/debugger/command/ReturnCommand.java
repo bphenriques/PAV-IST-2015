@@ -91,7 +91,7 @@ public class ReturnCommand extends ReturnableCommand {
 		}*/
 	}
 
-	private void executeReturn(Class<?> targetClass, String returnValueString) {
+	private void executeReturn(Class<?> targetClass, String returnValueString) throws CommandException {
 		MethodPrint lastCalledMethod = DebuggerCLIStackManager
 				.getMostRecentMethodCall();
 		String methodPrefix = targetClass.getName() + ".";
