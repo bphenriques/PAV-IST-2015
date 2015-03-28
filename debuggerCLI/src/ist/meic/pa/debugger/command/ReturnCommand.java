@@ -52,8 +52,8 @@ public class ReturnCommand extends ReturnableCommand {
 			if(!returnType.isPrimitive())
 				throw new NonPrimitiveReturnException();
 			if(args.length == 2){
-				ObjectContructorFromString c = new ObjectContructorFromString(returnType, args[1]);
-				Object returnObj = c.convert();
+				ObjectContructorFromString c = new ObjectContructorFromString();
+				Object returnObj = c.convert(returnType, args[1]);
 				_result = returnObj;
 			}else{
 				throw new WrongNumberOfArgumentsException(1, args.length - 1);
@@ -113,8 +113,8 @@ public class ReturnCommand extends ReturnableCommand {
 		method.setAccessible(true);
 
 		Class<?> returnClass = method.getReturnType();
-		ObjectContructorFromString c = new ObjectContructorFromString(returnClass, returnValueString);
-		Object returnObj = c.convert();
+		ObjectContructorFromString c = new ObjectContructorFromString();
+		Object returnObj = c.convert(returnClass, returnValueString);
 
 		method.setAccessible(originalAccessibleValue);
 

@@ -1,6 +1,6 @@
 package test.common;
 
-import ist.meic.pa.command.common.ObjectContructorFromString;
+import ist.meic.pa.command.common.extension.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 
 public class TestObjectConstructorFromString {

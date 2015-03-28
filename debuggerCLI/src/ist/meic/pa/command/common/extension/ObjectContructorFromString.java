@@ -16,7 +16,7 @@ public final class ObjectContructorFromString {
 	private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS = new HashMap<Class<?>, Class<?>>();
 
 	private final Class<?> typeField;
-	private final String inputText;
+	private String inputText;
 
 	// safe because both Long.class and long.class are of type Class<Long>
 	@SuppressWarnings("unchecked")
@@ -43,7 +43,11 @@ public final class ObjectContructorFromString {
 
 		try {
 			String text = inputText.trim();
-			String[] tokens = text.split("\\(", 2);
+			String[] tokens;
+			if (text.startsWith("\"")) {
+				tokens = new String[] { text };
+			} else
+				tokens = text.split("\\(", 2);
 
 			Class<?> objectClass;
 			String arguments;
@@ -53,23 +57,26 @@ public final class ObjectContructorFromString {
 				else
 					objectClass = typeField;
 				arguments = tokens[0];
+				inputText = objectClass.getName() + "(" + inputText + ")";
 			} else {
 				String objectName = tokens[0];
 				objectClass = Class.forName(objectName);
 				arguments = tokens[1];
 			}
-
-			int lastPar = arguments.lastIndexOf(')');
-			if (lastPar != -1)
-				arguments = arguments.substring(0, lastPar);
-			String[] argumentTokens = arguments.split(",");
+			String[] argumentTokens = { arguments };
+			if (!text.endsWith("\"")) {
+				int lastPar = arguments.lastIndexOf(')');
+				if (lastPar != -1)
+					arguments = arguments.substring(0, lastPar);
+				argumentTokens = arguments.split(",");
+			}
 			Object instance = construct(objectClass, argumentTokens);
 
 			return instance;
 		} catch (ClassNotFoundException e) {
 			throw new CommandException(e + "\nRemember to use full class name.");
 		} catch (InstantiationException e) {
-			
+
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
@@ -88,7 +95,7 @@ public final class ObjectContructorFromString {
 
 	}
 
-	private Object construct(Class<?>  objectClass, String[] argumentTokens)
+	private Object construct(Class<?> objectClass, String[] argumentTokens)
 			throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, InvocationTargetException, CommandException {
 
@@ -97,8 +104,7 @@ public final class ObjectContructorFromString {
 		Constructor<?>[] objectConstructors = objectClass.getConstructors();
 		List<Constructor<?>> possibleObjectConstructors = new LinkedList<Constructor<?>>();
 
-	objectConstructorLoop: 
-		for (Constructor<?> constructor : objectConstructors) {
+		objectConstructorLoop: for (Constructor<?> constructor : objectConstructors) {
 			Class<?>[] parameterTypes = constructor.getParameterTypes();
 			if (parameterTypes.length == argumentTokens.length) {
 				for (int i = 0; i < parameterTypes.length; i++) {
@@ -173,15 +179,21 @@ public final class ObjectContructorFromString {
 
 		List<Object> arguments = new LinkedList<Object>();
 
-		for (String argument : argumentTokens) {
-			if (argument.contains("(")) {
+		for (int i = 0; i < argumentTokens.length; i++) {
+			String argument = argumentTokens[i];
+			Object arg = null;
+			if (!(argument.startsWith("\"") && argument.endsWith("\""))) {
+				if (argument.contains("(")) {
 
-				ObjectContructorFromString ocfs = new ObjectContructorFromString(
-						typeField, argument);
-				arguments.add(ocfs.convert());
+					ObjectContructorFromString ocfs = new ObjectContructorFromString(
+							typeField, argument);
+					arguments.add(ocfs.convert());
+				}
 			} else {
-				arguments.add(null);
+				argumentTokens[i] = argument
+						.substring(1, argument.length() - 1);
 			}
+			arguments.add(arg);
 		}
 		return arguments.toArray();
 
