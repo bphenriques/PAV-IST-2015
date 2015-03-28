@@ -15,9 +15,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+/**
+ * The Class DInterfaceSimple.
+ */
 public final class DInterfaceSimple extends DInterface {
 
+	/** The Constant sc. */
 	private final static Scanner sc = new Scanner(System.in);
+	
+	/** The Constant commandsManager. */
 	private final static CommandManager commandsManager = new CommandManager(new Command[]{
 		new AbortCommand(),
 		new GetCommand(), 
@@ -28,6 +34,9 @@ public final class DInterfaceSimple extends DInterface {
 		new ReturnCommand()
 	});
 	
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.DInterface#invokeMethodWithDebug(java.lang.Class, java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
 		while (true) {
