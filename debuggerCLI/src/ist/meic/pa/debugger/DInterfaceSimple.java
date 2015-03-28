@@ -40,7 +40,7 @@ public final class DInterfaceSimple extends DInterface {
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
 		while (true) {
-			boolean lastAccessbileValue = callingMethod.isAccessible();
+			boolean lastAccessibleValue = callingMethod.isAccessible();
 			callingMethod.setAccessible(true);
 			try {
 				return callingMethod.invoke(target, args);
@@ -50,7 +50,7 @@ public final class DInterfaceSimple extends DInterface {
 					return command.getResult();
 				}
 			}finally{
-				callingMethod.setAccessible(lastAccessbileValue);
+				callingMethod.setAccessible(lastAccessibleValue);
 			}
 		}
 	}
