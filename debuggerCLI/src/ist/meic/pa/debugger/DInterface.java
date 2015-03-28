@@ -10,7 +10,6 @@ public abstract class DInterface {
 			Class<?> returnType, String methodName, Class<?> parameterTypes[],
 			Object args[]) throws Throwable {
 
-
 		MethodPrint m = new MethodPrint(targetClass,  methodName, args);
 		m.setParametersTypes(parameterTypes);
 		DebuggerCLIStackManager.push(m);
@@ -21,14 +20,11 @@ public abstract class DInterface {
 		boolean previousAccessibility = callingMethod.isAccessible();
 		
 		try{
-		
-		Object returnObject = invokeMethodWithDebug(targetClass, target, callingMethod, args);
-		return returnObject;
-		
+			Object returnObject = invokeMethodWithDebug(targetClass, target, callingMethod, args);
+			return returnObject;
 		}finally{
 			DebuggerCLIStackManager.pop();
 			callingMethod.setAccessible(previousAccessibility);
-
 		}
 	}
 	
