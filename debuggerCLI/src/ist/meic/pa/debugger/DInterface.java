@@ -12,20 +12,23 @@ public abstract class DInterface {
 
 
 		DebuggerCLIStackManager.push(new MethodPrint(targetClass,  methodName, args));
-		
 		Method callingMethod = targetClass.getDeclaredMethod(
 				methodName, parameterTypes);
 		
-		boolean previousAccessibility = callingMethod.isAccessible();
 		callingMethod.setAccessible(true);
+		boolean previousAccessibility = callingMethod.isAccessible();
+		
+		try{
 		
 		Object returnObject = invokeMethodWithDebug(targetClass, target, callingMethod, args);
-		
-		callingMethod.setAccessible(previousAccessibility);
-		
-		DebuggerCLIStackManager.pop();
-		
 		return returnObject;
+		
+		}finally{
+			
+			DebuggerCLIStackManager.pop();
+			callingMethod.setAccessible(previousAccessibility);
+
+		}
 	}
 	
 	
