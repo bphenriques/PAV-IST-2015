@@ -30,27 +30,17 @@ public final class DInterfaceSimple extends DInterface {
 	
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
-		Object returnObject = null;
-		boolean debug = true;
-		while (debug) {
+		while (true) {
 			try {
-				returnObject = callingMethod.invoke(target, args);
-				debug = false;
+				return callingMethod.invoke(target, args);
 			} catch (InvocationTargetException e) {
 				Command command = debugMethod(e.getTargetException(), targetClass, target);
 				if (command.isReturnable()) {
-					returnObject = command.getResult();
-					debug = false;
-				} else if (command.isRetriable()) {
-					continue;
-				}	
+					return command.getResult();
+				}
 			}
 		}
-		
-		return returnObject;
 	}
-
-
 	
 	private Command debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {
