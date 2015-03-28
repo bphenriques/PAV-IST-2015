@@ -3,9 +3,9 @@ package ist.meic.pa.debugger.command.extension;
 import ist.meic.pa.command.common.FieldFinder;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
-import ist.meic.pa.debugger.DebuggerCLIStackManager;
-import ist.meic.pa.debugger.MethodPrint;
 import ist.meic.pa.debugger.command.Command;
+import ist.meic.pa.debugger.stack.StackElement;
+import ist.meic.pa.debugger.stack.StackManager;
 
 import java.lang.reflect.Method;
 
@@ -53,7 +53,7 @@ public class ReplaceCommand extends Command {
 
 	private Method executeAux(Class<?> targetClass, String methodName)
 			throws NoSuchMethodException {
-		MethodPrint lastCalledMethod = DebuggerCLIStackManager.getMostRecentMethodCall();
+		StackElement lastCalledMethod = StackManager.getMostRecentMethodCall();
 		
 		
 		Class<?> params[] = lastCalledMethod.getParameterTypes();

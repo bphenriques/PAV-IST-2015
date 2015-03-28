@@ -1,6 +1,7 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.simple;
 
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.debugger.command.Command;
 
 /**
  * The RetryCommand class is a command for use in the debugger, representing the

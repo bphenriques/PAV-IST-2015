@@ -1,9 +1,10 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.simple;
 
 import ist.meic.pa.command.common.FieldFinder;
 import ist.meic.pa.command.exception.CommandException;
-import ist.meic.pa.debugger.DebuggerCLIStackManager;
-import ist.meic.pa.debugger.MethodPrint;
+import ist.meic.pa.debugger.command.Command;
+import ist.meic.pa.debugger.stack.StackElement;
+import ist.meic.pa.debugger.stack.StackManager;
 
 import java.lang.reflect.Field;
 import java.util.Enumeration;
@@ -51,10 +52,10 @@ public class InfoCommand extends Command {
 	private void printCallStack(Throwable exception) {
 
 		System.out.println("Call stack:");
-		Enumeration<MethodPrint> methodPrintEnumeration = DebuggerCLIStackManager
+		Enumeration<StackElement> methodPrintEnumeration = StackManager
 				.getStackEnumeration();
 
-		MethodPrint methodPrint;
+		StackElement methodPrint;
 
 		String stackString;
 

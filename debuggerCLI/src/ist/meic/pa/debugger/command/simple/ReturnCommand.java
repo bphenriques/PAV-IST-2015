@@ -1,11 +1,12 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.simple;
 
 import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.NonPrimitiveReturnException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
-import ist.meic.pa.debugger.DebuggerCLIStackManager;
-import ist.meic.pa.debugger.MethodPrint;
+import ist.meic.pa.debugger.command.ReturnableCommand;
+import ist.meic.pa.debugger.stack.StackElement;
+import ist.meic.pa.debugger.stack.StackManager;
 
 public class ReturnCommand extends ReturnableCommand {
 
@@ -22,7 +23,7 @@ public class ReturnCommand extends ReturnableCommand {
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
 
-		MethodPrint lastCalledMethod = DebuggerCLIStackManager.getMostRecentMethodCall();
+		StackElement lastCalledMethod = StackManager.getMostRecentMethodCall();
 		Class<?> returnType = lastCalledMethod.getReturnType();
 
 		if (returnType == void.class){
