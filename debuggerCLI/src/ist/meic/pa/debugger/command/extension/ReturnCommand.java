@@ -40,7 +40,6 @@ public class ReturnCommand extends ReturnableCommand {
 	private void executeNonVoidReturn(String[] args, Class<?> returnType)
 			throws CommandException {
 
-
 		if (args.length > 2)
 			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 
