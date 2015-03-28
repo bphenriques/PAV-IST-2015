@@ -5,12 +5,12 @@ import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.command.CommandManager;
 import ist.meic.pa.debugger.command.extension.ReplaceCommand;
+import ist.meic.pa.debugger.command.extension.ReturnCommand;
 import ist.meic.pa.debugger.command.extension.SetCommand;
 import ist.meic.pa.debugger.command.simple.AbortCommand;
 import ist.meic.pa.debugger.command.simple.GetCommand;
 import ist.meic.pa.debugger.command.simple.InfoCommand;
 import ist.meic.pa.debugger.command.simple.RetryCommand;
-import ist.meic.pa.debugger.command.simple.ReturnCommand;
 import ist.meic.pa.debugger.command.simple.ThrowCommand;
 
 import java.lang.reflect.Method;
