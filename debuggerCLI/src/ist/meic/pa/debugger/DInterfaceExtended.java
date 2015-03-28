@@ -16,9 +16,15 @@ import ist.meic.pa.debugger.command.simple.ThrowCommand;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+/**
+ * The Class DInterfaceExtended.
+ */
 public final class DInterfaceExtended extends DInterface {
 
+	/** The Constant sc. */
 	private final static Scanner sc = new Scanner(System.in);
+	
+	/** The Constant commandsManager. */
 	private final static CommandManager commandsManager = new CommandManager(new Command[]{
 		new AbortCommand(),
 		new GetCommand(), 
@@ -30,6 +36,9 @@ public final class DInterfaceExtended extends DInterface {
 		new ReplaceCommand()
 	});
 	
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.DInterface#invokeMethodWithDebug(java.lang.Class, java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
 		while (true) {
@@ -46,6 +55,15 @@ public final class DInterfaceExtended extends DInterface {
 		}
 	}
 	
+	/**
+	 * Debug method.
+	 *
+	 * @param thrownException the thrown exception by the user's code
+	 * @param targetClass the target class
+	 * @param target the target instance of the class
+	 * @return the command instance
+	 * @throws Throwable the throwable
+	 */
 	private Command debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {
 		System.out.println(thrownException);

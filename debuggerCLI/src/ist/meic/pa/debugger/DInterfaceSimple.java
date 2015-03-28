@@ -42,6 +42,15 @@ public final class DInterfaceSimple extends DInterface {
 		}
 	}
 	
+	/**
+	 * Debug method.
+	 *
+	 * @param thrownException the thrown exception by the user's code
+	 * @param targetClass the target class
+	 * @param target the target instance of the class
+	 * @return the command instance
+	 * @throws Throwable the throwable
+	 */
 	private Command debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {
 		System.out.println(thrownException);

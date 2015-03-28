@@ -11,19 +11,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The Class ObjectContructorFromString creates an instance from a desired type
+ * or uses a constructor if the user so desires. Ex String(2)
+ */
 public final class ObjectContructorFromString {
 
+	/** The Constant PRIMITIVES_TO_WRAPPERS. */
 	private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS = new HashMap<Class<?>, Class<?>>();
 
+	/** The type field. */
 	private final Class<?> typeField;
+
+	/** The input text. */
 	private String inputText;
 
 	// safe because both Long.class and long.class are of type Class<Long>
+	/**
+	 * Wrap.
+	 *
+	 * @param <T>
+	 *            the generic type
+	 * @param c
+	 *            the c
+	 * @return the class
+	 */
 	@SuppressWarnings("unchecked")
 	private static <T> Class<T> wrap(Class<T> c) {
 		return c.isPrimitive() ? (Class<T>) PRIMITIVES_TO_WRAPPERS.get(c) : c;
 	}
 
+	/**
+	 * Instantiates a new object contructor from string.
+	 *
+	 * @param typeField
+	 *            the type field
+	 * @param inputText
+	 *            the input text
+	 */
 	public ObjectContructorFromString(Class<?> typeField, String inputText) {
 		this.typeField = typeField;
 		this.inputText = inputText;
@@ -39,6 +64,13 @@ public final class ObjectContructorFromString {
 
 	}
 
+	/**
+	 * Convert turns the String into either a primitive type instance or a specified object instance.
+	 *
+	 * @return the object
+	 * @throws CommandException
+	 *             the command exception
+	 */
 	public Object convert() throws CommandException {
 
 		try {
@@ -81,10 +113,36 @@ public final class ObjectContructorFromString {
 
 	}
 
+	/**
+	 * Construct.
+	 *
+	 * @param objectClass
+	 *            the object class
+	 * @param argumentTokens
+	 *            the argument tokens
+	 * @return the object
+	 * @throws ClassNotFoundException
+	 *             the class not found exception
+	 * @throws InstantiationException
+	 *             the instantiation exception
+	 * @throws IllegalAccessException
+	 *             the illegal access exception
+	 * @throws InvocationTargetException
+	 *             the invocation target exception
+	 * @throws CommandException
+	 *             the command exception
+	 * @throws NoSuchMethodException
+	 *             the no such method exception
+	 * @throws SecurityException
+	 *             the security exception
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
+	 */
 	private Object construct(Class<?> objectClass, String[] argumentTokens)
 			throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, InvocationTargetException,
-			CommandException, NoSuchMethodException, SecurityException, IllegalArgumentException {
+			CommandException, NoSuchMethodException, SecurityException,
+			IllegalArgumentException {
 
 		Object[] inputArguments = checkInputArguments(argumentTokens);
 
@@ -117,15 +175,40 @@ public final class ObjectContructorFromString {
 		Constructor<?> constructor = possibleObjectConstructors
 				.get(selectedContructor);
 
-		instanciateConstructorArguments(constructor, argumentTokens,
+		instantiateConstructorArguments(constructor, argumentTokens,
 				inputArguments);
 
 		Object instance = constructor.newInstance(inputArguments);
 		return instance;
 	}
 
-	private void instanciateConstructorArguments(Constructor<?> constructor,
-			String[] argumentTokens, Object[] inputArguments) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	/**
+	 * Instantiate constructor arguments.
+	 *
+	 * @param constructor
+	 *            the constructor
+	 * @param argumentTokens
+	 *            the argument tokens
+	 * @param inputArguments
+	 *            the input arguments
+	 * @throws NoSuchMethodException
+	 *             the no such method exception
+	 * @throws SecurityException
+	 *             the security exception
+	 * @throws InstantiationException
+	 *             the instantiation exception
+	 * @throws IllegalAccessException
+	 *             the illegal access exception
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
+	 * @throws InvocationTargetException
+	 *             the invocation target exception
+	 */
+	private void instantiateConstructorArguments(Constructor<?> constructor,
+			String[] argumentTokens, Object[] inputArguments)
+			throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
 		for (int i = 0; i < inputArguments.length; i++) {
@@ -143,6 +226,15 @@ public final class ObjectContructorFromString {
 
 	}
 
+	/**
+	 * Check input arguments.
+	 *
+	 * @param argumentTokens
+	 *            the argument tokens
+	 * @return the object[]
+	 * @throws CommandException
+	 *             the command exception
+	 */
 	private Object[] checkInputArguments(String[] argumentTokens)
 			throws CommandException {
 
@@ -169,6 +261,15 @@ public final class ObjectContructorFromString {
 
 	}
 
+	/**
+	 * Request constructor index.
+	 *
+	 * @param possibleObjectConstructors
+	 *            the possible object constructors
+	 * @param inputText
+	 *            the input text
+	 * @return the int
+	 */
 	private int requestConstructorIndex(
 			List<Constructor<?>> possibleObjectConstructors, String inputText) {
 
