@@ -92,8 +92,8 @@ public class ExceptionCatcherTranslator implements Translator {
 		
 		return 
 			"{"
-				+  interfaceClassName + " d = new " + interfaceClassName + "($class, $0, $type, \"" + methodName + "\", $sig, $args);"
-				+ "$_ = ($r) d.run();"
+				+  interfaceClassName + " d = new " + interfaceClassName + "();"
+				+ "$_ = ($r) d.run($class, $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
 		

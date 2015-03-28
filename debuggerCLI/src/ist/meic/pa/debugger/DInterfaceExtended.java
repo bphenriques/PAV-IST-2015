@@ -1,5 +1,6 @@
 package ist.meic.pa.debugger;
 
+
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.command.AbortCommand;
 import ist.meic.pa.debugger.command.Command;
@@ -7,11 +8,12 @@ import ist.meic.pa.debugger.command.CommandManager;
 import ist.meic.pa.debugger.command.GetCommand;
 import ist.meic.pa.debugger.command.InfoCommand;
 import ist.meic.pa.debugger.command.RetryCommand;
+import ist.meic.pa.debugger.command.ReturnCommand;
 import ist.meic.pa.debugger.command.ThrowCommand;
 import ist.meic.pa.debugger.command.extension.ReplaceCommand;
-import ist.meic.pa.debugger.command.extension.ReturnCommand;
 import ist.meic.pa.debugger.command.extension.SetCommand;
 
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public final class DInterfaceExtended extends DInterface {
@@ -28,13 +30,25 @@ public final class DInterfaceExtended extends DInterface {
 		new ReplaceCommand()
 	});
 	
-	public DInterfaceExtended(Class<?> targetClass, Object target,
-			Class<?> returnType, String methodName, Class<?>[] parameterTypes,
-			Object[] args) {
-		super(targetClass, target, returnType, methodName, parameterTypes, args);
+	@Override
+	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
+		while (true) {
+			try {
+				return callingMethod.invoke(target, args);
+			} catch (Exception e) {
+				Command command = debugMethod(e.getCause(), targetClass, target);
+				if (command.isReturnable()) {
+					return command.getResult();
+				}else if(command.isReplaceMethod()){
+					callingMethod = command.getMethodResult();
+				}
+			}
+		}
 	}
+
+
 	
-	public void debugMethod(Throwable thrownException,
+	private Command debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {
 		System.out.println(thrownException);
 
@@ -45,13 +59,8 @@ public final class DInterfaceExtended extends DInterface {
 			
 			try {
 				Command c = commandsManager.executeCommand(thrownException, input, targetClass, target);
-				if(c.isReturnable()){
-					_returnResult = c.getResult();
-					break;
-				}else if(c.isReplaceMethod()){
-					_callingMethod = c.getMethodResult();
-				}else if(c.isRetriable()){
-					break;
+				if (c.shouldExitDebugger()) {
+					return c;
 				}
 				
 			} catch (CommandException e) {
