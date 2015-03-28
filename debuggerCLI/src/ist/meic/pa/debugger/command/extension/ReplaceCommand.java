@@ -1,6 +1,6 @@
 package ist.meic.pa.debugger.command.extension;
 
-import ist.meic.pa.command.common.FieldFinder;
+import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.command.Command;
@@ -58,7 +58,7 @@ public class ReplaceCommand extends Command {
 		
 		Class<?> params[] = lastCalledMethod.getParameterTypes();
 		
-		return FieldFinder.getDeclaredMethod(targetClass, methodName, params);
+		return ClassUtil.getDeclaredMethod(targetClass, methodName, params);
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package ist.meic.pa.debugger.command.simple;
 
-import ist.meic.pa.command.common.FieldFinder;
+import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
@@ -32,14 +32,14 @@ public class SetCommand extends Command {
 		String toValue = args[2];
 
 		try {
-			Field targetField = FieldFinder.getDeclaredField(targetClass,
+			Field targetField = ClassUtil.getDeclaredField(targetClass,
 					fieldName);
 
 			Class<?> typeField = targetField.getType();
 			ObjectContructorFromString c = new ObjectContructorFromString();
 			Object targetObj = c.convert(typeField, toValue);
 
-			FieldFinder.setFieldObject(null, targetField, targetObj);
+			ClassUtil.setFieldObject(null, targetField, targetObj);
 
 		} catch (IllegalAccessException | IllegalArgumentException
 				| SecurityException | NoSuchFieldException e) {
@@ -59,14 +59,14 @@ public class SetCommand extends Command {
 
 		try {
 
-			Field targetField = FieldFinder.getDeclaredField(target.getClass(),
+			Field targetField = ClassUtil.getDeclaredField(target.getClass(),
 					fieldName);
 
 			Class<?> typeField = targetField.getType();
 			ObjectContructorFromString c = new ObjectContructorFromString();
 			Object targetObj = c.convert(typeField, toValue);
 
-			FieldFinder.setFieldObject(target, targetField, targetObj);
+			ClassUtil.setFieldObject(target, targetField, targetObj);
 
 		} catch (IllegalAccessException | IllegalArgumentException
 				| SecurityException | NoSuchFieldException e) {

@@ -1,6 +1,6 @@
 package ist.meic.pa.debugger.command.simple;
 
-import ist.meic.pa.command.common.FieldFinder;
+import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.stack.StackElement;
@@ -28,7 +28,7 @@ public class InfoCommand extends Command {
 
 	private static final String COMMAND_NAME = "Info";
 
-	public static final FieldFinder fieldFinder = new FieldFinder();
+	public static final ClassUtil fieldFinder = new ClassUtil();
 
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
@@ -84,7 +84,7 @@ public class InfoCommand extends Command {
 		System.out.println("Called Object:\t" + target.getClass().getName()
 				+ "@" + Integer.toHexString(target.hashCode()));
 
-		List<Field> fields = FieldFinder.getDeclaredFields(targetClass);
+		List<Field> fields = ClassUtil.getDeclaredFields(targetClass);
 
 		System.out.print("       Fields:\t");
 		for (Field f : fields) {
