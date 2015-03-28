@@ -9,19 +9,39 @@ import javassist.Translator;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExceptionCatcherTranslator
+ * instruments the user code.
+ */
 public class ExceptionCatcherTranslator implements Translator {
 
+	/** The package name. */
 	private final String PACKAGE_NAME = this.getClass().getPackage().getName();
+	
+	/** The java assist package. */
 	private final String JAVA_ASSIST_PACKAGE = "javassist";
 	
+	/** The desired interface class. */
 	private final Class<?> desiredInterfaceClass;
+	
+	/** The user main class. */
 	private final Class<?> desiredMainClass;
 	
+	/**
+	 * Instantiates a new exception catcher translator.
+	 *
+	 * @param desiredInterfaceClass the desired interface class
+	 * @param desiredMainClass the class to be ran as main
+	 */
 	public ExceptionCatcherTranslator(Class<?> desiredInterfaceClass, Class<?> desiredMainClass) {
 		this.desiredInterfaceClass = desiredInterfaceClass;
 		this.desiredMainClass = desiredMainClass;
 	}
 	
+	/* (non-Javadoc)
+	 * @see javassist.Translator#onLoad(javassist.ClassPool, java.lang.String)
+	 */
 	@Override
 	public void onLoad(ClassPool pool, String className)
 			throws NotFoundException, CannotCompileException {
@@ -52,12 +72,21 @@ public class ExceptionCatcherTranslator implements Translator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javassist.Translator#start(javassist.ClassPool)
+	 */
 	@Override
 	public void start(ClassPool arg0) throws NotFoundException,
 			CannotCompileException {
 		// Do nothing.
 	}
 	
+	/**
+	 * Generate method call body.
+	 *
+	 * @param methodName the method to be called in the methodcall
+	 * @return the the method call's body to replace the default method call body
+	 */
 	private final String generateMethodCallBody(String methodName){		
 		
 		String interfaceClassName = desiredInterfaceClass.getName();
@@ -71,6 +100,12 @@ public class ExceptionCatcherTranslator implements Translator {
 		
 	}
 	
+	/**
+	 * Instruments the user code inserting the debugger.
+	 *
+	 * @param ctClass the ct class
+	 * @param ctMethod the method to be instrumented
+	 */
 	private void insertExceptionCatcher(CtClass ctClass, CtMethod ctMethod) {
 		try {
 			
