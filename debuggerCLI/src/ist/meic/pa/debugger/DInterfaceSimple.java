@@ -11,11 +11,15 @@ import ist.meic.pa.debugger.command.ReturnCommand;
 import ist.meic.pa.debugger.command.SetCommand;
 import ist.meic.pa.debugger.command.ThrowCommand;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public final class DInterfaceSimple extends DInterface {
+
+	public DInterfaceSimple(Class<?> targetClass, Object target,
+			Class<?> returnType, String methodName, Class<?>[] parameterTypes,
+			Object[] args) {
+		super(targetClass, target, returnType, methodName, parameterTypes, args);
+	}
 
 	private final static Scanner sc = new Scanner(System.in);
 	private final static CommandManager commandsManager = new CommandManager(new Command[]{
@@ -29,20 +33,7 @@ public final class DInterfaceSimple extends DInterface {
 	});
 	
 	@Override
-	protected Object invokeMethodWithDebug(Class<?> targetClass, Object target, Method callingMethod, Object args[]) throws Throwable{
-		while (true) {
-			try {
-				return callingMethod.invoke(target, args);
-			} catch (InvocationTargetException e) {
-				Command command = debugMethod(e.getTargetException(), targetClass, target);
-				if (command.isReturnable()) {
-					return command.getResult();
-				}
-			}
-		}
-	}
-	
-	private Command debugMethod(Throwable thrownException,
+	public void debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {
 		System.out.println(thrownException);
 
@@ -56,8 +47,11 @@ public final class DInterfaceSimple extends DInterface {
 				Command c = commandsManager.executeCommand(thrownException, input,
 						targetClass, target);
 
-				if (c.shouldExitDebugger()) {
-					return c;
+				if (c.isReturnable()){
+					_returnResult = c.getResult();
+					break;
+				}else if(c.isRetriable()){
+					break;
 				}
 				
 			} catch (CommandException e) {

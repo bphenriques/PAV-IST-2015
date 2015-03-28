@@ -6,7 +6,6 @@ public class RetryCommand extends Command {
 
 	private static final String COMMAND_NAME = "Retry";
 
-	
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)  throws CommandException, Throwable {
 		/* intentionally left empty */
@@ -26,5 +25,4 @@ public class RetryCommand extends Command {
 	public boolean isRetriable(){
 		return true;
 	}
-
 }

@@ -41,10 +41,6 @@ public class GetCommand extends Command {
 			throw new CommandException(e.toString());
 		}
 	}
-	
-	
-	
-	
 
 	@Override
 	public String getCommandName() {

@@ -6,7 +6,6 @@ public class AbortCommand extends Command {
 
 	private final static String COMMAND_NAME = "Abort";
 	
-	
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable {
 		System.exit(1);

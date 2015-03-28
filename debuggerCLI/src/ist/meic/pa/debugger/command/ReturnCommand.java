@@ -9,8 +9,6 @@ import ist.meic.pa.debugger.MethodPrint;
 
 import java.lang.reflect.Method;
 
-import ist.meic.pa.command.common.FieldFinder;
-
 public class ReturnCommand extends ReturnableCommand {
 
 	private static final String COMMAND_NAME = "Return";
@@ -21,24 +19,8 @@ public class ReturnCommand extends ReturnableCommand {
 
 		MethodPrint lastCalledMethod = DebuggerCLIStackManager
 				.getMostRecentMethodCall();
-		String methodName = lastCalledMethod.getMethodName();
 
-				
-		// Warning: If it doesn't find the method it will result in a
-		// nullpointer exception
-		Method method = null;
-		for (Method m : FieldFinder.getDeclaredMethods(targetClass)){
-			if (m.getName().equals(methodName)) {
-				method = m;
-				break;
-			}
-
-		}
-		boolean originalAccessibleValue = method.isAccessible();
-		
-		method.setAccessible(true);
-		Class<?> returnType = method.getReturnType();
-		method.setAccessible(originalAccessibleValue);
+		Class<?> returnType = lastCalledMethod.getReturnType();
 		
 
 		if (returnType == void.class) {

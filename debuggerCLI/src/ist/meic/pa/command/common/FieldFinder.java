@@ -128,6 +128,7 @@ public final class FieldFinder {
 			listClasses.add(type);
 			type = type.getSuperclass();
 		}
+		
 		listClasses.add(Object.class);
 		return listClasses;
 	}

@@ -5,12 +5,18 @@ public class MethodPrint {
 	private final String methodName;
 	private final Class<?> invokingClass;
 	private Class<?> parameterTypes[] = null;
-	
-	public MethodPrint(Class<?> invokingClass, String methodName, Object... arguments) {
+	private Class<?> returnType = null;
+
+	public MethodPrint(Class<?> invokingClass, String methodName, Class<?> returnType, Object... arguments) {
 		super();
 		this.methodName = methodName;
 		this.invokingClass = invokingClass;
 		this.arguments = arguments;
+		this.returnType = returnType;
+	}
+	
+	public Class<?> getReturnType() {
+		return returnType;
 	}
 	
 	public void setParametersTypes(Class<?>...parameterTypes){

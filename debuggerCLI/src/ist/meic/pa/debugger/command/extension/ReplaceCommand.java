@@ -1,10 +1,11 @@
-package ist.meic.pa.debugger.command;
+package ist.meic.pa.debugger.command.extension;
 
 import ist.meic.pa.command.common.FieldFinder;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.DebuggerCLIStackManager;
 import ist.meic.pa.debugger.MethodPrint;
+import ist.meic.pa.debugger.command.Command;
 
 import java.lang.reflect.Method;
 
