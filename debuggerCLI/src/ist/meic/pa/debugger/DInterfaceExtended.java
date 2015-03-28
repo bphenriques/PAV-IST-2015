@@ -45,8 +45,6 @@ public final class DInterfaceExtended extends DInterface {
 			}
 		}
 	}
-
-
 	
 	private Command debugMethod(Throwable thrownException,
 			Class<?> targetClass, Object target) throws Throwable {

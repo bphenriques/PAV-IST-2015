@@ -15,7 +15,7 @@ public class DebuggerCLI {
 
 
 	private static final String DEBUGGER_CLI = "DebuggerCLI";
-	private static final String RUNNERCLASS = "DebugRunner";
+	private static final String RUNNER_CLASS = "DebugRunner";
 	private static final String DEBUGGER_PACKAGE = "ist.meic.pa";
 
 	/**
@@ -39,7 +39,7 @@ public class DebuggerCLI {
 			String[] restArgs = new String[args.length - 1];
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);
 
-			classLoader.run(DEBUGGER_PACKAGE + "." + RUNNERCLASS, restArgs);
+			classLoader.run(DEBUGGER_PACKAGE + "." + RUNNER_CLASS, restArgs);
 		}
 	}
 
