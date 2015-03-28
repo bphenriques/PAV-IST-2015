@@ -30,5 +30,4 @@ public class Converters {
 		PRIMITIVES_TO_WRAPPERS.put(Short.class, short.class);
 		PRIMITIVES_TO_WRAPPERS.put(Void.class, void.class);
 	}
-
 }

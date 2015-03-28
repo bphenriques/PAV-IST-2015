@@ -11,7 +11,7 @@ public abstract class DInterface {
 			Object args[]) throws Throwable {
 
 
-		MethodPrint m = new MethodPrint(targetClass,  methodName, args, parameterTypes);
+		MethodPrint m = new MethodPrint(targetClass,  methodName, args);
 		m.setParametersTypes(parameterTypes);
 		DebuggerCLIStackManager.push(m);
 		Method callingMethod = targetClass.getDeclaredMethod(
@@ -26,7 +26,6 @@ public abstract class DInterface {
 		return returnObject;
 		
 		}finally{
-			
 			DebuggerCLIStackManager.pop();
 			callingMethod.setAccessible(previousAccessibility);
 
