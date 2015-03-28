@@ -6,37 +6,44 @@ import ist.meic.pa.command.exception.NonReturnableCommandException;
 
 import java.lang.reflect.Method;
 
+/**
+ * The abstract class Command provides an abstraction for the commands that the
+ * debugger can run, making the program easier to expand and more modular.
+ *
+ */
 public abstract class Command {
-	
-	//Execute static methods
-	public abstract void execute(String[] args, Throwable exception, Class<?> targetClass) throws CommandException, Throwable;
-	
-	//Execute non-static methods
-	public abstract void execute(String[] args, Throwable exception, Object target) throws CommandException, Throwable;
-	
+
+	// Execute static methods
+	public abstract void execute(String[] args, Throwable exception,
+			Class<?> targetClass) throws CommandException, Throwable;
+
+	// Execute non-static methods
+	public abstract void execute(String[] args, Throwable exception,
+			Object target) throws CommandException, Throwable;
+
 	public abstract String getCommandName();
-	
-	public boolean isReturnable(){
+
+	public boolean isReturnable() {
 		return false;
 	}
-	
-	public boolean shouldExitDebugger(){
+
+	public boolean shouldExitDebugger() {
 		return isReturnable() || isRetriable() || isReplaceMethod();
 	}
-	
-	public boolean isReplaceMethod(){
+
+	public boolean isReplaceMethod() {
 		return false;
 	}
-	
-	public boolean isRetriable(){
+
+	public boolean isRetriable() {
 		return false;
 	}
-	
-	public Object getResult() throws NonReturnableCommandException{
+
+	public Object getResult() throws NonReturnableCommandException {
 		throw new NonReturnableCommandException(getCommandName());
 	}
-	
-	public Method getMethodResult() throws NonReplaceMethodCommandException{
+
+	public Method getMethodResult() throws NonReplaceMethodCommandException {
 		throw new NonReplaceMethodCommandException(getCommandName());
 	}
 }

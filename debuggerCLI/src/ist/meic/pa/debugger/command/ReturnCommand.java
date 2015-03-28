@@ -11,6 +11,14 @@ import java.lang.reflect.Method;
 
 import ist.meic.pa.command.common.FieldFinder;
 
+/**
+ * The ReturnCommand class is a command for use in the debugger, representing
+ * the user "Return &lt;value&gt;" command.
+ * <p>
+ * Returns the user given value &lt;value&gt;, as if returning from the
+ * exception causing method.
+ * 
+ * */
 public class ReturnCommand extends ReturnableCommand {
 
 	private static final String COMMAND_NAME = "Return";
@@ -23,11 +31,10 @@ public class ReturnCommand extends ReturnableCommand {
 				.getMostRecentMethodCall();
 		String methodName = lastCalledMethod.getMethodName();
 
-				
 		// Warning: If it doesn't find the method it will result in a
 		// nullpointer exception
 		Method method = null;
-		for (Method m : FieldFinder.getDeclaredMethods(targetClass)){
+		for (Method m : FieldFinder.getDeclaredMethods(targetClass)) {
 			if (m.getName().equals(methodName)) {
 				method = m;
 				break;
@@ -35,33 +42,32 @@ public class ReturnCommand extends ReturnableCommand {
 
 		}
 		boolean originalAccessibleValue = method.isAccessible();
-		
+
 		method.setAccessible(true);
 		Class<?> returnType = method.getReturnType();
 		method.setAccessible(originalAccessibleValue);
-		
 
 		if (returnType == void.class) {
-			if(args.length == 1)
+			if (args.length == 1)
 				_result = null;
 			else
 				throw new WrongNumberOfArgumentsException(0, args.length - 1);
 
 		} else {
-			
-			if(!returnType.isPrimitive())
+
+			if (!returnType.isPrimitive())
 				throw new NonPrimitiveReturnException();
-			if(args.length == 2){
+			if (args.length == 2) {
 				ObjectContructorFromString c = new ObjectContructorFromString();
 				Object returnObj = c.convert(returnType, args[1]);
 				_result = returnObj;
-			}else{
+			} else {
 				throw new WrongNumberOfArgumentsException(1, args.length - 1);
 			}
-				
-				String returnValueString = args[1];
+
+			String returnValueString = args[1];
 			executeReturn(targetClass, returnValueString);
-			
+
 		}
 	}
 
@@ -69,29 +75,28 @@ public class ReturnCommand extends ReturnableCommand {
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
 
-		
 		execute(args, exception, target.getClass());
-		
-		//FIXME:Nao sei se faz sentido
-		/*try {
 
-			/*
-			 * if(args.length != 2){ throw new
-			 * WrongNumberOfArgumentsException(1, args.length); }
-			 *
-
-			String returnValueString = args[1];
-			Class<?> targetClass = target.getClass();
-
-			executeReturn(targetClass, returnValueString);
-
-		} catch (IllegalArgumentException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		// FIXME:Nao sei se faz sentido
+		/*
+		 * try {
+		 * 
+		 * /* if(args.length != 2){ throw new WrongNumberOfArgumentsException(1,
+		 * args.length); }
+		 * 
+		 * 
+		 * String returnValueString = args[1]; Class<?> targetClass =
+		 * target.getClass();
+		 * 
+		 * executeReturn(targetClass, returnValueString);
+		 * 
+		 * } catch (IllegalArgumentException | SecurityException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 	}
 
-	private void executeReturn(Class<?> targetClass, String returnValueString) throws CommandException {
+	private void executeReturn(Class<?> targetClass, String returnValueString)
+			throws CommandException {
 		MethodPrint lastCalledMethod = DebuggerCLIStackManager
 				.getMostRecentMethodCall();
 		String methodPrefix = targetClass.getName() + ".";

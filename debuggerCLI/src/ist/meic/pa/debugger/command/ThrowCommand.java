@@ -1,5 +1,11 @@
 package ist.meic.pa.debugger.command;
 
+/**
+ * The ThrowCommand class is a command for use in the debugger, representing the
+ * user "Throw" command.
+ * <p>
+ * Throws the caught exception to be handled by the next handler.
+ */
 public class ThrowCommand extends Command {
 
 	private static final String COMMAND_NAME = "Throw";
