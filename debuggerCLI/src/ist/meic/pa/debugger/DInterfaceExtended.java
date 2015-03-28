@@ -35,26 +35,20 @@ public final class DInterfaceExtended extends DInterface {
 		boolean debug = true;
 		while (debug) {
 			try {
-				System.out.println("Calling " + callingMethod.getName());
 				returnObject = callingMethod.invoke(target, args);
 				debug = false;
 			} catch (Exception e) {
 				Command command = debugMethod(e.getCause(), targetClass, target);
 				if (command.isReturnable()) {
-					System.out.println("1");
 					returnObject = command.getResult();
 					debug = false;
 				} else if (command.isRetriable()) {
-					System.out.println("2");
 					continue;
 				} else if(command.isReplaceMethod()){
-					System.out.println("3");
 					callingMethod = command.getMethodResult();
-					System.out.println("REPLACED METHOD WITH: " + command.getMethodResult().getName());
 					continue;
 				}
 				
-				System.out.println("4");
 				
 			}
 		}
@@ -78,7 +72,7 @@ public final class DInterfaceExtended extends DInterface {
 				Command c = commandsManager.executeCommand(thrownException, input,
 						targetClass, target);
 
-				if (c.isReturnable() || c.isRetriable()) {
+				if (c.isReturnable() || c.isRetriable() || c.isReplaceMethod()) {
 					return c;
 				}
 			} catch (CommandException e) {
