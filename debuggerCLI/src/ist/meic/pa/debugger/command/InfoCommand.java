@@ -50,7 +50,7 @@ public class InfoCommand extends Command {
 			int i;
 			Object[] argumentArray = methodPrint.getArguments();
 			for (i = 0;  i < argumentArray.length; i++){
-				stackString += argumentArray[i].toString();
+				stackString += argumentArray[i];
 				
 				if(i != argumentArray.length - 1)
 					stackString += ",";
