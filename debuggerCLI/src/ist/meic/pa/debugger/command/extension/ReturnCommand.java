@@ -26,7 +26,7 @@ public class ReturnCommand extends ReturnableCommand {
 		Class<?> returnType = lastCalledMethod.getReturnType();
 
 		if (returnType == void.class) {
-			if (args.length > 1) {
+			if (args.length != 1) {
 				throw new WrongNumberOfArgumentsException(0, args.length - 1);
 			} else {
 				_result = null;
@@ -40,7 +40,7 @@ public class ReturnCommand extends ReturnableCommand {
 	private void executeNonVoidReturn(String[] args, Class<?> returnType)
 			throws CommandException {
 
-		if (args.length > 2)
+		if (args.length != 2)
 			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 
 		ObjectContructorFromString c = new ObjectContructorFromString(returnType, args[1]);
