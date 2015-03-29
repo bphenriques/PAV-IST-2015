@@ -47,7 +47,6 @@ public class GetCommand extends Command {
 			Class<?> targetClass = target.getClass();
 			Field targetField = ClassUtil.getDeclaredField(targetClass,
 					args[1]);
-			targetField.isAccessible();
 			System.out.println(ClassUtil.getFieldObject(target, targetField));
 
 		} catch (IllegalAccessException | IllegalArgumentException
