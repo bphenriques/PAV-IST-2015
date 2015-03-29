@@ -27,7 +27,7 @@ public final class DInterfaceExtended extends DInterface {
 	private final static Scanner _scanner = new Scanner(System.in);
 
 	/** The Constant commandsManager. */
-	private final static CommandManager commandsManager = new CommandManager(
+	private final static CommandManager _commandsManager = new CommandManager(
 			new Command[] { new AbortCommand(), new GetCommand(),
 					new InfoCommand(), new RetryCommand(), new SetCommand(),
 					new ThrowCommand(), new ReturnCommand(),
@@ -96,7 +96,7 @@ public final class DInterfaceExtended extends DInterface {
 			String input = _scanner.nextLine();
 
 			try {
-				Command c = commandsManager.executeCommand(thrownException,
+				Command c = _commandsManager.executeCommand(thrownException,
 						input, targetClass, target);
 				if (c.shouldExitDebugger()) {
 					return c;
