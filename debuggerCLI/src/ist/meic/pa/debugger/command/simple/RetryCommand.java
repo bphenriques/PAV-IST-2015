@@ -37,6 +37,8 @@ public class RetryCommand extends RetriableCommand {
 		
 		if (args.length != 1)
 			throw new WrongNumberOfArgumentsException(0, args.length - 1);
+		
+		/* intentionally left empty */
 	}
 
 	/* (non-Javadoc)
