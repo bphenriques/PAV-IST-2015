@@ -14,6 +14,7 @@ import ist.meic.pa.debugger.command.simple.ThrowCommand;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
@@ -48,8 +49,8 @@ public final class DInterfaceExtended extends DInterface {
 			callingMethod.setAccessible(true);
 			try {
 				return callingMethod.invoke(target, args);
-			} catch (Exception e) {
-				Command command = debugMethod(e.getCause(), targetClass, target);
+			} catch (InvocationTargetException e) {
+				Command command = debugMethod(e.getTargetException(), targetClass, target);
 				if (command.isReturnable()) {
 					return command.getResult();
 				}else if (command.isReplaceMethod()) {
