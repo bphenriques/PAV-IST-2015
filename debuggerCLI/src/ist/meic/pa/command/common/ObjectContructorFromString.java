@@ -5,7 +5,7 @@ import java.beans.PropertyEditorManager;
 
 /**
  * The Class ObjectContructorFromString converts a string into the an instance
- * of the desired class.
+ * of the desired class. Only suppports primitive types.
  */
 public final class ObjectContructorFromString {
 

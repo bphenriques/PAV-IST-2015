@@ -9,16 +9,21 @@ import ist.meic.pa.debugger.stack.StackManager;
 
 /**
  * The RetryCommand class is a command for use in the debugger, representing the
- * user "Retry" command.
+ * user "Retry <arg1> <arg2> ..." command. 
  * <p>
- * Runs the exception causing method again.
+ * Retrys the execution of the method with different parameters
  */
 public class RetryCommand extends Command {
 
+	/** The Constant COMMAND_NAME. */
 	private static final String COMMAND_NAME = "Retry";
 
+	/** The _result. */
 	private Object[] _result = null;
 	
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Class)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
@@ -31,6 +36,9 @@ public class RetryCommand extends Command {
 		executeRetryCommand(args);
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Object)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
@@ -42,6 +50,12 @@ public class RetryCommand extends Command {
 		executeRetryCommand(args);
 	}
 
+	/**
+	 * Execute retry command.
+	 *
+	 * @param args the args
+	 * @throws CommandException the command exception
+	 */
 	private void executeRetryCommand(String[] args) throws CommandException {
 		StackElement lastCalledMethod = StackManager.getMostRecentMethodCall();
 		
@@ -58,11 +72,17 @@ public class RetryCommand extends Command {
 				
 	}
 	
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#isReplaceArguments()
+	 */
 	@Override
 	public boolean isReplaceArguments() {
 		return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#getArgumentsResult()
+	 */
 	@Override
 	public Object[] getArgumentsResult(){
 				
@@ -76,11 +96,17 @@ public class RetryCommand extends Command {
 		return copy;
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#getCommandName()
+	 */
 	@Override
 	public String getCommandName() {
 		return COMMAND_NAME;
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#isRetriable()
+	 */
 	@Override
 	public boolean isRetriable() {
 		return true;
