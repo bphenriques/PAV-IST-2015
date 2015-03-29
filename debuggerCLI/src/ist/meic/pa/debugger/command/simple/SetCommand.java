@@ -3,6 +3,7 @@ package ist.meic.pa.debugger.command.simple;
 import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.common.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.NonPrimitiveSetException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.command.Command;
 
@@ -40,6 +41,8 @@ public class SetCommand extends Command {
 					fieldName);
 
 			Class<?> typeField = targetField.getType();
+			if(!typeField.isPrimitive())
+				throw new NonPrimitiveSetException();
 			ObjectContructorFromString c = new ObjectContructorFromString();
 			Object targetObj = c.convert(typeField, toValue);
 
@@ -70,6 +73,8 @@ public class SetCommand extends Command {
 					fieldName);
 
 			Class<?> typeField = targetField.getType();
+			if(!typeField.isPrimitive())
+				throw new NonPrimitiveSetException();
 			ObjectContructorFromString c = new ObjectContructorFromString();
 			Object targetObj = c.convert(typeField, toValue);
 
