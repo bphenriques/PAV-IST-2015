@@ -26,7 +26,6 @@ public final class ObjectContructorFromString {
 	/** The input text. */
 	private String _inputText;
 
-	// safe because both Long.class and long.class are of type Class<Long>
 	/**
 	 * Wrap.
 	 *
@@ -36,6 +35,8 @@ public final class ObjectContructorFromString {
 	 *            the c
 	 * @return the class
 	 */
+	
+	// safe because both Long.class and long.class are of type Class<Long>
 	@SuppressWarnings("unchecked")
 	private static <T> Class<T> wrap(Class<T> c) {
 		return c.isPrimitive() ? (Class<T>) PRIMITIVES_TO_WRAPPERS.get(c) : c;
