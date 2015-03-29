@@ -41,7 +41,7 @@ public class InfoCommand extends Command {
 			throw new WrongNumberOfArgumentsException(0, args.length - 1);
 		
 		printObjectInfo(targetClass, null);
-		printCallStack(exception);
+		printCallStack();
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +55,7 @@ public class InfoCommand extends Command {
 			throw new WrongNumberOfArgumentsException(0, args.length - 1);
 		
 		printObjectInfo(target.getClass(), target);
-		printCallStack(exception);
+		printCallStack();
 	}
 
 	/* (non-Javadoc)
@@ -69,9 +69,8 @@ public class InfoCommand extends Command {
 	/**
 	 * Prints the call stack.
 	 *
-	 * @param exception the exception
 	 */
-	private void printCallStack(Throwable exception) {
+	private void printCallStack() {
 
 		System.out.println("Call stack:");
 		Enumeration<StackElement> methodPrintEnumeration = StackManager
