@@ -78,7 +78,6 @@ public class SetCommand extends Command {
 		} catch (IllegalAccessException | IllegalArgumentException
 				| SecurityException | NoSuchFieldException e) {
 			throw new CommandException(e.toString());
-		} finally {
 		}
 	}
 

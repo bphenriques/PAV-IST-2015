@@ -77,13 +77,9 @@ public class InfoCommand extends Command {
 		Enumeration<StackElement> methodPrintEnumeration = StackManager
 				.getStackEnumeration();
 
-		StackElement methodPrint;
-
-		String stackString;
-
 		while (methodPrintEnumeration.hasMoreElements()) {
-			methodPrint = methodPrintEnumeration.nextElement();
-			stackString = methodPrint.getIvokingClass().getName();
+			StackElement methodPrint = methodPrintEnumeration.nextElement();
+			String stackString = methodPrint.getIvokingClass().getName();
 			stackString += "." + methodPrint.getMethodName();
 
 			Object[] argumentArray = methodPrint.getArguments();
