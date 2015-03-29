@@ -10,7 +10,7 @@ public class CommandException extends Exception {
 	private static final long serialVersionUID = -7148502222484812748L;
 	
 	/** The error message. */
-	private String errorMessage;
+	private String _errorMessage;
 	
 	/**
 	 * Instantiates a new command exception.
@@ -25,7 +25,7 @@ public class CommandException extends Exception {
 	 * @param errorMessage the error message
 	 */
 	public CommandException(String errorMessage) {
-		this.errorMessage = errorMessage;
+		this._errorMessage = errorMessage;
 	}
 
 
@@ -35,7 +35,7 @@ public class CommandException extends Exception {
 	 */
 	@Override
 	public String getMessage() {
-		return errorMessage;
+		return _errorMessage;
 	}
 	
 }

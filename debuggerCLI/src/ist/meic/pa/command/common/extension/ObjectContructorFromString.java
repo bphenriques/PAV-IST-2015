@@ -21,10 +21,10 @@ public final class ObjectContructorFromString {
 	private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS = new HashMap<Class<?>, Class<?>>();
 
 	/** The type field. */
-	private final Class<?> typeField;
+	private final Class<?> _typeField;
 
 	/** The input text. */
-	private String inputText;
+	private String _inputText;
 
 	// safe because both Long.class and long.class are of type Class<Long>
 	/**
@@ -50,8 +50,8 @@ public final class ObjectContructorFromString {
 	 *            the input text
 	 */
 	public ObjectContructorFromString(Class<?> typeField, String inputText) {
-		this.typeField = typeField;
-		this.inputText = inputText;
+		this._typeField = typeField;
+		this._inputText = inputText;
 		PRIMITIVES_TO_WRAPPERS.put(boolean.class, Boolean.class);
 		PRIMITIVES_TO_WRAPPERS.put(byte.class, Byte.class);
 		PRIMITIVES_TO_WRAPPERS.put(char.class, Character.class);
@@ -74,7 +74,7 @@ public final class ObjectContructorFromString {
 	public Object convert() throws CommandException {
 
 		try {
-			String text = inputText.trim();
+			String text = _inputText.trim();
 			String[] tokens;
 			if (text.startsWith("\"")) {
 				tokens = new String[] { text };
@@ -84,12 +84,12 @@ public final class ObjectContructorFromString {
 			Class<?> objectClass;
 			String arguments;
 			if (tokens.length < 2) {
-				if (typeField.isPrimitive())
-					objectClass = wrap(typeField);
+				if (_typeField.isPrimitive())
+					objectClass = wrap(_typeField);
 				else
-					objectClass = typeField;
+					objectClass = _typeField;
 				arguments = tokens[0];
-				inputText = objectClass.getName() + "(" + inputText + ")";
+				_inputText = objectClass.getName() + "(" + _inputText + ")";
 			} else {
 				String objectName = tokens[0];
 				objectClass = Class.forName(objectName);
@@ -169,7 +169,7 @@ public final class ObjectContructorFromString {
 		int selectedContructor = 0;
 		if (possibleObjectConstructors.size() > 1) {
 			selectedContructor = requestConstructorIndex(
-					possibleObjectConstructors, inputText);
+					possibleObjectConstructors, _inputText);
 		}
 
 		Constructor<?> constructor = possibleObjectConstructors
@@ -247,7 +247,7 @@ public final class ObjectContructorFromString {
 				if (argument.contains("(")) {
 
 					ObjectContructorFromString ocfs = new ObjectContructorFromString(
-							typeField, argument);
+							_typeField, argument);
 					arg = ocfs.convert();
 				}
 			} else {

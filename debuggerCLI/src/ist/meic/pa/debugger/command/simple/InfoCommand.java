@@ -27,10 +27,12 @@ import java.util.List;
  */
 public class InfoCommand extends Command {
 
+	/** The Constant COMMAND_NAME. */
 	private static final String COMMAND_NAME = "Info";
 
-	public static final ClassUtil fieldFinder = new ClassUtil();
-
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Class)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
@@ -42,6 +44,9 @@ public class InfoCommand extends Command {
 		printCallStack(exception);
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Object)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
@@ -53,11 +58,19 @@ public class InfoCommand extends Command {
 		printCallStack(exception);
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#getCommandName()
+	 */
 	@Override
 	public String getCommandName() {
 		return COMMAND_NAME;
 	}
 
+	/**
+	 * Prints the call stack.
+	 *
+	 * @param exception the exception
+	 */
 	private void printCallStack(Throwable exception) {
 
 		System.out.println("Call stack:");
@@ -96,6 +109,12 @@ public class InfoCommand extends Command {
 
 	}
 
+	/**
+	 * Array to argument string.
+	 *
+	 * @param argumentArray the argument array
+	 * @return the string
+	 */
 	private String arrayToArgumentString(Object[] argumentArray) {
 		String result = "(";
 		for (int i = 0; i < argumentArray.length; i++) {
@@ -110,6 +129,12 @@ public class InfoCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Prints the object info.
+	 *
+	 * @param targetClass the target class
+	 * @param target the target
+	 */
 	private void printObjectInfo(Class<?> targetClass, Object target) {
 
 		String calledObjectString = "Called Object:\t";

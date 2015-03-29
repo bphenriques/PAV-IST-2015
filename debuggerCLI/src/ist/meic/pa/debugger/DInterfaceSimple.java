@@ -21,7 +21,7 @@ import java.util.Scanner;
 public final class DInterfaceSimple extends DInterface {
 
 	/** The Constant sc. */
-	private final static Scanner sc = new Scanner(System.in);
+	private final static Scanner _scanner = new Scanner(System.in);
 	
 	/** The Constant commandsManager. */
 	private final static CommandManager commandsManager = new CommandManager(new Command[]{
@@ -72,7 +72,7 @@ public final class DInterfaceSimple extends DInterface {
 			System.out.print("DebuggerCLI:> ");
 			System.out.flush();
 
-			String input = sc.nextLine();
+			String input = _scanner.nextLine();
 
 			try {
 				Command c = commandsManager.executeCommand(thrownException, input,

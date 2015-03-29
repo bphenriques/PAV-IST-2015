@@ -10,7 +10,7 @@ public class CommandNotFoundException extends CommandException {
 	private static final long serialVersionUID = 1L;
 	
 	/** The command that wasn't found. */
-	private String commandNotFound;
+	private String _commandNotFound;
 
 	/**
 	 * Instantiates a new command not found exception.
@@ -19,7 +19,7 @@ public class CommandNotFoundException extends CommandException {
 	 */
 	public CommandNotFoundException(String commandNotFound) {
 		super();
-		this.commandNotFound = commandNotFound;
+		this._commandNotFound = commandNotFound;
 	}
 	
 	/* (non-Javadoc)
@@ -27,7 +27,7 @@ public class CommandNotFoundException extends CommandException {
 	 */
 	@Override
 	public String getMessage() {
-		return "Inserted command " + commandNotFound + " not found.";
+		return "Inserted command " + _commandNotFound + " not found.";
 	}
 	
 }

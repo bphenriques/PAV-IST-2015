@@ -9,10 +9,10 @@ public class ConstructorNotFoundException extends CommandException {
 	private static final long serialVersionUID = 1L;
 	
 	/** The object class. */
-	private final Class<?> objectClass;
+	private final Class<?> _objectClass;
 	
 	/** The parameters. */
-	private final String[] parameters;
+	private final String[] _parameters;
 	
 	
 	/**
@@ -22,8 +22,8 @@ public class ConstructorNotFoundException extends CommandException {
 	 * @param parameters the parameters
 	 */
 	public ConstructorNotFoundException(Class<?> objectClass, String[] parameters) {
-		this.objectClass = objectClass;
-		this.parameters = parameters;
+		this._objectClass = objectClass;
+		this._parameters = parameters;
 	}
 
 
@@ -33,7 +33,7 @@ public class ConstructorNotFoundException extends CommandException {
 	 * @return the object class
 	 */
 	public Class<?> getObjectClass() {
-		return objectClass;
+		return _objectClass;
 	}
 
 
@@ -43,7 +43,7 @@ public class ConstructorNotFoundException extends CommandException {
 	 * @return the parameters
 	 */
 	public String[] getParameters() {
-		return parameters;
+		return _parameters;
 	}
 	
 	

@@ -22,10 +22,10 @@ public class ExceptionCatcherTranslator implements Translator {
 	private final String JAVA_ASSIST_PACKAGE = "javassist";
 	
 	/** The desired interface class. */
-	private final Class<?> desiredInterfaceClass;
+	private final Class<?> _desiredInterfaceClass;
 	
 	/** The user main class. */
-	private final Class<?> desiredMainClass;
+	private final Class<?> _desiredMainClass;
 	
 	/**
 	 * Instantiates a new exception catcher translator.
@@ -34,8 +34,8 @@ public class ExceptionCatcherTranslator implements Translator {
 	 * @param desiredMainClass the class to be ran as main
 	 */
 	public ExceptionCatcherTranslator(Class<?> desiredInterfaceClass, Class<?> desiredMainClass) {
-		this.desiredInterfaceClass = desiredInterfaceClass;
-		this.desiredMainClass = desiredMainClass;
+		this._desiredInterfaceClass = desiredInterfaceClass;
+		this._desiredMainClass = desiredMainClass;
 	}
 	
 	/* (non-Javadoc)
@@ -53,7 +53,7 @@ public class ExceptionCatcherTranslator implements Translator {
 			
 			String mainBody = 
 			  "{"
-			+	  desiredMainClass.getName() + ".main($1);" 
+			+	  _desiredMainClass.getName() + ".main($1);" 
 			+ "}";
 			
 			
@@ -87,7 +87,7 @@ public class ExceptionCatcherTranslator implements Translator {
 	 */
 	private final String generateMethodCallBody(String methodName){		
 		
-		String interfaceClassName = desiredInterfaceClass.getName();
+		String interfaceClassName = _desiredInterfaceClass.getName();
 		return 
 			"{"
 				+  interfaceClassName + " d = new " + interfaceClassName + "();"
