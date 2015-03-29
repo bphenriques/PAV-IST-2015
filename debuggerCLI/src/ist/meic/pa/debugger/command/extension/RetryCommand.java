@@ -68,7 +68,6 @@ public class RetryCommand extends Command {
 				
 		Object[] copy = new Object[_result.length];
 		for(int i = 0; i < copy.length; i++){
-			System.out.println(_result[i].getClass().getName());
 			copy[i] = _result[i];
 		}
 		
