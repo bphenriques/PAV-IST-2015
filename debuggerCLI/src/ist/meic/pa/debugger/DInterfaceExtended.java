@@ -59,7 +59,6 @@ public final class DInterfaceExtended extends DInterface {
 					if(argsResult != null){
 						args = argsResult;
 						
-						System.out.println("REPLACING WITH MOST RECENT CALL ON STACK");
 						//fix the the most recent call method on the stack with the replaced one
 						StackElement m = StackManager.getMostRecentMethodCall();
 						StackManager.pop();
