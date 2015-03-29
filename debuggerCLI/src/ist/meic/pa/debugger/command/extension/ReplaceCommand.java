@@ -3,7 +3,7 @@ package ist.meic.pa.debugger.command.extension;
 import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
-import ist.meic.pa.debugger.command.Command;
+import ist.meic.pa.debugger.command.RetriableCommand;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
 
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * The Class ReplaceCommand call a different method that uses the same arguments
  * and returns the same type as the function where the exception was thrown.
  */
-public class ReplaceCommand extends Command {
+public class ReplaceCommand extends RetriableCommand {
 
 	/** The Constant COMMAND_NAME. */
 	private static final String COMMAND_NAME = "Replace";

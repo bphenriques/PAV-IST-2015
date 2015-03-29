@@ -13,8 +13,12 @@ import ist.meic.pa.debugger.command.Command;
  */
 public class AbortCommand extends Command {
 
+	/** The Constant COMMAND_NAME. */
 	private final static String COMMAND_NAME = "Abort";
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Class)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
@@ -25,6 +29,9 @@ public class AbortCommand extends Command {
 		System.exit(1);
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Object)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
@@ -35,6 +42,9 @@ public class AbortCommand extends Command {
 		System.exit(1);
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#getCommandName()
+	 */
 	@Override
 	public String getCommandName() {
 		return COMMAND_NAME;

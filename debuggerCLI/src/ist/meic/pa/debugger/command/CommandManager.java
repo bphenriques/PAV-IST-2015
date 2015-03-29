@@ -10,18 +10,34 @@ import ist.meic.pa.command.exception.CommandNotFoundException;
  */
 public final class CommandManager {
 
-	private Command[] supportedCommands;
+	/** The supported commands. */
+	private Command[] _supportedCommands;
 
+	/**
+	 * Instantiates a new command manager.
+	 *
+	 * @param supportedCommands the supported commands
+	 */
 	public CommandManager(Command[] supportedCommands) {
-		this.supportedCommands = supportedCommands;
+		this._supportedCommands = supportedCommands;
 	}
 
+	/**
+	 * Execute command.
+	 *
+	 * @param exception the exception
+	 * @param args the args
+	 * @param targetClass the target class
+	 * @param targetObj the target obj
+	 * @return the command
+	 * @throws Throwable the throwable
+	 */
 	public Command executeCommand(Throwable exception, String args,
 			Class<?> targetClass, Object targetObj) throws Throwable {
 
 		String[] commandInput = args.split(" ");
 
-		for (Command c : supportedCommands) {
+		for (Command c : _supportedCommands) {
 			if (commandInput[0].equals(c.getCommandName())) {
 
 				if (targetObj == null) {

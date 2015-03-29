@@ -19,8 +19,12 @@ import java.lang.reflect.Field;
  */
 public class SetCommand extends Command {
 
+	/** The Constant COMMAND_NAME. */
 	private static final String COMMAND_NAME = "Set";
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Class)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
@@ -47,6 +51,9 @@ public class SetCommand extends Command {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#execute(java.lang.String[], java.lang.Throwable, java.lang.Object)
+	 */
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
@@ -75,6 +82,9 @@ public class SetCommand extends Command {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ist.meic.pa.debugger.command.Command#getCommandName()
+	 */
 	@Override
 	public String getCommandName() {
 		return COMMAND_NAME;

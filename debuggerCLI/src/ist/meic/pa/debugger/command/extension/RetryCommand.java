@@ -3,7 +3,7 @@ package ist.meic.pa.debugger.command.extension;
 import ist.meic.pa.command.common.extension.ObjectContructorFromString;
 import ist.meic.pa.command.exception.CommandException;
 import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
-import ist.meic.pa.debugger.command.Command;
+import ist.meic.pa.debugger.command.RetriableCommand;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
 
@@ -13,7 +13,7 @@ import ist.meic.pa.debugger.stack.StackManager;
  * <p>
  * Retrys the execution of the method with different parameters
  */
-public class RetryCommand extends Command {
+public class RetryCommand extends RetriableCommand {
 
 	/** The Constant COMMAND_NAME. */
 	private static final String COMMAND_NAME = "Retry";
@@ -28,11 +28,11 @@ public class RetryCommand extends Command {
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
 		
+		
 		if (args.length == 1){
 			return;
 		}
 		
-		System.out.println("....");
 		executeRetryCommand(args);
 	}
 
@@ -85,15 +85,20 @@ public class RetryCommand extends Command {
 	 */
 	@Override
 	public Object[] getArgumentsResult(){
-				
-		Object[] copy = new Object[_result.length];
-		for(int i = 0; i < copy.length; i++){
-			copy[i] = _result[i];
+		
+		if(_result != null){
+			Object[] copy = new Object[_result.length];
+			for(int i = 0; i < copy.length; i++){
+				copy[i] = _result[i];
+			}
+			
+			//avoids bugs caused by executing Retry <args> followed by Retry with no args
+			_result = null;
+			
+			return copy;
 		}
 		
-		_result = null;
-		
-		return copy;
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -102,13 +107,5 @@ public class RetryCommand extends Command {
 	@Override
 	public String getCommandName() {
 		return COMMAND_NAME;
-	}
-
-	/* (non-Javadoc)
-	 * @see ist.meic.pa.debugger.command.Command#isRetriable()
-	 */
-	@Override
-	public boolean isRetriable() {
-		return true;
 	}
 }
