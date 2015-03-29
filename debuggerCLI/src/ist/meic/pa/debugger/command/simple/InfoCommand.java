@@ -2,6 +2,7 @@ package ist.meic.pa.debugger.command.simple;
 
 import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
@@ -33,6 +34,10 @@ public class InfoCommand extends Command {
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
+		
+		if (args.length != 1)
+			throw new WrongNumberOfArgumentsException(0, args.length - 1);
+		
 		printObjectInfo(targetClass, null);
 		printCallStack(exception);
 	}
@@ -40,6 +45,10 @@ public class InfoCommand extends Command {
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
+		
+		if (args.length != 1)
+			throw new WrongNumberOfArgumentsException(0, args.length - 1);
+		
 		printObjectInfo(target.getClass(), target);
 		printCallStack(exception);
 	}

@@ -23,7 +23,7 @@ public class GetCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 2)
-			throw new WrongNumberOfArgumentsException(1, args.length);
+			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 
 		try {
 			Field targetField = ClassUtil.getDeclaredField(targetClass,
@@ -41,7 +41,7 @@ public class GetCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 2)
-			throw new WrongNumberOfArgumentsException(1, args.length);
+			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 
 		try {
 			Class<?> targetClass = target.getClass();

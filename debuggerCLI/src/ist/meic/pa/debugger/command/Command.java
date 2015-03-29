@@ -1,6 +1,7 @@
 package ist.meic.pa.debugger.command;
 
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.NonReplaceArgumentsCommandException;
 import ist.meic.pa.command.exception.NonReplaceMethodCommandException;
 import ist.meic.pa.command.exception.NonReturnableCommandException;
 
@@ -34,6 +35,10 @@ public abstract class Command {
 	public boolean isReplaceMethod() {
 		return false;
 	}
+	
+	public boolean isReplaceArguments() {
+		return false;
+	}
 
 	public boolean isRetriable() {
 		return false;
@@ -45,5 +50,9 @@ public abstract class Command {
 
 	public Method getMethodResult() throws NonReplaceMethodCommandException {
 		throw new NonReplaceMethodCommandException(getCommandName());
+	}
+	
+	public Object[] getArgumentsResult() throws NonReplaceArgumentsCommandException {
+		throw new NonReplaceArgumentsCommandException(getCommandName());
 	}
 }

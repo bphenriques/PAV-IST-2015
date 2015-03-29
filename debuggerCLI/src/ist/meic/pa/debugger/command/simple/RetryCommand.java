@@ -1,6 +1,7 @@
 package ist.meic.pa.debugger.command.simple;
 
 import ist.meic.pa.command.exception.CommandException;
+import ist.meic.pa.command.exception.WrongNumberOfArgumentsException;
 import ist.meic.pa.debugger.command.Command;
 
 /**
@@ -16,13 +17,19 @@ public class RetryCommand extends Command {
 	@Override
 	public void execute(String[] args, Throwable exception, Class<?> targetClass)
 			throws CommandException, Throwable {
+		
+		if (args.length != 1)
+			throw new WrongNumberOfArgumentsException(0, args.length - 1);
+		
 		/* intentionally left empty */
 	}
 
 	@Override
 	public void execute(String[] args, Throwable exception, Object target)
 			throws CommandException, Throwable {
-		/* intentionally left empty */
+		
+		if (args.length != 1)
+			throw new WrongNumberOfArgumentsException(0, args.length - 1);
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class SetCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 3)
-			throw new WrongNumberOfArgumentsException(1, args.length);
+			throw new WrongNumberOfArgumentsException(2, args.length - 1);
 
 		String fieldName = args[1];
 		String toValue = args[2];
@@ -52,7 +52,7 @@ public class SetCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 3)
-			throw new WrongNumberOfArgumentsException(1, args.length);
+			throw new WrongNumberOfArgumentsException(2, args.length - 1);
 
 		String fieldName = args[1];
 		String toValue = args[2];

@@ -18,7 +18,7 @@ public class A{
 	public double foo(B b) {
 		System.out.println("Inside A.foo");
 		if (a == 1) {
-			return b.bar(0);
+			return b.bar(0, 10, "asdasd");
 		} else {
 			return b.baz(null);
 		}

@@ -9,7 +9,6 @@ import javassist.Translator;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ExceptionCatcherTranslator
  * instruments the user code.
@@ -89,14 +88,12 @@ public class ExceptionCatcherTranslator implements Translator {
 	private final String generateMethodCallBody(String methodName){		
 		
 		String interfaceClassName = desiredInterfaceClass.getName();
-		
 		return 
 			"{"
 				+  interfaceClassName + " d = new " + interfaceClassName + "();"
 				+ "$_ = ($r) d.run($class, $0, $type, \"" + methodName + "\", $sig, $args);"
 				
 			+"}";
-		
 	}
 	
 	/**

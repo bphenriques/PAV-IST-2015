@@ -7,8 +7,8 @@ public class B extends DadOfB{
 	static final int bubu = 10;
 	private A a;
 	
-	public double bar(int x) {
-		System.out.println("Inside B.bar");
+	public double bar(int x, int a, String test) {
+		System.out.println("Inside B.bar with: " + a + " and " + test);
 		return (1 / x);
 	}
 	

@@ -52,7 +52,7 @@ public class ReplaceCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 2) {
-			throw new WrongNumberOfArgumentsException(2, args.length);
+			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 		}
 
 		String methodName = args[1];
@@ -71,7 +71,7 @@ public class ReplaceCommand extends Command {
 			throws CommandException, Throwable {
 
 		if (args.length != 2) {
-			throw new WrongNumberOfArgumentsException(2, args.length);
+			throw new WrongNumberOfArgumentsException(1, args.length - 1);
 		}
 
 		String methodName = args[1];
