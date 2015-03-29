@@ -12,9 +12,9 @@ public class B extends DadOfB{
 		return (1 / x);
 	}
 	
-	public double bar2(int x) {
-		System.out.println("ALTERNATIVE BAR");
-		return 123432;
+	public double bar2(int x, int a, String test) {
+		System.out.println("Inside ALTERNATIVE B.bar with: " + a + " and " + test);
+		return (1/x);
 	}
 
 	public double baz(Object x) {
