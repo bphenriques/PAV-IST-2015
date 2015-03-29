@@ -7,9 +7,6 @@ import ist.meic.pa.debugger.command.Command;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The RetryCommand class is a command for use in the debugger, representing the
  * user "Retry" command.

@@ -11,6 +11,8 @@ import ist.meic.pa.debugger.command.simple.AbortCommand;
 import ist.meic.pa.debugger.command.simple.GetCommand;
 import ist.meic.pa.debugger.command.simple.InfoCommand;
 import ist.meic.pa.debugger.command.simple.ThrowCommand;
+import ist.meic.pa.debugger.stack.StackElement;
+import ist.meic.pa.debugger.stack.StackManager;
 
 import java.lang.reflect.Method;
 import java.util.Scanner;
@@ -55,8 +57,15 @@ public final class DInterfaceExtended extends DInterface {
 				}else if(command.isReplaceArguments()){
 					Object[] argsResult = command.getArgumentsResult();
 					if(argsResult != null){
-						System.out.println("Switching args to " + argsResult);
 						args = argsResult;
+						
+						System.out.println("REPLACING WITH MOST RECENT CALL ON STACK");
+						//fix the the most recent call method on the stack with the replaced one
+						StackElement m = StackManager.getMostRecentMethodCall();
+						StackManager.pop();
+						StackElement se = new StackElement(targetClass, callingMethod.getName(), m.getReturnType(), args);
+						se.setParametersTypes(m.getParameterTypes());
+						StackManager.push(se);
 					}
 				}
 			}finally{
