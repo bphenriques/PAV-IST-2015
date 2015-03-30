@@ -18,14 +18,14 @@ public class A{
 		this.a=as.a;
 	}
 	
-	public A(int v, A a){
+	public A(int v, A aa){
 		this.v = v;
-		this.me = a;
+		this.a = aa.a;
 	}
 	
-	public A(A a, int v){
+	public A(A aa, int v){
 		this.v = v;
-		this.me = a;
+		this.a = aa.a;
 	}
 	
 	public double foo(B b) {
@@ -38,6 +38,6 @@ public class A{
 	}
 	
 	public String toString() {
-		return "A.a: " + a;
+		return "A.a: " + a + "  A.v:" + v;
 	}
 }

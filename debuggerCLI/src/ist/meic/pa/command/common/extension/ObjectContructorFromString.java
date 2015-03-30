@@ -112,18 +112,19 @@ public final class ObjectContructorFromString {
 		} catch (ClassNotFoundException e) {
 			throw new CommandException(e + "\nRemember to use full class name.");
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new CommandException(e.getMessage());
 		}
 
 	}
 
 	/**
+	 * commaTokenizer. Separates a string in commas not surrounded by parenthesis
 	 * 
 	 * @param arguments
 	 * @return
+	 * @throws CommandException 
 	 */
-	private String[] commaTokenizer(String arguments) {
+	private String[] commaTokenizer(String arguments) throws CommandException {
 		int bracketCounter = 0;
 		List<String> argTok = new LinkedList<String>();
 		StringBuilder buffer=new StringBuilder();
@@ -137,6 +138,8 @@ public final class ObjectContructorFromString {
 		        buffer.append(c);
 		    }
 		}
+		if(bracketCounter!=0)
+			throw new CommandException("Wrong number of parenthesis.");
 		argTok.add(buffer.toString());
 		return argTok.toArray(new String[0]);
 	}
