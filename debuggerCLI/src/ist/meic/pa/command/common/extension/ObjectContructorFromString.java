@@ -101,17 +101,44 @@ public final class ObjectContructorFromString {
 				int lastPar = arguments.lastIndexOf(')');
 				if (lastPar != -1)
 					arguments = arguments.substring(0, lastPar);
-				argumentTokens = arguments.split(",");
+				
+				argumentTokens = commaTokenizer(arguments);
 			}
+			
+			
 			Object instance = construct(objectClass, argumentTokens);
 
 			return instance;
 		} catch (ClassNotFoundException e) {
 			throw new CommandException(e + "\nRemember to use full class name.");
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new CommandException(e.getMessage());
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param arguments
+	 * @return
+	 */
+	private String[] commaTokenizer(String arguments) {
+		int bracketCounter = 0;
+		List<String> argTok = new LinkedList<String>();
+		StringBuilder buffer=new StringBuilder();
+		for (char c: arguments.toCharArray()) {
+			if (c=='(') bracketCounter++;
+		    if (c==')') bracketCounter--;
+		    if (c==',' && bracketCounter==0) {
+		        argTok.add(buffer.toString());
+		        buffer = new StringBuilder();
+		    } else { 
+		        buffer.append(c);
+		    }
+		}
+		argTok.add(buffer.toString());
+		return argTok.toArray(new String[0]);
 	}
 
 	/**
