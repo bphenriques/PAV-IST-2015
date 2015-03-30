@@ -54,15 +54,17 @@ public final class DInterfaceExtended extends DInterface {
 				if (command.isReturnable()) {
 					return command.getResult();
 				}else if (command.isReplaceMethod()) {
-					callingMethod = command.getMethodResult();
-					
-					//fix the the most recent call method on the stack with the replaced one
-					StackElement m = StackManager.getMostRecentMethodCall();
-					StackManager.pop();
-					StackElement se = new StackElement(targetClass, callingMethod.getName(), m.getReturnType(), args);
-					se.setParametersTypes(m.getParameterTypes());
-					StackManager.push(se);
-
+					Method methodResult = command.getMethodResult();
+					if (methodResult != null){
+						callingMethod = methodResult;
+							
+						//fix the the most recent call method on the stack with the replaced one
+						StackElement m = StackManager.getMostRecentMethodCall();
+						StackManager.pop();
+						StackElement se = new StackElement(targetClass, callingMethod.getName(), m.getReturnType(), args);
+						se.setParametersTypes(m.getParameterTypes());
+						StackManager.push(se);
+					}	
 				}else if(command.isReplaceArguments()){
 					Object[] argsResult = command.getArgumentsResult();
 					if(argsResult != null){

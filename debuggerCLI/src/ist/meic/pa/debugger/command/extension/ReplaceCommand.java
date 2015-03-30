@@ -28,7 +28,10 @@ public class ReplaceCommand extends RetriableCommand {
 	 */
 	@Override
 	public Method getMethodResult() {
-		return _methodResult;
+		Method copy = _methodResult;
+		_methodResult = null;
+		
+		return copy;
 	}
 
 	/*
@@ -90,13 +93,20 @@ public class ReplaceCommand extends RetriableCommand {
 	 * @throws NoSuchMethodException
 	 *             the no such method exception
 	 */
-	private Method executeAux(Class<?> targetClass, String methodName)
-			throws NoSuchMethodException {
+	private Method executeAux(Class<?> targetClass, String methodName) {
 		StackElement lastCalledMethod = StackManager.getMostRecentMethodCall();
 
 		Class<?> params[] = lastCalledMethod.getParameterTypes();
 
-		return ClassUtil.getDeclaredMethod(targetClass, methodName, params);
+		Method result = null;
+		try{
+			result = ClassUtil.getDeclaredMethod(targetClass, methodName, params);
+		}catch(NoSuchMethodException m){
+			System.out.println("[ERROR] - Method " + methodName + " does not have the same signature as " + lastCalledMethod.getMethodName());
+			return null;
+		}
+		
+		return result;
 	}
 
 	/*

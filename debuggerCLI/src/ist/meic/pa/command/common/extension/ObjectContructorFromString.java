@@ -109,6 +109,7 @@ public final class ObjectContructorFromString {
 		} catch (ClassNotFoundException e) {
 			throw new CommandException(e + "\nRemember to use full class name.");
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new CommandException(e.getMessage());
 		}
 

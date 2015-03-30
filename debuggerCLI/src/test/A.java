@@ -2,6 +2,9 @@ package test;
 
 public class A{
 	int a = 1;
+	int v = 69;
+	
+	A me = null;
 	
 	public A() {
 		super();
@@ -13,6 +16,16 @@ public class A{
 	
 	public A(A as) {
 		this.a=as.a;
+	}
+	
+	public A(int v, A a){
+		this.v = v;
+		this.me = a;
+	}
+	
+	public A(A a, int v){
+		this.v = v;
+		this.me = a;
 	}
 	
 	public double foo(B b) {
