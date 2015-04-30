@@ -12,7 +12,7 @@
 (defun .sin ()) 
 
 ;Same as the previous one, but using the cos function.
-(defun .cos (
+(defun .cos ())
 
 ;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
 (defun .not ()) 
