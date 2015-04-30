@@ -15,6 +15,14 @@
 											(format stream "~D " (aref content l)))))))
 				content)
 
+; Not used
+(defstruct (tensor-matrix
+				(:print-object (lambda (tensor stream)
+									(let* ((content (tensor-matrix-content tensor)))
+									   (dolist (vector content)
+									   		(format stream "~S ~%~%" vector))))))
+				content)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
