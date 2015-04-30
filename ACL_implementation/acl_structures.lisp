@@ -1,33 +1,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Printing mechanims
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun print-tensor-scalar (tensor stream)
-	(format stream "~D " (tensor-scalar-content tensor)))
-
-(defun print-tensor-vector (tens stream)
-	(let* ((content (tensor-vector-content tens))
-		   (len (array-dimension content 0)))
-		   (dotimes (l len)
-				(format stream "~D " (aref content l)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Structures
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct tensor content)
+(defgeneric print-tensor (tensor stream)
+	(:method ((tensor tensor) (stream stream))
+		(error "ERROR........")))
+
+(defmethod print-tensor ((tensor tensor-scalar) (stream stream))
+	(format stream "~D " (tensor-scalar-content tensor)))
+
+
+(defstruct (tensor 
+				(:print-object (lambda (tensor stream)
+						(print-tensor tensor stream))))
+				content)
+
 
 (defstruct (tensor-scalar 
-				(:include tensor))
-				(:print-object (lambda (tensor stream) 
-									(format t "Calling scalar")
-									(print-tensor-scalar tensor stream))))
+				(:include tensor)))
 
 (defstruct (tensor-vector 
 				(:include tensor))
 				(:print-object (lambda (tensor stream)
-									(format t "Calling vector")
-									(print-tensor-vector tensor stream))))
+									(let* ((content (tensor-vector-content tensor))
+										   (len (array-dimension content 0)))
+									   (dotimes (l len)
+											(format stream "~D " (aref content l)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public functions
