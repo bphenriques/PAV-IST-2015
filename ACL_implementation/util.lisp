@@ -10,10 +10,25 @@
 				(class-name (class-of x)) (class-name (class-of y)))))
 
 
-;(defmethod promote ((x tensor-array) (y tensor-scalar))
-;	(values x
-;		(make-array (array-dimensions x) :initial-element y)))
+;not tested
+(defmethod promote ((x tensor-vector) (y tensor-scalar))
+	(values x
+		(make-array (array-dimension x 0) :initial-element (tensor-scalar-content y))))
 
-;(defmethod promote ((x tensor-scalar) (y tensor-array))
-;	(values x
-;		(make-array (array-dimensions x) :initial-element y)))
+;not tested
+(defmethod promote ((x tensor-scalar) (y tensor-vector))
+	(values (make-array (array-dimension y 0) :initial-element (tensor-scalar-content x))
+			y))
+
+(defun fact (n)
+  (if (< n 2)
+      1
+      (* n (fact(- n 1)))))
+
+(defun simetric (n)
+	(- 0 n))
+
+(defun inverse (n)
+	(if (= n 0)
+		0
+		(/ 1 n)))

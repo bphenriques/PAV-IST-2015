@@ -4,6 +4,8 @@
 ; is a scalar, the result tensor will have the same size and shape of the other
 ; argument and will have, as elements, the sum of the scalar with every
 ; element of the other argument. Otherwise, the function signals an error.
+
+; http://psg.com/~dlamkins/sl/chapter12.html SEE THIS
 (defun .+ ())
 
 ; Same as the previous one, but using subtraction.
