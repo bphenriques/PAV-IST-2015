@@ -2,7 +2,9 @@
 ; Public API
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;Creates a tensor whose elements are the symmetric of the corresponding elements of the argument tensor.
+; if one argument given, applys the simetric
+; if two arguments are provided, make the difference between both
+
 (defun .- (&rest tensors)
 	(let ((n-args (length tensors)))
 		(cond ((= 1 n-args)
@@ -10,7 +12,9 @@
 			  ((= 2 n-args)
 			   (map-tensor #'- (car tensors) (car (cdr tensors)))))))
 
-; Same as the previous one, but using division.
+
+; if one argument given, applys the inverse
+; if two arguments are provided, make the division between both
 (defun ./ (&rest tensors)
 	(let ((n-args (length tensors)))
 		(cond ((= 1 n-args)
