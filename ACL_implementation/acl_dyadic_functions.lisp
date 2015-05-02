@@ -4,11 +4,11 @@
 		(promoting-call #'create-tensor-2 function t1 t2)))
 
 (defmethod create-tensor-2 (function (t1 tensor-scalar) (t2 tensor-scalar))
-	(s (funcall function (tensor-scalar-content t1) (tensor-scalar-content t2))))
+	(s (funcall function (tensor-content t1) (tensor-content t2))))
 
 (defmethod create-tensor-2 (function (t1 tensor-vector) (t2 tensor-vector))
-	(let*  ((c1 (tensor-vector-content t1))
-		   	(c2 (tensor-vector-content t2))
+	(let*  ((c1 (tensor-content t1))
+		   	(c2 (tensor-content t2))
 			(len1 (array-dimension c1 0))
 		  	(len2 (array-dimension c2 0))
 		  	(result (list)))
@@ -43,10 +43,12 @@
 	(create-tensor-2 #'/ tensor1 tensor2))
 
 ; Same as the previous one, but using integer division.
-(defun .// ())
+(defun .// (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (nth-value 0 (floor n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the remainder of the integer division.
-(defun .% ())
+(defun .% (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (nth-value 0 (floor n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “less than.” The result tensor will have, as elements, the integers 0 or 1.
 (defun .< ())

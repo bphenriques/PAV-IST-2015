@@ -8,11 +8,11 @@
 		(error "Not supported")))
 
 (defmethod create-tensor-1 (function (tensor tensor-scalar))
-	(s (funcall function (tensor-scalar-content tensor))))
+	(s (funcall function (tensor-content tensor))))
 
 (defmethod create-tensor-1 (function (tensor tensor-vector))
 	(let ((result (list))
-		  (original-vector (tensor-vector-content tensor)))
+		  (original-vector (tensor-content tensor)))
 
 		(dotimes (i (array-dimension original-vector 0))
 			(setf result (append result (list (funcall function (aref original-vector i))))))

@@ -2,14 +2,17 @@
 ; Structures
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct tensor-scalar content)
+
+(defstruct tensor content)
+
+(defstruct (tensor-scalar
+			(:include tensor)))
 
 (defmethod print-object ((object tensor-scalar) stream)
 	(format stream "~D " (tensor-scalar-content object)))
 
-
-
-(defstruct tensor-vector content)
+(defstruct (tensor-vector
+			(:include tensor)))
 
 (defmethod print-object ((object tensor-vector) stream)
 	(let* ((content (tensor-vector-content object))

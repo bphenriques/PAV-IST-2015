@@ -9,24 +9,11 @@
 				x y
 				(class-name (class-of x)) (class-name (class-of y)))))
 
-
 (defmethod promote ((x tensor-vector) (y tensor-scalar))
 	(values x
-		(apply #'v (make-list (array-dimension (tensor-vector-content x) 0) :initial-element (tensor-scalar-content y)))))
+		(apply #'v (make-list (array-dimension (tensor-content x) 0) :initial-element (tensor-content y)))))
 
 (defmethod promote ((x tensor-scalar) (y tensor-vector))
-	(values (apply #'v (make-list (array-dimension (tensor-vector-content y) 0) :initial-element (tensor-scalar-content x)))
+	(values (apply #'v (make-list (array-dimension (tensor-content y) 0) :initial-element (tensor-content x)))
 			y))
 
-(defun fact (n)
-  (if (< n 2)
-      1
-      (* n (fact (- n 1)))))
-
-(defun simetric (n)
-	(- 0 n))
-
-(defun inverse (n)
-	(if (= n 0)
-		0
-		(/ 1 n)))

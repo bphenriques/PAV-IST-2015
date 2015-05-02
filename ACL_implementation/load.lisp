@@ -1,3 +1,9 @@
+(print "---------------------------------")
+(print "LOADING: generic_functions.lisp")
+(load (compile-file "generic_functions.lisp"))
+(print "---------------------------------")
+(print "---------------------------------")
+
 
 (print "---------------------------------")
 (print "LOADING: acl_structures.lisp")
