@@ -23,6 +23,13 @@
 									   		(format stream "~S ~%~%" vector))))))
 				content)
 
+(defgeneric bool (n)
+	(:method ((n t)) 
+		1))
+
+(defmethod bool ((n (eql 0)))
+	0)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

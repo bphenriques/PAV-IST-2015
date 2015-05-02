@@ -43,7 +43,7 @@
 	(create-tensor #'cos tensor))
 
 ;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
-(defun .not (tensor)) 
+(defun .not (tensor))
  
 ;Creates a vector containing the length of each dimension of the argument tensor.
 (defun shape (tensor))
