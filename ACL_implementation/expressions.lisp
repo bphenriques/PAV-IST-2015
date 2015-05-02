@@ -40,10 +40,19 @@
 	(map-tensor (lambda (n) (negate (create-bool n))) tensor))
  
 ;Creates a vector containing the length of each dimension of the argument tensor.
-(defun shape (tensor))
+(defun shape (tensor)
+	(apply #'v (tensor-dimensions tensor)))
 
 ;Creates a vector containing an enumeration of all integers starting from 1 up to the argument.
-(defun interval (tensor))
+(defun interval (n)
+	(let ((tensor (apply #'v (make-list n))))
+		(map-tensor 
+			(let ((value 1)) 
+				(lambda () 
+					(let ((old value)) 
+						(incf value) 
+						old))) 
+		tensor)))
 
 ; Creates a tensor with the sum of the corresponding elements of the argument
 ; tensors. If the arguments are tensors with the same size and shape, the
@@ -102,14 +111,14 @@
 ;Returns a tensor with the dimensions refered in the first argument,
 ; whose elements are taken from the second argument, repeating them if
 ; necessary to fill the resulting tensor.
-(defun reshape ()) 
+(defun reshape (dimensions values)
+	(let ((result-array (make-array (map 'list (lambda (x) x) (tensor-content (shape dimensions))))))))
 
 ; If the two arguments are scalars, returns a vector containing those
 ; arguments. If the two arguments are tensors, returns a tensor that joins
 ; the arguments along the their last dimension
 
 (defun catenate ())
-
 
 ; Returns a tensor of booleans with the same shape and dimension of the
 ; first argument, containing 1 for each element in the corresponding location

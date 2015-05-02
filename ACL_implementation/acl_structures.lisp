@@ -21,12 +21,43 @@
 			(format stream "~D " (aref content l)))))
 
 ; Not used yet
-(defstruct tensor-dimension content)
+(defstruct (tensor-multi-dimension
+			(:include tensor)))
 
-(defmethod print-object ((object tensor-dimension) stream)
-	(let* ((content (tensor-matrix-content object)))
-		(dolist (vector content)
-			(format stream "~S ~%~%" vector))))
+;(defmethod print-object ((object tensor-multi-dimension) stream)
+;	(let* ((content (tensor-content object))
+;		   (dimensions (array-dimensions content)))
+;		(print-aux stream content dimensions)))
+
+;(defun print-aux (stream content dimensions)
+;	(let ((num-dimensions (length dimensions)))
+;		(if (= (num-dimensions 2))
+;			;matrix
+;			(progn 
+;				(dotimes (i num-dimensions)
+;					(dotimes (j num-dimensions)
+;						(format stream "~D" (aref content i j))
+;			(progn 
+;				(dotimes (- num-dimensions 1)
+;					(format stream "~%"))
+;				(print-aux stream content (cdr dimensions))))))
+
+
+
+
+(defgeneric tensor-dimensions (tensor)
+	(:method ((tensor t))
+		(error "Not supported for that tensor")))
+
+(defmethod tensor-dimensions ((tensor tensor-scalar))
+	(list 1))
+
+(defmethod tensor-dimensions ((tensor tensor-vector))
+	(list (length (tensor-content tensor))))
+
+(defmethod tensor-dimensions ((tensor tensor-multi-dimension))
+	(array-dimensions (tensor-content tensor)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public functions
@@ -38,6 +69,10 @@
 
 (defun v (&rest values)
 	(make-tensor-vector :content (make-array (length values) :initial-contents values)))
+
+(defun m (content)
+	(make-tensor-multi-dimension :content content))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; PROMOTION
