@@ -48,28 +48,35 @@
 
 ; Same as the previous one, but using the remainder of the integer division.
 (defun .% (tensor1 tensor2)
-	(create-tensor-2 (lambda (n1 n2) (nth-value 0 (floor n1 n2))) tensor1 tensor2))
+	(create-tensor-2 (lambda (n1 n2) (nth-value 1 (floor n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “less than.” The result tensor will have, as elements, the integers 0 or 1.
-(defun .< ())
+(defun .< (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (< n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “greater than.”
-(defun .> ())
+(defun .> (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (> n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “less than or equal to.”
-(defun .<= ())
+(defun .<= (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (<= n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “greater than or equal to.”
-(defun .>= ())
+(defun .>= (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (>= n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “equal to.”
-(defun .= ())
+(defun .= (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (= n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the logical disjunction.
-(defun .or ())
+(defun .or (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (or n1 n2))) tensor1 tensor2))
 
 ; Same as the previous one, but using the logical conjunction.
-(defun .and ())
+(defun .and (tensor1 tensor2)
+	(create-tensor-2 (lambda (n1 n2) (create-bool (and n1 n2))) tensor1 tensor2))
 
 ; Accepts a scalar n1 or vector (of elements ni) and a non-scalar tensor and
 ; returns a tensor where the first (if n > 0) or last (if n < 0) n elements of

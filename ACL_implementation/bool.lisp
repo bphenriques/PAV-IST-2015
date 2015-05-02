@@ -10,7 +10,7 @@
 
 (defgeneric create-bool (n)
 	(:method ((n t))
-		(make-bool :value (not (eql n 0)))))
+		(make-bool :value n)))
 
 (defmethod create-bool ((n bool))
 	(make-bool :value (bool-value n)))
