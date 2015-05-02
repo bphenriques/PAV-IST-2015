@@ -1,13 +1,25 @@
 ; Create a copy of the tensor given by the arguments applying the function
-(defgeneric create-tensor (function tensor tensor)
-	(:method ((function t) (tensor t))
-		(promoting-call #'create-tensor function tensor)))
+(defgeneric create-tensor-2 (function t1 t2)
+	(:method ((function t) (t1 t) (t2 t))
+		(promoting-call #'create-tensor-2 function t1 t2)))
 
-(defmethod create-tensor (function (tensor tensor-scalar) (tensor tensor-scalar))
-	(format t "dyadic scalar"))
+(defmethod create-tensor-2 (function (t1 tensor-scalar) (t2 tensor-scalar))
+	(s (funcall function (tensor-scalar-content t1) (tensor-scalar-content t2))))
 
-(defmethod create-tensor (function (tensor tensor-vector) (tensor tensor-vector))
-	(format t "dyadic vector"))
+(defmethod create-tensor-2 (function (t1 tensor-vector) (t2 tensor-vector))
+	(let*  ((c1 (tensor-vector-content t1))
+		   	(c2 (tensor-vector-content t2))
+			(len1 (array-dimension c1 0))
+		  	(len2 (array-dimension c2 0))
+		  	(result (list)))
+
+		(when (not (= len1 len2))
+			(error "Cannot apply operators to vectors of different dimensions"))
+
+		(dotimes (i len1)
+			(setf result (append result (list (funcall function (aref c1 i) (aref c2 i))))))
+
+		(apply #'v result)))
 
 ; Creates a tensor with the sum of the corresponding elements of the argument
 ; tensors. If the arguments are tensors with the same size and shape, the
@@ -15,18 +27,20 @@
 ; is a scalar, the result tensor will have the same size and shape of the other
 ; argument and will have, as elements, the sum of the scalar with every
 ; element of the other argument. Otherwise, the function signals an error.
-
-; http://psg.com/~dlamkins/sl/chapter12.html SEE THIS
-(defun .+ ())
+(defun .+ (tensor1 tensor2)
+	(create-tensor-2 #'+ tensor1 tensor2))
 
 ; Same as the previous one, but using subtraction.
-(defun .- ())
+(defun .- (tensor1 tensor2)
+	(create-tensor-2 #'- tensor1 tensor2))
 
 ; Same as the previous one, but using multiplication.
-(defun .* ())
+(defun .* (tensor1 tensor2)
+	(create-tensor-2 #'* tensor1 tensor2))
 
 ; Same as the previous one, but using division.
-(defun ./ ())
+(defun ./ (tensor1 tensor2)
+	(create-tensor-2 #'/ tensor1 tensor2))
 
 ; Same as the previous one, but using integer division.
 (defun .// ())

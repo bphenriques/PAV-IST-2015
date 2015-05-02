@@ -3,14 +3,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Create a copy of the tensor given by the arguments applying the function
-(defgeneric create-tensor (function tensor)
+(defgeneric create-tensor-1 (function tensor)
 	(:method ((function t) (tensor t))
-		(promoting-call #'create-tensor function tensor)))
+		(error "Not supported")))
 
-(defmethod create-tensor (function (tensor tensor-scalar))
+(defmethod create-tensor-1 (function (tensor tensor-scalar))
 	(s (funcall function (tensor-scalar-content tensor))))
 
-(defmethod create-tensor (function (tensor tensor-vector))
+(defmethod create-tensor-1 (function (tensor tensor-vector))
 	(let ((result (list))
 		  (original-vector (tensor-vector-content tensor)))
 
@@ -25,27 +25,27 @@
 
 ;Creates a tensor whose elements are the symmetric of the corresponding elements of the argument tensor.
 (defun .- (tensor)
-	(create-tensor #'simetric tensor))
+	(create-tensor-1 #'simetric tensor))
 
 ;Same as the previous one, but using the inverse.
 (defun ./ (tensor)
-	(create-tensor #'inverse tensor))
+	(create-tensor-1 #'inverse tensor))
 
 ;Same as the previous one, but using the factorial.
 (defun .! (tensor)
-	(create-tensor #'fact tensor))
+	(create-tensor-1 #'fact tensor))
 
 ;Same as the previous one, but using the sin function
 (defun .sin (tensor)
-	(create-tensor #'sin tensor)) 
+	(create-tensor-1 #'sin tensor)) 
 
 ;Same as the previous one, but using the cos function.
 (defun .cos (tensor)
-	(create-tensor #'cos tensor))
+	(create-tensor-1 #'cos tensor))
 
 ;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
 (defun .not (tensor)
-	(create-tensor (lambda (n) (negate (create-bool n))) tensor))
+	(create-tensor-1 (lambda (n) (negate (create-bool n))) tensor))
  
 ;Creates a vector containing the length of each dimension of the argument tensor.
 (defun shape (tensor))
