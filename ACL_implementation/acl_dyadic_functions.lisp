@@ -1,3 +1,14 @@
+; Create a copy of the tensor given by the arguments applying the function
+(defgeneric create-tensor (function tensor tensor)
+	(:method ((function t) (tensor t))
+		(promoting-call #'create-tensor function tensor)))
+
+(defmethod create-tensor (function (tensor tensor-scalar) (tensor tensor-scalar))
+	(format t "dyadic scalar"))
+
+(defmethod create-tensor (function (tensor tensor-vector) (tensor tensor-vector))
+	(format t "dyadic vector"))
+
 ; Creates a tensor with the sum of the corresponding elements of the argument
 ; tensors. If the arguments are tensors with the same size and shape, the
 ; result tensor will have that same size and shape. If one of the arguments

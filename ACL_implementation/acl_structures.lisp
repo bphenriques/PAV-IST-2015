@@ -23,6 +23,7 @@
 									   		(format stream "~S ~%~%" vector))))))
 				content)
 
+
 (defgeneric bool (n)
 	(:method ((n t)) 
 		1))
