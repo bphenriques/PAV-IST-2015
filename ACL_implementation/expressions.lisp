@@ -1,25 +1,46 @@
-; Create a copy of the tensor given by the arguments applying the function
-(defgeneric create-tensor-2 (function t1 t2)
-	(:method ((function t) (t1 t) (t2 t))
-		(promoting-call #'create-tensor-2 function t1 t2)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Public API
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmethod create-tensor-2 (function (t1 tensor-scalar) (t2 tensor-scalar))
-	(s (funcall function (tensor-content t1) (tensor-content t2))))
+;Creates a tensor whose elements are the symmetric of the corresponding elements of the argument tensor.
+(defun .- (&rest tensors)
+	(let ((n-args (length tensors)))
+		(if (= 1 n-args)
+			(create-tensor-1 #'simetric (car tensors))
+			(when (= 2 n-args)
+				(create-tensor-2 #'- (car tensors) (car (cdr tensors)))))))
 
-(defmethod create-tensor-2 (function (t1 tensor-vector) (t2 tensor-vector))
-	(let*  ((c1 (tensor-content t1))
-		   	(c2 (tensor-content t2))
-			(len1 (array-dimension c1 0))
-		  	(len2 (array-dimension c2 0))
-		  	(result (list)))
 
-		(when (not (= len1 len2))
-			(error "Cannot apply operators to vectors of different dimensions"))
+; Same as the previous one, but using division.
+(defun ./ (&rest tensors)
+	(let ((n-args (length tensors)))
+		(if (= 1 n-args)
+			(create-tensor-1 #'inverse (car tensors))
+			(when (= 2 n-args)
+				(create-tensor-2 #'/ (car tensors) (car (cdr tensors)))))))
 
-		(dotimes (i len1)
-			(setf result (append result (list (funcall function (aref c1 i) (aref c2 i))))))
 
-		(apply #'v result)))
+;Same as the previous one, but using the factorial.
+(defun .! (tensor)
+	(create-tensor-1 #'fact tensor))
+
+;Same as the previous one, but using the sin function
+(defun .sin (tensor)
+	(create-tensor-1 #'sin tensor)) 
+
+;Same as the previous one, but using the cos function.
+(defun .cos (tensor)
+	(create-tensor-1 #'cos tensor))
+
+;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
+(defun .not (tensor)
+	(create-tensor-1 (lambda (n) (negate (create-bool n))) tensor))
+ 
+;Creates a vector containing the length of each dimension of the argument tensor.
+(defun shape (tensor))
+
+;Creates a vector containing an enumeration of all integers starting from 1 up to the argument.
+(defun interval (tensor))
 
 ; Creates a tensor with the sum of the corresponding elements of the argument
 ; tensors. If the arguments are tensors with the same size and shape, the
@@ -30,25 +51,17 @@
 (defun .+ (tensor1 tensor2)
 	(create-tensor-2 #'+ tensor1 tensor2))
 
-; Same as the previous one, but using subtraction.
-(defun .- (tensor1 tensor2)
-	(create-tensor-2 #'- tensor1 tensor2))
-
 ; Same as the previous one, but using multiplication.
 (defun .* (tensor1 tensor2)
 	(create-tensor-2 #'* tensor1 tensor2))
 
-; Same as the previous one, but using division.
-(defun ./ (tensor1 tensor2)
-	(create-tensor-2 #'/ tensor1 tensor2))
-
 ; Same as the previous one, but using integer division.
 (defun .// (tensor1 tensor2)
-	(create-tensor-2 (lambda (n1 n2) (nth-value 0 (floor n1 n2))) tensor1 tensor2))
+	(create-tensor-2 (lambda (n1 n2) (integer-division n1 n2)) tensor1 tensor2))
 
 ; Same as the previous one, but using the remainder of the integer division.
 (defun .% (tensor1 tensor2)
-	(create-tensor-2 (lambda (n1 n2) (nth-value 1 (floor n1 n2))) tensor1 tensor2))
+	(create-tensor-2 (lambda (n1 n2) (remainder-integer-division n1 n2)) tensor1 tensor2))
 
 ; Same as the previous one, but using the relation “less than.” The result tensor will have, as elements, the integers 0 or 1.
 (defun .< (tensor1 tensor2)

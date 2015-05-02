@@ -10,3 +10,9 @@
 	(if (= n 0)
 		0
 		(/ 1 n)))
+
+(defun integer-division (n1 n2)
+	(nth-value 0 (floor n1 n2)))
+
+(defun remainder-integer-division (n1 n2)
+	(nth-value 1 (floor n1 n2)))

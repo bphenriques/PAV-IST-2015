@@ -25,18 +25,10 @@
 (print "---------------------------------")
 
 (print "---------------------------------")
-(print "LOADING: acl_monadic_functions.lisp")
-(load (compile-file "acl_monadic_functions.lisp"))
+(print "LOADING: expressions.lisp")
+(load (compile-file "expressions.lisp"))
 (print "---------------------------------")
 (print "---------------------------------")
-
-
-(print "---------------------------------")
-(print "LOADING: acl_dyadic_functions.lisp")
-(load (compile-file "acl_dyadic_functions.lisp"))
-(print "---------------------------------")
-(print "---------------------------------")
-
 
 ; (load (compile-file "acl_monadic_operators.lisp"))
 ; (load (compile-file "acl_dyadic_operators.lisp"))
