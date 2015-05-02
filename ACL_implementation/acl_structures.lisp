@@ -2,34 +2,29 @@
 ; Structures
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct (tensor-scalar
-				(:print-object (lambda (tensor stream)
-									(format stream "~D " (tensor-scalar-content tensor)))))
-				content)
+(defstruct tensor-scalar content)
 
-(defstruct (tensor-vector
-				(:print-object (lambda (tensor stream)
-									(let* ((content (tensor-vector-content tensor))
-										   (len (array-dimension content 0)))
-									   (dotimes (l len)
-											(format stream "~D " (aref content l)))))))
-				content)
-
-; Not used
-(defstruct (tensor-matrix
-				(:print-object (lambda (tensor stream)
-									(let* ((content (tensor-matrix-content tensor)))
-									   (dolist (vector content)
-									   		(format stream "~S ~%~%" vector))))))
-				content)
+(defmethod print-object ((object tensor-scalar) stream)
+	(format stream "~D " (tensor-scalar-content object)))
 
 
-(defgeneric bool (n)
-	(:method ((n t)) 
-		1))
 
-(defmethod bool ((n (eql 0)))
-	0)
+(defstruct tensor-vector content)
+
+(defmethod print-object ((object tensor-vector) stream)
+	(let* ((content (tensor-vector-content object))
+		   (len (array-dimension content 0)))
+	   (dotimes (l len)
+			(format stream "~D " (aref content l)))))
+
+
+; Not used yet
+(defstruct tensor-dimension content)
+
+(defmethod print-object ((object tensor-dimension) stream)
+	(let* ((content (tensor-matrix-content object)))
+		(dolist (vector content)
+			(format stream "~S ~%~%" vector))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public functions
