@@ -2,36 +2,23 @@
 ; Internal funtions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-(defun promoting-call (f-original f-apply x y)
-	(multiple-value-bind (xp yp)
-		(promote x y)
-		(funcall f-original f-apply xp yp)))
-
-(defgeneric promote (x y)
-	(:method ((x t) (y t))
-		(error "No promotion for args (~S ~S) of classes (~S ~S)"
-				x y
-				(class-name (class-of x)) (class-name (class-of y)))))
-
-(defmethod promote ((x tensor-vector) (y tensor-scalar))
-	(values x
-		(apply #'v (make-list (array-dimension (tensor-content x) 0) :initial-element (tensor-content y)))))
-
-(defmethod promote ((x tensor-scalar) (y tensor-vector))
-	(values (apply #'v (make-list (array-dimension (tensor-content y) 0) :initial-element (tensor-content x)))
-			y))
+(defun map-tensor (function &rest tensors)
+	(let ((num-tensors (length tensors)))
+		(cond ((= num-tensors 1)
+			   (map-single function (car tensors)))
+			  ((= num-tensors 2)
+			   (map-double function (car tensors) (car (cdr tensors))))
+			  (t (error "Apply only supports one or two tensors")))))
 
 
-; Create a copy of the tensor given by the arguments applying the function
-(defgeneric create-tensor-1 (function t1)
+(defgeneric map-single (function t1)
 	(:method ((function t) (t1 t))
 		(error "Not supported")))
 
-(defmethod create-tensor-1 (function (t1 tensor-scalar))
+(defmethod map-single (function (t1 tensor-scalar))
 	(s (funcall function (tensor-content t1))))
 
-(defmethod create-tensor-1 (function (t1 tensor-vector))
+(defmethod map-single (function (t1 tensor-vector))
 	(let ((result (list))
 		  (original-vector (tensor-content t1)))
 
@@ -41,15 +28,16 @@
 		(apply #'v result)))
 
 
-; Create a copy of the tensor given by the arguments applying the function
-(defgeneric create-tensor-2 (function t1 t2)
+(defgeneric map-double (function t1 t2)
 	(:method ((function t) (t1 t) (t2 t))
-		(promoting-call #'create-tensor-2 function t1 t2)))
+		(multiple-value-bind (t1p t2p)
+			(promote t1 t2)
+			(funcall #'map-double function t1p t2p))))
 
-(defmethod create-tensor-2 (function (t1 tensor-scalar) (t2 tensor-scalar))
+(defmethod map-double (function (t1 tensor-scalar) (t2 tensor-scalar))
 	(s (funcall function (tensor-content t1) (tensor-content t2))))
 
-(defmethod create-tensor-2 (function (t1 tensor-vector) (t2 tensor-vector))
+(defmethod map-double (function (t1 tensor-vector) (t2 tensor-vector))
 	(let*  ((c1 (tensor-content t1))
 		   	(c2 (tensor-content t2))
 			(len1 (array-dimension c1 0))

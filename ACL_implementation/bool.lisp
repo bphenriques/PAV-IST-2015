@@ -5,9 +5,6 @@
 		(format stream "~D" 1)
 		(format stream "~D" 0)))
 
-(defun bool ()
-	(make-bool :value nil))
-
 (defgeneric create-bool (n)
 	(:method ((n t))
 		(make-bool :value n)))
