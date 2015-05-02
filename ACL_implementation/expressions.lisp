@@ -5,19 +5,19 @@
 ;Creates a tensor whose elements are the symmetric of the corresponding elements of the argument tensor.
 (defun .- (&rest tensors)
 	(let ((n-args (length tensors)))
-		(if (= 1 n-args)
-			(create-tensor-1 #'simetric (car tensors))
-			(when (= 2 n-args)
-				(create-tensor-2 #'- (car tensors) (car (cdr tensors)))))))
+		(cond ((= 1 n-args)
+			   (create-tensor-1 #'simetric (car tensors)))
+			  ((= 2 n-args)
+			   (create-tensor-2 #'- (car tensors) (car (cdr tensors)))))))
 
 
 ; Same as the previous one, but using division.
 (defun ./ (&rest tensors)
 	(let ((n-args (length tensors)))
-		(if (= 1 n-args)
-			(create-tensor-1 #'inverse (car tensors))
-			(when (= 2 n-args)
-				(create-tensor-2 #'/ (car tensors) (car (cdr tensors)))))))
+		(cond ((= 1 n-args)
+			   (create-tensor-1 #'inverse (car tensors)))
+			  ((= 2 n-args)
+			   (create-tensor-2 #'/ (car tensors) (car (cdr tensors)))))))
 
 
 ;Same as the previous one, but using the factorial.
