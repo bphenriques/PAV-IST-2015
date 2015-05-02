@@ -8,15 +8,16 @@
 		(promoting-call #'create-tensor function tensor)))
 
 (defmethod create-tensor (function (tensor tensor-scalar))
-	(format t ".- at scalar")
-	(funcall function (tensor-scalar-content tensor)))
+	(s (funcall function (tensor-scalar-content tensor))))
 
 (defmethod create-tensor (function (tensor tensor-vector))
 	(let ((result (list))
 		  (original-vector (tensor-vector-content tensor)))
+
 		(dotimes (i (array-dimension original-vector 0))
 			(setf result (append result (list (funcall function (aref original-vector i))))))
-		result))
+		; convert list to arguments
+		(apply #'v result)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Public API
@@ -43,7 +44,8 @@
 	(create-tensor #'cos tensor))
 
 ;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
-(defun .not (tensor))
+(defun .not (tensor)
+	(create-tensor (lambda (n) (negate (create-bool n))) tensor))
  
 ;Creates a vector containing the length of each dimension of the argument tensor.
 (defun shape (tensor))
