@@ -43,7 +43,7 @@
 
         (apply #'v (map 'list function c1 c2))))
 
-(defun print-n-lines (n)
+(defun print-n-lines (n stream)
     (dotimes (i n)
         (format stream "~%")))
         
