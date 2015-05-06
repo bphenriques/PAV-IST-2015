@@ -1,0 +1,6 @@
+(load "lib/lisp-unit")
+(use-package :lisp-unit)
+(setq *print-failures* t)
+(load "load.lisp")
+(load "tests/test_acl_functions.lisp")
+(run-tests :ALL)

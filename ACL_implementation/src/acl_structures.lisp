@@ -42,6 +42,14 @@
 (defstruct (tensor-vector
             (:include tensor)))
 
+(defmethod print-object ((object tensor-vector) stream)
+   (let* ((dimensions (tensor-dimensions object)))
+    (dotimes (i (first dimensions))
+        (format stream
+                (if (eql i (- (first dimensions) 1))
+                    "~S"
+                    "~S ")
+                (aref (tensor-content object) i)))))
 
 ;;; Matrix defenition
 (defstruct (tensor-matrix
