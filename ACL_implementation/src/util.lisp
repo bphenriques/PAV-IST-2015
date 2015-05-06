@@ -33,14 +33,14 @@
     (s (funcall function (tensor-content t1) (tensor-content t2))))
 
 (defmethod map-double (function (t1 tensor-vector) (t2 tensor-vector))
-    (let*  ((c1 (tensor-content t1))
-            (c2 (tensor-content t2))
-            (len1 (array-dimension c1 0))
-            (len2 (array-dimension c2 0)))
+    (let*  ((c1 (map 'list (lambda (scal) (tensor-content scal)) (tensor-content t1)))
+            (c2 (map 'list (lambda (scal) (tensor-content scal)) (tensor-content t2)))
+            (len1 (length c1))
+            (len2 (length c2)))
 
         (when (not (= len1 len2))
             (error "Cannot apply operators to vectors of different dimensions"))
-
+		
         (apply #'v (map 'list function c1 c2))))
 
 (defun print-n-lines (n stream)

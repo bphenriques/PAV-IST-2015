@@ -19,15 +19,14 @@
     (content nil :type array)
     (dimensions nil :type list))
 
-
-(defmethod print-object ((object tensor) stream)
-   (let* ((dimensions (tensor-dimensions object))
-          (dimensions-number (length dimensions)))
-          
-    (dotimes (i (first dimensions))
-        (format stream "~S " (aref (tensor-content object) i))
-        (when (not (eql (- (first dimensions) 1)))
-              (print-n-lines (- dimensions-number 1))))))
+;(defmethod print-object ((object tensor) stream)
+;   (let* ((dimensions (tensor-dimensions object))
+;          (dimensions-number (length dimensions)))
+;          
+;    (dotimes (i (first dimensions))
+;        (format stream "~S " (aref (tensor-content object) i))
+;        (when (not (eql (- (first dimensions) 1)))
+;              (print-n-lines (- dimensions-number 1))))))
         
 
 
@@ -35,7 +34,7 @@
             (:include tensor)))
 
 (defmethod print-object ((object tensor-scalar) stream)
-    (format stream "~D " (tensor-scalar-content object)))
+    (format stream "~D" (tensor-scalar-content object)))
 
 (defstruct (tensor-vector
             (:include tensor)))
@@ -44,7 +43,7 @@
     (let* ((content (tensor-vector-content object))
            (len (array-dimension content 0)))
        (dotimes (l len)
-            (format stream "~D " (aref content l)))))
+            (format stream "~S " (aref content l)))))
 
 
 
@@ -69,6 +68,7 @@
     (make-tensor-scalar :content value :dimensions '(1)))
 
 (defun v (&rest values)
+	(setf values (map 'list (lambda (x) (s x)) values))
     (make-tensor-vector :content (make-array (length values) :initial-contents values) :dimensions (list (length values))))
 
 
