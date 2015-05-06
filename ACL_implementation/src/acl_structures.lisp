@@ -11,25 +11,22 @@
 ;;;; Created for PAV APL project.
 
 
-;;; Structures
-
-
-
+;;; Tensor Definition
 (defstruct tensor
-    (content nil :type array)
+    (content nil :type vector)
     (dimensions nil :type list))
 
-;(defmethod print-object ((object tensor) stream)
-;   (let* ((dimensions (tensor-dimensions object))
-;          (dimensions-number (length dimensions)))
-;          
-;    (dotimes (i (first dimensions))
-;        (format stream "~S " (aref (tensor-content object) i))
-;        (when (not (eql (- (first dimensions) 1)))
-;              (print-n-lines (- dimensions-number 1))))))
-        
+(defmethod print-object ((object tensor) stream)
+   (let* ((dimensions (tensor-dimensions object))
+          (dimensions-number (length dimensions)))
+    (dotimes (i (first dimensions))
+        (format stream "~S " (aref (tensor-content object) i))
+        (when (not (eql i (- (first dimensions) 1)))
+              (print-n-lines (- dimensions-number 1))))))
 
 
+
+;;; Scalar Definition
 (defstruct (tensor-scalar
             (:include tensor)))
 
@@ -46,7 +43,7 @@
             (format stream "~S " (aref content l)))))
 
 
-
+;;; Matrix defenition
 (defstruct (tensor-matrix
         (:include tensor)))
 
@@ -55,7 +52,7 @@
            (len (array-dimension content 0)))
        (dotimes (i len)
             (format stream "~S " (aref content i)))))
-       
+
 
 
 
