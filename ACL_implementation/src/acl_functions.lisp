@@ -10,7 +10,7 @@
 		(cond ((= 1 n-args)
 			   (map-tensor #'simetric (car tensors)))
 			  ((= 2 n-args)
-			   (map-tensor #'- (car tensors) (car (cdr tensors)))))))
+			   (map-tensor #'- (car tensors) (second tensors))))))
 
 
 ; if one argument given, applys the inverse
@@ -20,7 +20,7 @@
 		(cond ((= 1 n-args)
 			   (map-tensor #'inverse (car tensors)))
 			  ((= 2 n-args)
-			   (map-tensor #'/ (car tensors) (car (cdr tensors)))))))
+			   (map-tensor #'/ (car tensors) (second tensors))))))
 
 
 
@@ -30,7 +30,7 @@
 
 ;Same as the previous one, but using the sin function
 (defun .sin (tensor)
-	(map-tensor #'sin tensor)) 
+	(map-tensor #'sin tensor))
 
 ;Same as the previous one, but using the cos function.
 (defun .cos (tensor)
@@ -39,7 +39,7 @@
 ;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
 (defun .not (tensor)
 	(map-tensor (lambda (n) (negate (create-bool n))) tensor))
- 
+
 ;Creates a vector containing the length of each dimension of the argument tensor.
 (defun shape (tensor)
 	(apply #'v (tensor-dimensions tensor)))
@@ -47,12 +47,12 @@
 ;Creates a vector containing an enumeration of all integers starting from 1 up to the argument.
 (defun interval (n)
 	(let ((tensor (apply #'v (make-list n))))
-		(map-tensor 
-			(let ((value 1)) 
-				(lambda () 
-					(let ((old value)) 
-						(incf value) 
-						old))) 
+		(map-tensor
+			(let ((value 1))
+				(lambda ()
+					(let ((old value))
+						(incf value)
+						old)))
 		tensor)))
 
 ; Creates a tensor with the sum of the corresponding elements of the argument
