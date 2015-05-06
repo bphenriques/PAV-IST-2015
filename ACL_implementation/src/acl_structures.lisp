@@ -15,17 +15,19 @@
 
 
 
-(defstruct tensor 
-    content
-    dimensions)
+(defstruct tensor
+    (content nil :type array)
+    (dimensions nil :type list))
 
 
 (defmethod print-object ((object tensor) stream)
-   (let* ((dimensions (tensor-dimensions tensor))
+   (let* ((dimensions (tensor-dimensions object))
           (dimensions-number (length dimensions)))
+          
     (dotimes (i (first dimensions))
-        (format stream "~S " (array-slice (tensor-scalar-content object) i))
-        (print-n-lines (- dimensions-number 1)))))
+        (format stream "~S " (aref (tensor-content object) i))
+        (when (not (eql (- (first dimensions) 1)))
+              (print-n-lines (- dimensions-number 1))))))
         
 
 
