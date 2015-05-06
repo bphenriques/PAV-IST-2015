@@ -26,6 +26,7 @@
 (load-compile-file "acl_structures.lisp")
 (load-compile-file "bool.lisp")
 (load-compile-file "acl_functions.lisp")
+(load-compile-file "util.lisp")
 
 
 ; (load (compile-file "acl_monadic_operators.lisp"))

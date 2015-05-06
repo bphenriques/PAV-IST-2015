@@ -15,15 +15,17 @@
 
 
 
-(defstruct tensor content)
+(defstruct tensor 
+    content
+    dimensions)
 
 
-;(defmethod print-object ((object tensor) stream)
- ;   (let* ((dimensions (tensor-dimensions tensor))
-  ;         (dimensions-number (length dimensions)))
-   ;     (dotimes (i (first dimensions))
-     ;       (format stream "~S " ((tensor-scalar-content object)))
-      ;      (print-n-lines (- dimensions-number 1)))))
+(defmethod print-object ((object tensor) stream)
+   (let* ((dimensions (tensor-dimensions tensor))
+          (dimensions-number (length dimensions)))
+    (dotimes (i (first dimensions))
+        (format stream "~S " (array-slice (tensor-scalar-content object) i))
+        (print-n-lines (- dimensions-number 1)))))
         
 
 
@@ -47,43 +49,13 @@
 (defstruct (tensor-matrix
         (:include tensor)))
 
-;(defmethod print-object ((object tensor-matrix) stream)
-    ;(let* ((content (tensor-content object))
-           ;(dimensions (array-dimensions content)))
-        ;(print-aux stream content dimensions)))
+(defmethod print-object ((object tensor-matrix) stream)
+    (let* ((content (tensor-content object))
+           (len (array-dimension content 0)))
+       (dotimes (i len)
+            (format stream "~S " (aref content i)))))
+       
 
-;(defun print-aux (stream content dimensions)
-    ;(let ((num-dimensions (length dimensions)))
-        ;(if (= (num-dimensions 2))
-            ;;matrix
-            ;(progn
-                ;(dotimes (i num-dimensions)
-                    ;(dotimes (j num-dimensions)
-                        ;(format stream "~D" (aref content i j))
-            ;(progn
-                ;(dotimes (- num-dimensions 1)
-                    ;(format stream "~%"))
-                ;(print-aux stream content (cdr dimensions)))))))))
-
-
-
-
-(defgeneric tensor-dimensions (tensor)
-    (:method ((tensor t))
-        (error "Argument is not a tensor.")))
-
-
-(defmethod tensor-dimensions ((tensor tensor))
-    (error "Not supported for that tensor."))
-
-(defmethod tensor-dimensions ((tensor tensor-scalar))
-    (list 1))
-
-(defmethod tensor-dimensions ((tensor tensor-vector))
-    (list (length (tensor-content tensor))))
-
-;~ (defmethod tensor-dimensions ((tensor tensor-multi-dimension))
-    ;~ (array-dimensions (tensor-content tensor)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -92,10 +64,10 @@
 
 ;create a scalar
 (defun s (value)
-    (make-tensor-scalar :content value))
+    (make-tensor-scalar :content value :dimensions '(1)))
 
 (defun v (&rest values)
-    (make-tensor-vector :content (make-array (length values) :initial-contents values)))
+    (make-tensor-vector :content (make-array (length values) :initial-contents values) :dimensions (list (length values))))
 
 
 

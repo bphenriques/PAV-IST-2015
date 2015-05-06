@@ -47,4 +47,9 @@
     (dotimes (i n)
         (format stream "~%")))
         
+(defun array-slice (arr row)
+    (make-array (array-dimension arr 1) 
+      :displaced-to arr 
+       :displaced-index-offset (* row (array-dimension arr 1))))
+        
     

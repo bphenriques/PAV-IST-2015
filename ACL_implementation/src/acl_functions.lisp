@@ -23,8 +23,9 @@
 			   (map-tensor #'/ (car tensors) (car (cdr tensors)))))))
 
 
-;Same as the previous one, but using the factorial.
+
 (defun .! (tensor)
+    "Same as the previous one, but using the factorial."
 	(map-tensor #'fact tensor))
 
 ;Same as the previous one, but using the sin function
