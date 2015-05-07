@@ -23,7 +23,7 @@
    (let* ((dimensions (tensor-dimensions object))
           (dimensions-number (length dimensions)))
     (dotimes (i (first dimensions))
-        (format stream "~S " (aref (tensor-content object) i))
+        (format stream "~S" (aref (tensor-content object) i))
         (when (not (eql i (- (first dimensions) 1)))
               (print-n-lines (- dimensions-number 1) stream)))))
 
@@ -54,6 +54,16 @@
 ;;; Matrix defenition
 (defstruct (tensor-matrix
         (:include tensor)))
+
+(defmethod print-object ((object tensor-matrix) stream)
+   (let* ((dimensions (tensor-dimensions object)))
+    (dotimes (i (first dimensions))
+        (format stream
+                (if (eql i (- (first dimensions) 1))
+                    "~S"
+                    "~S~%")
+                (aref (tensor-content object) i)))))
+
 
 
 ;;; Copy tensor functions
@@ -113,13 +123,15 @@
 (defmethod map-double (function (t1 tensor-scalar) (t2 tensor-scalar))
     (s (funcall function (tensor-content t1) (tensor-content t2))))
 
-(defmethod map-double (function (t1 tensor-scalar) (t2 t))
+(defmethod map-double (function (t1 tensor-scalar) (t2 tensor))
     (multiple-value-bind (t1p t2p)
         (promote t1 t2)
         (funcall #'map-double function t1p t2p)))
 
-(defmethod map-double (function (t1 t) (t2 tensor-scalar))
-    (map-double function t2 t1))
+(defmethod map-double (function (t1 tensor) (t2 tensor-scalar))
+    (multiple-value-bind (t1p t2p)
+        (promote t1 t2)
+        (funcall #'map-double function t1p t2p)))
 
 (defmethod map-double (function (t1 tensor) (t2 tensor))
     (let* ((new-tensor (copy-tensor t1))
@@ -154,6 +166,34 @@
 ;   (make-tensor-multi-dimension :content content))
 
 
+(defun s-to-t (scalar dimensions)
+    (cond ((eq (length dimensions) 1) (promoter scalar (first dimensions)))
+          (t (promoter (s-to-t scalar (rest dimensions)) (first dimensions)))))
+            
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; PROMOTER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defgeneric promoter (tensor dimension)
+    (:method ((tensor tensor) dimension)
+        (make-tensor
+            :content (make-array (list dimension) :initial-element tensor)
+            :dimensions (cons dimension (tensor-dimensions tensor)))))
+        
+(defmethod promoter ((tensor tensor-scalar) dimension)
+    (apply #'v (make-list dimension :initial-element (tensor-content tensor))))
+    
+(defmethod promoter ((tensor tensor-vector) dimension)
+    (make-tensor-matrix 
+        :content (make-array (list dimension) :initial-element tensor)
+        :dimensions (cons dimension (tensor-dimensions tensor))))
+        
+        
+        
+            
+        
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; PROMOTION
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -164,10 +204,13 @@
                 x y
                 (class-name (class-of x)) (class-name (class-of y)))))
 
-(defmethod promote ((x tensor-vector) (y tensor-scalar))
-    (values x
-        (apply #'v (make-list (array-dimension (tensor-content x) 0) :initial-element (tensor-content y)))))
+(defmethod promote ((x tensor) (y tensor-scalar))
+    (values x (s-to-t y (tensor-dimensions x))))
+    
+    
+(defmethod promote ((x tensor-scalar) (y tensor))
+    (values (s-to-t x (tensor-dimensions y)) y))
 
-(defmethod promote ((x tensor-scalar) (y tensor-vector))
-    (values (apply #'v (make-list (array-dimension (tensor-content y) 0) :initial-element (tensor-content x)))
-            y))
+
+    
+    
