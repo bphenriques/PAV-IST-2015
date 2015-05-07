@@ -1,5 +1,6 @@
 package ist.meic.pa.debugger;
 
+import ist.meic.pa.command.common.ClassUtil;
 import ist.meic.pa.debugger.stack.StackElement;
 import ist.meic.pa.debugger.stack.StackManager;
 
@@ -58,7 +59,7 @@ public abstract class DInterface {
 		m.setParametersTypes(parameterTypes);
 		StackManager.push(m);
 		
-		Method callingMethod = targetClass.getDeclaredMethod(methodName,
+		Method callingMethod = ClassUtil.getDeclaredMethod(targetClass, methodName,
 				parameterTypes);
 		
 		try {
