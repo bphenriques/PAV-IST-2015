@@ -160,10 +160,29 @@
 	(setf values (map 'list (lambda (x) (s x)) values))
     (make-tensor-vector :content (make-array (length values) :initial-contents values) :dimensions (list (length values))))
 
+(define-setf-expander tensor-ref (x &rest values &environment env)
+   "Set the last element in a list to the given value."
+   (multiple-value-bind (dummies vals newval setter getter)
+       (get-setf-expansion x env)
+     (let ((store (gensym)))
+       (values dummies
+               vals
+               `(,store)
+               `(progn (rplaca (last ,getter) ,store) ,store)
+               `(tensor-ref ,getter)))))
 
+(defgeneric tensor-ref (tensor &rest values))
 
-;(defun m (content)
-;   (make-tensor-multi-dimension :content content))
+(defmethod tensor-ref ((tensor tensor-scalar) &rest values)
+    (if (not (null values))
+        (error "Too many coordinates.")
+        (tensor-content tensor)))
+    
+(defmethod tensor-ref ((tensor tensor) &rest values)
+    (apply #'tensor-ref (aref (tensor-content tensor) (first values)) (rest values)))
+
+(defun create-tensor (dimensions &optional (initial-value 0))
+   (s-to-t (s initial-value) dimensions))
 
 
 (defun s-to-t (scalar dimensions)
