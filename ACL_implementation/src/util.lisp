@@ -28,12 +28,21 @@
             (T (equal-array-pos array1 array2 (+ x 1) y max-x max-y)))))
 
 (defun equal-array (array1 array2)
-    "Checks if 2 arrays are equal"
+    "Checks if 2 arrays are equal."
     (let ((dimensions1 (array-dimensions array1))
           (dimensions2 (array-dimensions array2)))
       (and (equal dimensions1 dimensions2)
            (equal-array-pos array1 array2 0 0 (- (first dimensions1) 1) (- (second dimensions2) 1)))))
 
+(defun get-cycler (array)
+    "Returns a function that when called cycles between the copied array elements and returns them."
+    (let ((cycleElements (copy-array array))
+          (currentElement -1))
+        (lambda () 
+            (cond((eql currentElement (- (length cycleElements) 1)) (setf currentElement 0))
+                  (t (incf currentElement)))
+            (aref cycleElements currentElement))))
+    
 
 ;;;;; RETIRADO NA NET - AINDA TENHO QUE PERCEBER E VER SE FUNCIONA - https://stackoverflow.com/questions/14758218/two-element-combinations-of-the-elements-of-a-list-inside-lisp-without-duplicat
 
