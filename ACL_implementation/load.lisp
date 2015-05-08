@@ -30,6 +30,7 @@
 (load-compile-file "acl_monadic_functions.lisp")
 (load-compile-file "acl_dyadic_functions.lisp")
 (load-compile-file "acl_monadic_operators.lisp")
+(load-compile-file "apl_structure_functions.lisp")
 
 ;(load (compile-file "acl_dyadic_operators.lisp"))
 (load-compile-file "exercises.lisp")
