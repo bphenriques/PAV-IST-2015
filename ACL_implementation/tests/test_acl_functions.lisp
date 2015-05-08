@@ -90,11 +90,13 @@
 
 (define-test test-shape
 	(assert-equalp (v 0) (shape (s 200)))
-	(assert-equalp (s 3) (shape (v 1 2 3)))
+	(assert-equalp (v 3) (shape (v 1 2 3)))
+	(assert-equalp (v 2 3) (shape (reshape (v 2 3) (v 1 2 3 4 5 6))))
+	(assert-equalp (v 2) (shape (shape (reshape (v 2 3) (v 1 2 3 4 5 6)))))
+	(assert-equalp (v 3 3) (shape  (reshape (v 3 3) (interval 6))))
 	)
 
 (define-test test-interval
 	(assert-equalp (v 1 2 3 4 5 6) (interval 6))
 	;TODO testar tambem com numeros negativos
 )
-    
