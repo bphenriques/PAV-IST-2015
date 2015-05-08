@@ -16,8 +16,7 @@
     "Represents an array of values.
      Content contains a vector of tensors,
      which values must be fetched recursively."
-    content
-    (dimensions nil :type list))
+    content)
 
 (defmethod print-object ((object tensor) stream)
    (let* ((dimensions (tensor-dimensions object))
@@ -69,20 +68,16 @@
 ;;; Copy tensor functions
 (defgeneric copy-tensor (tensor)
     (:method ((tensor tensor))
-        (make-tensor :content (copy-array (tensor-content tensor))
-                     :dimensions (copy-list (tensor-dimensions tensor)))))
+        (make-tensor :content (copy-array (tensor-content tensor)))))
 
 (defmethod copy-tensor ((tensor tensor-scalar))
-    (make-tensor-scalar :content (tensor-content tensor)
-                        :dimensions (copy-list (tensor-dimensions tensor))))
+    (make-tensor-scalar :content (tensor-content tensor)))
 
 (defmethod copy-tensor ((tensor tensor-vector))
-    (make-tensor-vector :content (copy-array (tensor-content tensor))
-                        :dimensions (copy-list (tensor-dimensions tensor))))
+    (make-tensor-vector :content (copy-array (tensor-content tensor))))
 
 (defmethod copy-tensor ((tensor tensor-matrix))
-    (make-tensor-matrix :content (copy-array (tensor-content tensor))
-                        :dimensions (copy-list (tensor-dimensions tensor))))
+    (make-tensor-matrix :content (copy-array (tensor-content tensor))))
 
 
 ;;; Map-tensor functions
@@ -154,22 +149,24 @@
 
 ;create a scalar
 (defun s (value)
-    (make-tensor-scalar :content value :dimensions '(1)))
+    (make-tensor-scalar :content value))
 
 (defun v (&rest values)
-	(setf values (map 'list (lambda (x) (s x)) values))
-    (make-tensor-vector :content (make-array (length values) :initial-contents values) :dimensions (list (length values))))
+    (cond ((null values) nil)
+          (t (setf values (map 'list (lambda (x) (s x)) values))
+             (make-tensor-vector :content (make-array (length values) :initial-contents values)))))
 
-(define-setf-expander tensor-ref (x &rest values &environment env)
-   "Set the last element in a list to the given value."
-   (multiple-value-bind (dummies vals newval setter getter)
-       (get-setf-expansion x env)
-     (let ((store (gensym)))
-       (values dummies
-               vals
-               `(,store)
-               `(progn (rplaca (last ,getter) ,store) ,store)
-               `(tensor-ref ,getter)))))
+(defgeneric tensor-set (tensor value &rest values))
+
+(defmethod tensor-set ((tensor tensor-scalar) value &rest values)
+    (if (not (null values))
+        (error "Scalars don't accept coordinates for set")
+        (setf (tensor-content tensor) value)))
+
+(defmethod tensor-set ((tensor tensor) value &rest values)
+    (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
+    tensor
+)      
 
 (defgeneric tensor-ref (tensor &rest values))
 
@@ -188,7 +185,15 @@
 (defun s-to-t (scalar dimensions)
     (cond ((eq (length dimensions) 1) (promoter scalar (first dimensions)))
           (t (promoter (s-to-t scalar (rest dimensions)) (first dimensions)))))
-            
+
+(defgeneric tensor-dimensions (tensor))
+
+(defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
+
+(defmethod tensor-dimensions ((tensor tensor))
+    (cons (array-dimension (tensor-content tensor) 0)
+          (tensor-dimensions (aref (tensor-content tensor) 0))))
+          
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; PROMOTER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -196,20 +201,14 @@
 (defgeneric promoter (tensor dimension)
     (:method ((tensor tensor) dimension)
         (make-tensor
-            :content (make-array (list dimension) :initial-element tensor)
-            :dimensions (cons dimension (tensor-dimensions tensor)))))
+            :content (make-array (list dimension) :initial-element (copy-tensor tensor)))))
         
 (defmethod promoter ((tensor tensor-scalar) dimension)
     (apply #'v (make-list dimension :initial-element (tensor-content tensor))))
     
 (defmethod promoter ((tensor tensor-vector) dimension)
     (make-tensor-matrix 
-        :content (make-array (list dimension) :initial-element tensor)
-        :dimensions (cons dimension (tensor-dimensions tensor))))
-        
-        
-        
-            
+        :content (make-array (list dimension) :initial-element tensor)))
         
 
 
