@@ -34,7 +34,8 @@
 
 ;Creates a vector containing an enumeration of all integers starting from 1 up to the argument.
 (defun interval (n)
-    ;; FIXME - Verificar se o argumento é positivo
+    (when (< n 0)
+        (error "interval: Must be a >1 argument"))
     (let ((tensor (apply #'v (make-list n :initial-element 0))))
         (print "starting")
         (map-tensor
