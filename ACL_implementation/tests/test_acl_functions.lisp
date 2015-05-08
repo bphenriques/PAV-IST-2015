@@ -55,17 +55,16 @@
     (assert-equalp (v 1 0 1 0) (.not (v 0 20 0.0 -10)))
     )
 
-;(define-test test-shape
-;	(assert-equalp (v 0) (shape (s 200)))
-;	(assert-equalp (v 3) (shape (v 1 2 3)))
-;	(assert-equalp (v 2 3) (shape (reshape (v 2 3) (v 1 2 3 4 5 6))))
-;	(assert-equalp (v 2) (shape (shape (reshape (v 2 3) (v 1 2 3 4 5 6)))))
-;	(assert-equalp (v 3 3) (shape  (reshape (v 3 3) (interval 6))))
-;	)
+(define-test test-shape
+	(assert-equalp (v 0) (shape (s 200)))
+	(assert-equalp (v 3) (shape (v 1 2 3)))
+	(assert-equalp (v 2 3) (shape (reshape (v 2 3) (v 1 2 3 4 5 6))))
+	(assert-equalp (v 2) (shape (shape (reshape (v 2 3) (v 1 2 3 4 5 6)))))
+	(assert-equalp (v 3 3) (shape  (reshape (v 3 3) (interval 6))))
+	)
 
 (define-test test-interval
 	(assert-equalp (v 1 2 3 4 5 6) (interval 6))
-	;TODO testar tambem com numeros negativos
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -237,15 +236,15 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(define-test test-tally
-	;(assert-equalp (s 18)  (tally (reshape (v 3 3 2) (interval 5))))
-	;(assert-equalp (s 24)  (tally (reshape (v 1 2 3 4) (interval 5))))
-	;)
+(define-test test-tally
+	(assert-equalp (s 18)  (tally (reshape (v 3 3 2) (interval 5))))
+	(assert-equalp (s 24)  (tally (reshape (v 1 2 3 4) (interval 5))))
+	)
 
-;(define-test test-rank
-;	(assert-equalp (s 3) (reshape (v 4 5 2) (interval 5)))
-;	(assert-equalp (s 2) (reshape (v 4 5) (interval 5)))
-;	)
+(define-test test-rank
+	(assert-equalp (s 3) (reshape (v 4 5 2) (interval 5)))
+	(assert-equalp (s 2) (reshape (v 4 5) (interval 5)))
+	)
 
 ;(define-test test-within
 ;	(assert-equalp (v 7 8 6 5) (within (v 2 7 3 1 9 8 4 6 5) (s 5) (s 8)))
