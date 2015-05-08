@@ -10,7 +10,8 @@
 ; numbers n1 and n2, returns a vector containing only the elements of v
 ; that are in the range between n1 and n2
 
-(defun within (tensor n1 n2))
+(defun within (tensor n1 n2)
+	(select (.and (.> (s n1) tensor) (.< (s n2) tensor)) tensor))
 
 
 ; given a tensor, returns a vector containing all the elements of the tensor
