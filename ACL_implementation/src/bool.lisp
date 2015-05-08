@@ -1,20 +1,23 @@
-(defstruct bool value)
-
-(defmethod print-object ((object bool) stream)
-	(if (bool-value object)
-		(format stream "~D" 1)
-		(format stream "~D" 0)))
-
 (defgeneric create-bool (n)
 	(:method ((n t))
-		(make-bool :value n)))
+		(error "create-bool: Only supports tensor-scalar")))
 
-(defmethod create-bool ((n bool))
-	(make-bool :value (bool-value n)))
+(defmethod create-bool ((n number))
+	(if (= n 0)
+		0
+		1))
+
+(defmethod create-bool ((n (eql t)))
+	1)
+
+(defmethod create-bool ((n (eql nil)))
+	0)
 
 (defgeneric negate (bool)
 	(:method ((bool t))
-		(not bool)))
+		(error "negate: Only supports tensor-scalar")))
 
-(defmethod negate ((bool bool))
-	(setf (bool-value bool)  (not (bool-value bool))))
+(defmethod negate ((n number))
+	(if (= n 0)
+		1
+		0))
