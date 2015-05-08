@@ -161,7 +161,7 @@
 (defmethod tensor-set ((tensor tensor-scalar) value &rest values)
     (if (not (null values))
         (error "Scalars don't accept coordinates for set")
-        (setf (tensor-content tensor) value)))
+        (progn (print "foofoo")(setf (tensor-content tensor) value))))
 
 (defmethod tensor-set ((tensor tensor) value &rest values)
     (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
@@ -199,16 +199,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defgeneric promoter (tensor dimension)
-    (:method ((tensor tensor) dimension)
-        (make-tensor
-            :content (make-array (list dimension) :initial-element (copy-tensor tensor)))))
+    (:method ((tensor tensor) dimension)    
+        (let ((elements (make-array (list dimension))))
+            (dotimes (i dimension)
+                (setf (aref elements i) (copy-tensor tensor)))
+            (make-tensor :content elements))))
         
 (defmethod promoter ((tensor tensor-scalar) dimension)
-    (apply #'v (make-list dimension :initial-element (tensor-content tensor))))
+    (let ((elements (make-array (list dimension))))
+        (dotimes (i dimension)
+            (setf (aref elements i) (copy-tensor tensor)))
+        (make-tensor-vector 
+            :content elements)))
     
 (defmethod promoter ((tensor tensor-vector) dimension)
-    (make-tensor-matrix 
-        :content (make-array (list dimension) :initial-element tensor)))
+    (let ((elements (make-array (list dimension))))
+        (dotimes (i dimension)
+            (setf (aref elements i) (copy-tensor tensor)))
+        (make-tensor-matrix 
+            :content elements)))
         
 
 
