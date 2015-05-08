@@ -1,5 +1,8 @@
 ; given a tensor, returns a scalar with the number of elements of the tensor
-(defun tally ())
+(defun tally (tensor)
+	(let ((count 0))
+		(funcall (scan (lambda (x) (incf count))) tensor)
+		count))
 
 ;given a tensor, returns a scalar with the number of dimensions of the tensor
 (defun rank ())
