@@ -2,7 +2,9 @@
 ;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; TEST MONADIC FUNCTIONS
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-test test-monadic-.-
@@ -67,7 +69,9 @@
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; TEST DYADIC FUNCTIONS
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-test test-.+
@@ -180,13 +184,79 @@
 	)
 
 (define-test test-.drop
+	(assert-equalp  (v 3 4 5 6 7 8 9 10) (drop (s 2) (interval 10)))
+	(assert-equalp  (v 1 2 3 4 5 6 7 8) (drop (s -2) (interval 10)))
 	)
 
 (define-test test-.catenate
+	(assert-equalp (v 1 2 3 4 5)  (catenate (v 1 2) (v 3 4 5)))
+	
 	)
 
 (define-test test-.member?
 	)
 
 (define-test test-.select
+	(assert-equalp (v 6 7 5 4)  (let ((v (v 1 6 2 7 3 0 5 4)))
+									(select (.> v (s 3)) v)))
+	)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; TEST MONADIC OPERATORS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(define-test test-fold
+	(assert-equalp (s 10) (funcall (fold #'.+) (v 1 2 3 4)))
+	(assert-equalp (s 24) (funcall (fold #'.*) (v 1 2 3 4)))
+	)
+
+(define-test test-scan
+	(assert-equalp (v 1 3 6 10) (funcall (scan #'.+) (v 1 2 3 4)))
+	(assert-equalp (v 1 2 6 24) (funcall (scan #'.*) (v 1 2 3 4)))
+	)
+
+(define-test test-outer-product
+	)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; TEST DIADIC OPERATORS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-test test-inner-product
+	)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; TEST EXERCISES
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-test test-tally
+	(assert-equalp (s 18)  (tally (reshape (v 3 3 2) (interval 5))))
+	(assert-equalp (s 24)  (tally (reshape (v 1 2 3 4) (interval 5))))
+	)
+
+(define-test test-rank
+	(assert-equalp (s 3) (reshape (v 4 5 2) (interval 5)))
+	(assert-equalp (s 2) (reshape (v 4 5) (interval 5)))
+
+	)
+
+(define-test test-within
+	(assert-equalp (v 7 8 6 5) (within (v 2 7 3 1 9 8 4 6 5) (s 5) (s 8)))
+	)
+
+(define-test test-ravel
+	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4)  (ravel (reshape (v 2 3 4) (interval 10))))
+	)
+
+(define-test test-primes
+	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) (primes (s 50)))
 	)
