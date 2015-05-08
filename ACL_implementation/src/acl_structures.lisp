@@ -81,26 +81,13 @@
     (make-tensor-matrix :content (tensor-vector-copy tensor)))
 
 
-(defun tensor-matrix-copy (tensor)
-		(let ((tensorContent (tensor-content tensor)) (tensorListList nil) (tensorList nil))
-		(dolist (n (tensor-dimensions tensor))
-			(setf tensorList nil)
-			(dotimes (i n) 
-				(setf tensorList (nconc tensorList (list (copy-tensor (aref tensorContent i n))))))
-			(setf tensorListList (nconc tensorList (list tensorList)))
-		)
-			(make-array (tensor-dimensions tensor) :initial-contents tensorListList)	 
-	)
-)
 
 (defun tensor-vector-copy (tensor)
 	(let ((tensorContent (tensor-content tensor))
 		  (tensorList nil))
 		(dotimes (i (length tensorContent)) 
 			(setf tensorList (nconc tensorList (list (copy-tensor (aref tensorContent i))))))
-		(make-array (tensor-dimensions tensor) :initial-contents tensorList)	 
-	)
-)
+		(make-array (length tensorContent) :initial-contents tensorList)))
 
 
 ;;; Map-tensor functions
@@ -184,7 +171,7 @@
 (defmethod tensor-set ((tensor tensor-scalar) value &rest values)
     (if (not (null values))
         (error "Scalars don't accept coordinates for set")
-        (progn (print "foofoo")(setf (tensor-content tensor) value))))
+        (setf (tensor-content tensor) value)))
 
 (defmethod tensor-set ((tensor tensor) value &rest values)
     (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
@@ -214,7 +201,7 @@
 (defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
 
 (defmethod tensor-dimensions ((tensor tensor))
-    (cons (array-dimension (tensor-content tensor) 0)
+    (cons (length (tensor-content tensor))
           (tensor-dimensions (aref (tensor-content tensor) 0))))
           
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
