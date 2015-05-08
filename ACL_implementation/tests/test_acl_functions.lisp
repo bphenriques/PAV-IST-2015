@@ -1,23 +1,9 @@
 ;;;; test_acl_structures.lisp
 ;;;;
 
-(define-test test-.+
-    (assert-equalp (v 3 4 5) (.+ (v 2 2 2) (v 1 2 3)))
-    )
-
-
-(define-test test-.*
-	; s with s
-	(assert-equalp (s 4) (.* (s 2) (s 2)))
-	; s with v
-    (assert-equalp (v 2 4 6) (.* (s 2) (v 1 2 3)))
-    ; v with s
-    (assert-equalp (v 2 4 6) (.* (v 1 2 3) (s 2)))
-    ; v with v
-    (assert-equalp (v 2 4 6) (.* (v 2 2 2) (v 1 2 3)))
-    ; special test
-    (assert-equalp (v 0 0 0) (.* (s 0) (v 1 2 3)))
-    )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TEST MONADIC FUNCTIONS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-test test-monadic-.-
 	; s simetric
@@ -27,17 +13,6 @@
     )
 
 
-
-(define-test test-dyadic-.-
-	;test v - v with
-    (assert-equalp (v 1 0 -1) (.- (v 2 2 2) (v 1 2 3)))
-    (assert-equalp (v -0.5 3.5 -5) (.- (v 0.5 1.5 -2) (v 1 -2 3)))
-    ;test v .- s
-    (assert-equalp (v 3 2 1) (.- (v 4 3 2) (s 1)))
-    ;test s .- v
-    (assert-equalp (v 1 2 3) (.- (s 5) (v 4 3 2)))
-	)
-
 (define-test test-monadic-./
 	; s inverse
     (assert-equalp (s 1/5) (./ (s 5)))
@@ -45,23 +20,13 @@
     (assert-equalp (v 1/5 1/3 1/2) (./ (v 5 3 2)))
     )
 
-
-
-(define-test test-dyadic-./
-	;test v ./ v
-    (assert-equalp (v 1 1/2 1/3) (./ (v 1 1 1) (v 1 2 3)))
-    ;test v ./ s
-    (assert-equalp (v 2 3/2 1) (./ (v 4 3 2) (s 2)))
-    ;test s ./ v
-    (assert-equalp (v 5/4 5/3 5/2) (./ (s 5) (v 4 3 2)))
-	)
-
 (define-test test-.!
 	; s simetric
     (assert-equalp (s 6) (.! (s 3)))
     ; v simetric 
     (assert-equalp (v 1 2 6 24) (.! (v 1 2 3 4)))
     )
+
 
 (defun DtR (d) (* pi (/ d 180.0)))
 
@@ -72,7 +37,7 @@
     (assert-equalp (v 0 1 -1) (.sin (v 0 (Dtr 90) (Dtr -90))))
     )
 
-(define-test test-.sin
+(define-test test-.cos
 	; s cos
     (assert-equalp (s 1) (.cos (s 0)))
     ; v cos 
@@ -100,3 +65,128 @@
 	(assert-equalp (v 1 2 3 4 5 6) (interval 6))
 	;TODO testar tambem com numeros negativos
 )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TEST DYADIC FUNCTIONS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-test test-.+
+    (assert-equalp (v 3 4 5) (.+ (v 2 2 2) (v 1 2 3)))
+    )
+
+(define-test test-dyadic-.-
+	;test v - v with
+    (assert-equalp (v 1 0 -1) (.- (v 2 2 2) (v 1 2 3)))
+    (assert-equalp (v -0.5 3.5 -5) (.- (v 0.5 1.5 -2) (v 1 -2 3)))
+    ;test v .- s
+    (assert-equalp (v 3 2 1) (.- (v 4 3 2) (s 1)))
+    ;test s .- v
+    (assert-equalp (v 1 2 3) (.- (s 5) (v 4 3 2)))
+	)
+
+(define-test test-.*
+	; s with s
+	(assert-equalp (s 4) (.* (s 2) (s 2)))
+	; s with v
+    (assert-equalp (v 2 4 6) (.* (s 2) (v 1 2 3)))
+    ; v with s
+    (assert-equalp (v 2 4 6) (.* (v 1 2 3) (s 2)))
+    ; v with v
+    (assert-equalp (v 2 4 6) (.* (v 2 2 2) (v 1 2 3)))
+    ; special test
+    (assert-equalp (v 0 0 0) (.* (s 0) (v 1 2 3)))
+    )
+
+(define-test test-dyadic-./
+	;test v v
+    (assert-equalp (v 1 1/2 1/3) (./ (v 1 1 1) (v 1 2 3)))
+    ;test v s
+    (assert-equalp (v 2 3/2 1) (./ (v 4 3 2) (s 2)))
+    ;test s v
+    (assert-equalp (v 5/4 5/3 5/2) (./ (s 5) (v 4 3 2)))
+	)
+
+(define-test test-.//
+	;test v v
+    (assert-equalp (v 1 2 1) (.// (v 1 5 9) (v 1 2 5)))
+    ;test v s
+    (assert-equalp (v 2 2 1) (.// (v 5 4 3) (s 2)))
+    ;test s v
+    (assert-equalp (v 2 1) (.// (s 5) (v 2 3)))
+	)
+
+(define-test test-.%
+	;test v v
+    (assert-equalp (v 0 1 4) (.% (v 1 5 9) (v 1 2 5)))
+    ;test v s
+    (assert-equalp (v 1 0 1) (.% (v 5 4 3) (s 2)))
+    ;test s v
+    (assert-equalp (v 1 2) (.% (s 5) (v 2 3)))
+	)
+
+(define-test test-.<
+	; s with v
+	(assert-equalp (v 1 0) (.< (s 5) (v 9 0)))
+	;v with s
+	(assert-equalp (v 0 1 0) (.< (v 4 0 190) (s 4)))
+	;s with s
+	(assert-equalp (s 1) (.< (s 4) (s 9)))
+	;v with v
+	(assert-equalp (v 1 1 1) (.< (v 1 2 3) (s 2 3 4)))
+	)
+
+(define-test test-.<=
+	; s with v
+	(assert-equalp (v 1 0) (.<= (s 5) (v 9 0)))
+	;v with s
+	(assert-equalp (v 1 1 0) (.<= (v 4 0 190) (s 4)))
+	;s with s
+	(assert-equalp (s 1) (.<= (s 4) (s 9)))
+	;v with v
+	(assert-equalp (v 1 1 1) (.<= (v 1 2 3) (s 2 3 4)))
+	)
+
+(define-test test-.>
+	; s with v
+	(assert-equalp (v 0 1) (.> (s 5) (v 9 0)))
+	;v with s
+	(assert-equalp (v 0 0 1) (.> (v 4 0 190) (s 4)))
+	;s with s
+	(assert-equalp (s 0) (.> (s 4) (s 9)))
+	;v with v
+	(assert-equalp (v 1 1 1) (.> (v 1 2 3) (s 2 3 4)))
+	)
+
+(define-test test-.>=
+	; s with v
+	(assert-equalp (v 0 1) (.>= (s 5) (v 9 0)))
+	;v with s
+	(assert-equalp (v 1 0 1) (.>= (v 4 0 190) (s 4)))
+	;s with s
+	(assert-equalp (s 0) (.>= (s 4) (s 9)))
+	;v with v
+	(assert-equalp (v 1 1 1) (.>= (v 1 2 3) (s 2 3 4)))
+	)
+
+(define-test test-.=
+	; s with v
+	(assert-equalp (v 0 1 1) (.= (s 5) (v 3 5 5.0)))
+	;v with s
+	(assert-equalp (v 1 1 0) (.= (v 4 4 190) (s 4)))
+	;s with s
+	(assert-equalp (s 0) (.= (s 4) (s 9)))
+	;v with v
+	(assert-equalp (v 1 1 1) (.= (v 2 3 4) (s 2 3 4)))
+	)
+
+(define-test test-.drop
+	)
+
+(define-test test-.catenate
+	)
+
+(define-test test-.member?
+	)
+
+(define-test test-.select
+	)
