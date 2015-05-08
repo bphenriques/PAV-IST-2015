@@ -38,17 +38,10 @@
     "Returns a function that when called cycles between the copied array elements and returns them."
     (let ((cycleElements (copy-array array))
           (currentElement -1))
-        (lambda () 
+        (lambda (&optional tensor)
+			(declare (ignore tensor))
             (cond((eql currentElement (- (length cycleElements) 1)) (setf currentElement 0))
                   (t (incf currentElement)))
             (aref cycleElements currentElement))))
     
-
-;;;;; RETIRADO NA NET - AINDA TENHO QUE PERCEBER E VER SE FUNCIONA - https://stackoverflow.com/questions/14758218/two-element-combinations-of-the-elements-of-a-list-inside-lisp-without-duplicat
-
-(defun pair-with (elem lst)
-  (mapcar (lambda (a) (list elem a)) lst))
-
-(defun unique-pairs (lst)
-  (mapcon (lambda (rest) (pair-with (car rest) (cdr rest)))
-          (remove-duplicates lst)))
+(defun array-to-list(array) (map 'list (lambda (x) x) array))

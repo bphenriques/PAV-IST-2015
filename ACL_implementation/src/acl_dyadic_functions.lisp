@@ -68,10 +68,9 @@
 ; whose elements are taken from the second argument, repeating them if
 ; necessary to fill the resulting tensor.
 (defun reshape (dimensions values)
-    ;~ (let(())
-    ;~ 
-    ;~ )
-)
+    (let((cycler (get-cycler (expand-tensor values)))
+		(result (create-tensor (array-to-list (expand-tensor dimensions)))))
+			(map-tensor cycler result)))
 ; If the two arguments are scalars, returns a vector containing those
 ; arguments. If the two arguments are tensors, returns a tensor that joins
 ; the arguments along the their last dimension

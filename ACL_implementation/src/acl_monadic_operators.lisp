@@ -5,7 +5,7 @@
 
 (defmethod fold ((func function))
 	(lambda (vec) 
-		(s (reduce func (map 'list (lambda (x) x) (tensor-content vec))))))
+		(s (reduce func (array-to-list (tensor-content vec))))))
 
 (defgeneric scan (func)
 	(:method ((func t))
