@@ -37,7 +37,6 @@
     (when (< n 0)
         (error "interval: Must be a >1 argument"))
     (let ((tensor (apply #'v (make-list n :initial-element 0))))
-        (print "starting")
         (map-tensor
             (let ((value 1))
                 (lambda (n)

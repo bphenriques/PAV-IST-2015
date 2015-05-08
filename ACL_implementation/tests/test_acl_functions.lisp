@@ -242,8 +242,8 @@
 	)
 
 (define-test test-rank
-	(assert-equalp (s 3) (reshape (v 4 5 2) (interval 5)))
-	(assert-equalp (s 2) (reshape (v 4 5) (interval 5)))
+	(assert-equalp (s 3) (rank (reshape (v 4 5 2) (interval 5))))
+	(assert-equalp (s 2) (rank (reshape (v 4 5) (interval 5))))
 	)
 
 ;(define-test test-within

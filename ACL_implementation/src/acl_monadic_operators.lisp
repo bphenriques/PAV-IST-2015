@@ -4,7 +4,10 @@
 		(error "fold: Argument is not a function")))
 
 (defmethod fold ((func function))
-	(lambda (vec) 
+	(lambda (vec)
+		(when (not (tensor-vector-p vec))
+			(error "fold: Argument must be a vector but got ~S" (class-name (class-of vec))))
+		
 		(s (reduce func (array-to-list (tensor-content vec))))))
 
 (defgeneric scan (func)
@@ -33,7 +36,7 @@
 		(let* ((dim1 (tensor-dimensions t1))
 			   (dim2 (tensor-dimensions t2))
 			   (cont1 (make-array (length dim1 :initial-content 0)))
-			   (cont2 (make-array (length dim2 :initial-content 0))))
+			   (cont2 (make-array (length dim2 :initial-content 0)))))))
 
 			
 ;(defgeneric combination_tensor (t1 t2)
@@ -43,5 +46,3 @@
 ;(defgeneric combination_tensor (t1 t2)
 	;(:method ((t1 (tensor-scalar) (t2 t))
 		;(error "Arguments are not a tensor!")))
-
-	

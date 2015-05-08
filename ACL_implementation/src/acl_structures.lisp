@@ -161,7 +161,7 @@
 
 (defgeneric s (value)
   (:method ((value t))
-    (error "s: Only supports numbers or another scalar")))
+    (error "s: Only supports numbers but got ~S" (class-name (class-of value)))))
 
 (defmethod s ((value tensor-scalar))
   value)

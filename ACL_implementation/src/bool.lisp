@@ -1,6 +1,6 @@
 (defgeneric create-bool (n)
 	(:method ((n t))
-		(error "create-bool: Only supports tensor-scalar")))
+		(error "create-bool: Only supports t, nil or a number")))
 
 (defmethod create-bool ((n number))
 	(if (= n 0)
