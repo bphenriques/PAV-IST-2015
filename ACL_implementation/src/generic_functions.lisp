@@ -16,3 +16,10 @@
 
 (defun remainder-integer-division (n1 n2)
 	(nth-value 1 (floor n1 n2)))
+	
+(defun get-member-finder (member-vector)
+	(let ((members member-vector))
+		(lambda (n) 
+			(create-bool (find n members)))))
+			
+			

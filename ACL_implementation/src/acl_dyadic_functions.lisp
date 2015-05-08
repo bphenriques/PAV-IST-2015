@@ -82,7 +82,12 @@
 ; in the first argument that occurs somewhere in the second argument and
 ; 0 otherwise.
 
-(defun member? ())
+(defun member? (tensor members)
+	(let ((result (copy-tensor tensor))
+		  (member-finder (get-member-finder (expand-tensor members))))
+	  (map-tensor member-finder result)))
 
 ;From a tensor of booleans and another tensor, returns a tensor containing only the elements of the last dimension of the second argument whose corresponding element in the first tensor is 1.
-(defun select ())
+(defun select (tensor-vector-boolean tensor2)
+	;(let())
+)
