@@ -68,16 +68,39 @@
 ;;; Copy tensor functions
 (defgeneric copy-tensor (tensor)
     (:method ((tensor tensor))
-        (make-tensor :content (copy-array (tensor-content tensor)))))
+        (make-tensor :content (tensor-vector-copy tensor))))
 
 (defmethod copy-tensor ((tensor tensor-scalar))
     (make-tensor-scalar :content (tensor-content tensor)))
 
 (defmethod copy-tensor ((tensor tensor-vector))
-    (make-tensor-vector :content (copy-array (tensor-content tensor))))
-
+    (make-tensor-vector :content (tensor-vector-copy tensor)))
+    
+    
 (defmethod copy-tensor ((tensor tensor-matrix))
-    (make-tensor-matrix :content (copy-array (tensor-content tensor))))
+    (make-tensor-matrix :content (tensor-vector-copy tensor)))
+
+
+(defun tensor-matrix-copy (tensor)
+		(let ((tensorContent (tensor-content tensor)) (tensorListList nil) (tensorList nil))
+		(dolist (n (tensor-dimensions tensor))
+			(setf tensorList nil)
+			(dotimes (i n) 
+				(setf tensorList (nconc tensorList (list (copy-tensor (aref tensorContent i n))))))
+			(setf tensorListList (nconc tensorList (list tensorList)))
+		)
+			(make-array (tensor-dimensions tensor) :initial-contents tensorListList)	 
+	)
+)
+
+(defun tensor-vector-copy (tensor)
+	(let ((tensorContent (tensor-content tensor))
+		  (tensorList nil))
+		(dotimes (i (length tensorContent)) 
+			(setf tensorList (nconc tensorList (list (copy-tensor (aref tensorContent i))))))
+		(make-array (tensor-dimensions tensor) :initial-contents tensorList)	 
+	)
+)
 
 
 ;;; Map-tensor functions
