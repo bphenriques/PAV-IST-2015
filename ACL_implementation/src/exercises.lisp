@@ -15,14 +15,11 @@
 
 
 ; given a tensor, returns a vector containing all the elements of the tensor
-(defun ravel (tensor))
+(defun ravel (tensor)
+	(reshape (funcall (fold #.+) (shape tensor)) (v 1 2)))
 
 ;given a scalar, returns a vector with all prime numbers from 2 up to the scalar, inclusive
-(defun prime (n1))
-	;(labels ((primep (n)
-	;		(cond ((= n 3) t)
-	;			  ((evenp n) nil)
-	;			   t
-;
-;
-;		)))
+(defun prime (n1)
+	(let* ((values (interval n1))
+		   (divisions (funcall (outer-product #.//) values values)))
+		(select (.and (s 1) divisions) divisions))) ; NOT FINISHED
