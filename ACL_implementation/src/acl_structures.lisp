@@ -148,8 +148,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;create a scalar
-(defun s (value)
-    (make-tensor-scalar :content value))
+
+(defgeneric s (value)
+  (:method ((value t))
+    (error "s: Only supports numbers or another scalar")))
+
+(defmethod s ((value tensor-scalar))
+  value)
+
+(defmethod s ((value number))
+  (make-tensor-scalar :content value))
+
 
 (defun v (&rest values)
     (cond ((null values) nil)

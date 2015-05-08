@@ -1,7 +1,7 @@
 ; Accepts a function and returns another function that, given a vecotr, computes the application of the function to sucessive elements of the vector.
 (defgeneric fold (func)
 	(:method ((func t))
-		(error "Argument is not a function")))
+		(error "fold: Argument is not a function")))
 
 (defmethod fold ((func function))
 	(lambda (vec) 
@@ -9,7 +9,7 @@
 
 (defgeneric scan (func)
 	(:method ((func t))
-		(error "Argument is not a function")))
+		(error "scan: Argument is not a function")))
 
 ; Similar to fold but using increasingly large subsets of the eleemnts of the vector, starting from a subset containg just the first element up to a subset containing all elements
 (defmethod scan ((func function))
