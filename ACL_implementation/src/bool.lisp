@@ -2,7 +2,6 @@
 	(:method ((n t))
 		(error "create-bool: Only supports tensor-scalar")))
 
-; NAO DEVERIA SER NECESSARIO!
 (defmethod create-bool ((n number))
 	(if (= n 0)
 		0
@@ -18,7 +17,7 @@
 	(:method ((bool t))
 		(error "negate: Only supports tensor-scalar")))
 
-(defmethod negate ((n tensor-scalar))
-	(if (= (tensor-content n) 0)
+(defmethod negate ((n number))
+	(if (= n 0)
 		1
 		0))
