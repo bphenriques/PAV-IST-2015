@@ -17,7 +17,7 @@
 (defun ravel (tensor))
 
 ;given a scalar, returns a vector with all prime numbers from 2 up to the scalar, inclusive
-(defun prime (n1)
+(defun prime (n1))
 	;(labels ((primep (n)
 	;		(cond ((= n 3) t)
 	;			  ((evenp n) nil)
