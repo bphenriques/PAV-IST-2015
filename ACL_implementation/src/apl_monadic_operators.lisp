@@ -7,7 +7,7 @@
 	(lambda (vec)
 		(when (not (tensor-vector-p vec))
 			(error "fold: Argument must be a vector but got ~S" (class-name (class-of vec))))
-		
+
 		(s (reduce func (array-to-list (tensor-content vec))))))
 
 (defgeneric scan (func)
@@ -20,7 +20,7 @@
 		(let* ((lst (map 'list (lambda (x) x) (tensor-content vec)))
 			   (len (length lst))
 			   (result (list)))
-			   
+
 		(dotimes (l len)
 					(setf result (cons (reduce func lst) result))
 					(setf lst (butlast lst)))
@@ -31,18 +31,24 @@
 	(:method ((func t))
 		(error "Argument is not a function")))
 
-(defmethod outer_product ((func function)) 
-	(lambda (t1 t2)
-		(let* ((dim1 (tensor-dimensions t1))
-			   (dim2 (tensor-dimensions t2))
-			   (cont1 (make-array (length dim1 :initial-content 0)))
-			   (cont2 (make-array (length dim2 :initial-content 0)))))))
+(defmethod outer-product ((func function))
+	(lambda (tensor1 tensor2)
+		(let* ((number-elements (apply #'+ (tensor-dimensions tensor1)))
+			   (args (expand-tensor tensor1))
+			   (result (create-tensor (cons number-elements
+								  			(tensor-dimensions tensor2))))
+			   (result-content (tensor-content result)))
+			(dotimes (i number-elements)
+				(setf (aref result-content i)
+					  (funcall func (s (aref args i)) tensor2)))
+			result)))
 
-			
+
+
 ;(defgeneric combination_tensor (t1 t2)
 	;(:method ((t1 t) (t2 t))
 		;(error "Arguments are not a tensor!")))
-		
+
 ;(defgeneric combination_tensor (t1 t2)
 	;(:method ((t1 (tensor-scalar) (t2 t))
 		;(error "Arguments are not a tensor!")))

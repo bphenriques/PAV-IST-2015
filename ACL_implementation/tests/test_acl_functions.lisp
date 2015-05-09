@@ -222,8 +222,10 @@
 	(assert-equalp (v 1 2 6 24) (funcall (scan #'.*) (v 1 2 3 4)))
 	)
 
-;(define-test test-outer-product
-;	)
+(define-test test-outer-product
+    (assert-equalp (reshape (v 2 3 4)
+                            (v 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0))
+            	   (funcall (outer-product #'.=) (v 4 7) (reshape (v 3 4) (interval 12)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
