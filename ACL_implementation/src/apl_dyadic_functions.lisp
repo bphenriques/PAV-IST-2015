@@ -77,22 +77,22 @@
 						tensorCopy2)
 			)
 		)
-	) 	
+	)
 )
 
 (defmethod drop ((tensor tensor-scalar) tensor2)
 	(let ((remove-count (tensor-content tensor))
 		   (tensorCopy (copy-tensor tensor2)))
 		(if (< remove-count 0)
-			
-				(setf (tensor-content tensorCopy) 
-					(delete-if  
-						(lambda (&optional element) (declare (ignore element)) t) 
-						(tensor-content tensorCopy) :count (abs remove-count) :from-end t)) 
-			
-				(setf (tensor-content tensorCopy) 
-					(delete-if  
-						(lambda (&optional element) (declare (ignore element)) t) 
+
+				(setf (tensor-content tensorCopy)
+					(delete-if
+						(lambda (&optional element) (declare (ignore element)) t)
+						(tensor-content tensorCopy) :count (abs remove-count) :from-end t))
+
+				(setf (tensor-content tensorCopy)
+					(delete-if
+						(lambda (&optional element) (declare (ignore element)) t)
 						(tensor-content tensorCopy) :count (abs remove-count))))
 		tensorCopy))
 
@@ -149,5 +149,19 @@
 
 ;From a tensor of booleans and another tensor, returns a tensor containing only the elements of the last dimension of the second argument whose corresponding element in the first tensor is 1.
 (defun select (tensor-vector-boolean tensor2)
-	;(let())
+	(defun select (tensor-locations tensor)
+    (let* ((tensor-copy (copy-tensor tensor))
+           (lst-indexes (map 'list (lambda (x) (tensor-content x)) (array-to-list (tensor-content tensor-locations))))
+           (pos 0)
+           (times-deleted 0))
+        (dolist (i lst-indexes)
+            (format t "i: ~D~%" i)
+            (when (= i 0)
+                (format t "deleting ~D~%" (- pos times-deleted))
+                  (delete-last-dimension-nth-el tensor-copy (- pos times-deleted))
+                  (incf times-deleted))
+
+            (format t "Copy after deleting: ~S~%" tensor-copy)
+            (incf pos))
+        tensor-copy))
 )
