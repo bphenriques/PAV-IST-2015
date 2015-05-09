@@ -9,8 +9,6 @@
 ;;;;
 ;;;; Created for PAV APL project.
 
-
-
 (defun .! (tensor)
     "Returns a tensor whose elements are the factorial of the corresponding
      elements of the argument tensor."

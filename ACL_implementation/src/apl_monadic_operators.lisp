@@ -1,20 +1,41 @@
-; Accepts a function and returns another function that, given a vecotr, computes the application of the function to sucessive elements of the vector.
+;;;; acl_monadic_operators.lisp
+;;;;
+;;;; Defines APL like monadic operators.
+;;;;
+;;;; Made by group 5:
+;;;;    72913 - Bruno Henriques
+;;;;    72960 - Tiago Santos
+;;;;    73378 - Nuno Xu
+;;;;
+;;;; Created for PAV APL project.
+
+;;; fold method declarations
 (defgeneric fold (func)
+	(:documentation
+		"Returns a function that, given a vector, computes the application
+		 of the function given, to sucessive elements of the vector.")
 	(:method ((func t))
-		(error "fold: Argument is not a function")))
+		(error "fold: Argument is not a function.")))
 
 (defmethod fold ((func function))
 	(lambda (vec)
 		(when (not (tensor-vector-p vec))
-			(error "fold: Argument must be a vector but got ~S" (class-name (class-of vec))))
+			(error "fold: Argument must be a vector but got ~S." (class-name (class-of vec))))
 
 		(s (reduce func (array-to-list (tensor-content vec))))))
 
-(defgeneric scan (func)
-	(:method ((func t))
-		(error "scan: Argument is not a function")))
 
-; Similar to fold but using increasingly large subsets of the eleemnts of the vector, starting from a subset containg just the first element up to a subset containing all elements
+;;; scan method declarations
+(defgeneric scan (func)
+	(:documentation
+		"Returns a function that, given a vector, computes the application
+		 of the function given, to increasingly large subsets of the elements of the
+		 vector, starting from a subset containing just the first element up to
+		 a subset containing all elements.")
+	(:method ((func t))
+		(error "scan: Argument is not a function.")))
+
+
 (defmethod scan ((func function))
 	(lambda (vec)
 		(let* ((lst (map 'list (lambda (x) x) (tensor-content vec)))
@@ -26,10 +47,16 @@
 					(setf lst (butlast lst)))
 				(apply #'v result))))
 
-; Accepts a function and returns another functions taht, given two tensors, returns a new tensor with the result of applying the function to every combination of values from the first and second tesnsors
-(defgeneric outer_product (func)
+
+
+;;; outer-product method declarations
+(defgeneric outer-product (func)
+	(:documentation
+		"Returns a function that, given two tensors, returns a new tensor with
+		 the result of applying the function to every combination of values
+		 from the first and second tensors.")
 	(:method ((func t))
-		(error "Argument is not a function")))
+		(error "outer-product: Argument is not a function.")))
 
 (defmethod outer-product ((func function))
 	(lambda (tensor1 tensor2)
@@ -42,13 +69,3 @@
 				(setf (aref result-content i)
 					  (funcall func (s (aref args i)) tensor2)))
 			result)))
-
-
-
-;(defgeneric combination_tensor (t1 t2)
-	;(:method ((t1 t) (t2 t))
-		;(error "Arguments are not a tensor!")))
-
-;(defgeneric combination_tensor (t1 t2)
-	;(:method ((t1 (tensor-scalar) (t2 t))
-		;(error "Arguments are not a tensor!")))
