@@ -21,7 +21,7 @@
     (load (compile-file (concatenate 'string +source-folder-location+ file-name)
             :verbose nil)
         :verbose nil)
-    (print "DONE")
+    (print "------         DONE         -----")
     (print "---------------------------------"))
 
 (load-compile-file "generic_functions.lisp")
@@ -33,6 +33,5 @@
 (load-compile-file "apl_monadic_functions.lisp")
 (load-compile-file "apl_dyadic_functions.lisp")
 (load-compile-file "apl_monadic_operators.lisp")
-
-;(load (compile-file "acl_dyadic_operators.lisp"))
+(load-compile-file "apl_dyadic_operators.lisp")
 (load-compile-file "exercises.lisp")
