@@ -70,6 +70,8 @@
 
 ;;; Map-tensor methods
 (defun map-tensor (function &rest tensors)
+    "Returns the resulting tensor of applying the function given to each element
+     of the tensor(s) provided."
     (let ((num-tensors (length tensors)))
         (cond ((= num-tensors 1)
                (map-single function (car tensors)))
@@ -79,6 +81,9 @@
 
 
 (defgeneric map-single (function t1)
+    (:documentation
+        "Returns the resulting tensor of applying the function given to each element
+         of the tensor provided.")
     (:method ((function t) (t1 t))
         (error "Not supported")))
 
@@ -98,6 +103,9 @@
 
 
 (defgeneric map-double (function t1 t2)
+    (:documentation
+        "Returns the resulting tensor of applying the function given to each
+         corresponding element of both tensors provided.")
     (:method ((function t) (t1 t) (t2 t))
         (multiple-value-bind (t1p t2p)
             (promote t1 t2)
