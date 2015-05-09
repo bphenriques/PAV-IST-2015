@@ -10,8 +10,8 @@
 
 (defmethod inner-product ((f1 function) (f2 function))
 	(lambda (t1 t2)
-		(let ((tc1 (tensor-copy t1))
-			  (tc2 (tensor-copy t2)))
+		(let ((tc1 (copy-tensor t1))
+			  (tc2 (copy-tensor t2)))
 		(inner-product-aux tc1 tc2 f1 f2))))
 
 (defgeneric inner-product-aux (t1 t2 f1 g2)
@@ -30,7 +30,7 @@
 		  (result nil))
 
 	(dotimes (i (length c1))
-		(setf result (funcall (fold f1) (inner-product-aux (aref c1 i) (aref c2 i)))))
+		(setf result (funcall (fold f1) (inner-product-aux (aref c1 i) (aref c2 i) f1 f2))))
 
 	result))
 
