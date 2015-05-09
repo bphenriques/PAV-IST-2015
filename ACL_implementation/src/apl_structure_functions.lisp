@@ -138,3 +138,26 @@
                       (setf (aref new-tensor-content i)
                             (map-double function content-t1 content-t2))))
                 new-tensor))))
+
+
+(defgeneric delete-last-dimension-nth-el (tensor n)
+    (:method ((tensor t) (n t))
+        (error "delete-last-dimension-nth-el only supports a tensor and a integer but got ~S ~S" (class-name (class-of tensor)) (class-name (class-of n)))))
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor-scalar) (n integer))
+    tensor)
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor-vector) (n integer))
+    (let ((content (tensor-content tensor)))
+        (setf (tensor-content tensor) (delete-if (let ((count n))
+                        (lambda (x)
+                            (declare (ignore x))
+                            (decf count)
+                            (< count 0)))
+                content
+                :count 1))))
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor) (n integer))
+    (let ((content (tensor-content tensor)))
+        (dotimes (i (length content))
+            (delete-last-dimension-nth-el (aref content i) n))))

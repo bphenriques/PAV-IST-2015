@@ -68,8 +68,8 @@
 ; whose elements are taken from the second argument, repeating them if
 ; necessary to fill the resulting tensor.
 (defun reshape (dimensions values)
-    (let((cycler (get-cycler (expand-tensor values)))
-		(result (create-tensor (array-to-list (expand-tensor dimensions)))))
+    (let ((cycler (get-cycler (expand-tensor values)))
+		  (result (create-tensor (array-to-list (expand-tensor dimensions)))))
 			(map-tensor cycler result)))
 
 
@@ -115,7 +115,42 @@
 		  (member-finder (get-member-finder (expand-tensor members))))
 	  (map-tensor member-finder result)))
 
+
+(defgeneric delete-last-dimension-nth-el (tensor n)
+    (:method ((tensor t) (n t))
+        (error "delete-last-dimension-nth-el only supports a tensor and a integer but got ~S ~S" (class-name (class-of tensor)) (class-name (class-of n)))))
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor-scalar) (n integer))
+    tensor)
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor-vector) (n integer))
+    (let ((content (tensor-content tensor)))
+        (setf (tensor-content tensor) (delete-if (let ((count n))
+                        (lambda (x)
+                            (declare (ignore x))
+                            (decf count)
+                            (< count 0)))
+                content
+                :count 1))))
+
+(defmethod delete-last-dimension-nth-el ((tensor tensor) (n integer))
+    (let ((content (tensor-content tensor)))
+        (dotimes (i (length content))
+            (delete-last-dimension-nth-el (aref content i) n))))
+
 ;From a tensor of booleans and another tensor, returns a tensor containing only the elements of the last dimension of the second argument whose corresponding element in the first tensor is 1.
-(defun select (tensor-vector-boolean tensor2)
-	;(let())
-)
+(defun select (tensor-locations tensor)
+    (let* ((tensor-copy (copy-tensor tensor))
+           (lst-indexes (map 'list (lambda (x) (tensor-content x)) (array-to-list (tensor-content tensor-locations))))
+           (pos 0)
+           (times-deleted 0))
+        (dolist (i lst-indexes)
+            (format t "i: ~D~%" i)
+            (when (= i 0)
+                (format t "deleting ~D~%" (- pos times-deleted))
+                  (delete-last-dimension-nth-el tensor-copy (- pos times-deleted))
+                  (incf times-deleted))
+            
+            (format t "Copy after deleting: ~S~%" tensor-copy)
+            (incf pos))
+        tensor-copy))
