@@ -62,7 +62,39 @@
 ; Accepts a scalar n1 or vector (of elements ni) and a non-scalar tensor and
 ; returns a tensor where the first (if n > 0) or last (if n < 0) n elements of
 ; the i dimension of the tensor were removed.
-(defun drop())
+(defgeneric drop(tensor tensor2)
+	(:method ((tensor tensor) tensor2)
+		(let ((tensorContent (tensor-content tensor))
+			   (tensorCopy1 nil)
+			   (tensorCopy2 nil))
+			(if (= 1 (length tensorContent))
+				(drop (s (aref tensorContent 0)) tensor2)
+				(progn 	(setf tensorCopy2 (drop (aref tensorContent 0) tensor2))
+						(setf tensorCopy1 (drop (s 1) tensor))
+						(dotimes (i (length (tensor-content tensorCopy2)))
+							(setf (aref (tensor-content tensorCopy2) i) (drop tensorCopy1 (aref (tensor-content tensorCopy2) i)))
+						)
+						tensorCopy2)
+			)
+		)
+	) 	
+)
+
+(defmethod drop ((tensor tensor-scalar) tensor2)
+	(let ((remove-count (tensor-content tensor))
+		   (tensorCopy (copy-tensor tensor2)))
+		(if (< remove-count 0)
+			
+				(setf (tensor-content tensorCopy) 
+					(delete-if  
+						(lambda (&optional element) (declare (ignore element)) t) 
+						(tensor-content tensorCopy) :count (abs remove-count) :from-end t)) 
+			
+				(setf (tensor-content tensorCopy) 
+					(delete-if  
+						(lambda (&optional element) (declare (ignore element)) t) 
+						(tensor-content tensorCopy) :count (abs remove-count))))
+		tensorCopy))
 
 ;Returns a tensor with the dimensions refered in the first argument,
 ; whose elements are taken from the second argument, repeating them if
