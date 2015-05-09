@@ -60,7 +60,9 @@
 
 (defmethod outer-product ((func function))
 	(lambda (tensor1 tensor2)
-		(let* ((number-elements (apply #'+ (tensor-dimensions tensor1)))
+		(let* ((number-elements (apply #'+ (if (null (tensor-dimensions tensor1))
+											   '(1)
+											   (tensor-dimensions tensor1))))
 			   (args (expand-tensor tensor1))
 			   (result (create-tensor (cons number-elements
 								  			(tensor-dimensions tensor2))))

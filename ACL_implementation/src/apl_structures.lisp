@@ -109,7 +109,9 @@
      is the head of the list.
      Optionally the initial value of the tensor elements can be given,
      defaulting to 0 if not provided."
-    (s-to-t (s initial-value) dimensions))
+    (if (eql (first dimensions) 1)
+        (s initial-value)
+        (s-to-t (s initial-value) dimensions)))
 
 
 (defun s-to-t (scalar dimensions)

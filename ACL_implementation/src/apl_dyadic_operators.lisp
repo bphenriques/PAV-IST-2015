@@ -8,11 +8,14 @@
 	(:method ((f1 t) (f2 t))
 		(error "inner-product: both arguments must be functions")))
 
-(defmethod inner-product ((f1 function) (f2 function))
-	(lambda (t1 t2)
-		(let ((tc1 (copy-tensor t1))
-			  (tc2 (copy-tensor t2)))
-		(inner-product-aux tc1 tc2 f1 f2))))
+;(defmethod inner-product ((f1 function) (f2 function))
+;	(lambda (t1 t2)
+;		(let ((tc1 (copy-tensor t1))
+;			  (tc2 (copy-tensor t2))
+;			  (result (create-tensor (list (first (tensor-dimensions t1)
+;										   (last (tensor-dimensions t2)))))))
+;			(dotimes (i )
+
 
 (defgeneric inner-product-aux (t1 t2 f1 g2)
 	(:method ((f1 t) (f2 t) (t1 t) (t2 t))
@@ -33,6 +36,3 @@
 		(setf result (funcall (fold f1) (inner-product-aux (aref c1 i) (aref c2 i) f1 f2))))
 
 	result))
-
-
-
