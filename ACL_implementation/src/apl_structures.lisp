@@ -12,7 +12,6 @@
 
 
 ;;; Structure definitions
-
 (defstruct (tensor (:copier nil))
     "Represents an array of values. Content contains a vector of tensors, which
      values must be fetched recursively."
@@ -74,6 +73,7 @@
         (format stream "~S" (aref (tensor-content object) i))
         (when (not (eql i (- (first dimensions) 1)))
               (print-n-lines (- dimensions-number 1) stream)))))
+
 
 
 ;;; Copy tensor methods
@@ -154,6 +154,7 @@
     tensor)
 
 
+
 ;;; Promotion methods
 (defgeneric promote (x y)
     (:documentation
@@ -170,6 +171,7 @@
 
 (defmethod promote ((x tensor-scalar) (y tensor))
     (values (s-to-t x (tensor-dimensions y)) y))
+
 
 
 ;;; Main APL Constructors
