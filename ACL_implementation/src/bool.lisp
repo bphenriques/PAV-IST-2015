@@ -1,4 +1,19 @@
+;;;; bool.lisp
+;;;;
+;;;; Contains functions to handle boolean representation, namely the
+;;;; correspondance between booleans and the integers 1 and 0.
+;;;;
+;;;; Made by group 5:
+;;;;    72913 - Bruno Henriques
+;;;;    72960 - Tiago Santos
+;;;;    73378 - Nuno Xu
+;;;;
+;;;; Created for PAV APL project.
+
 (defgeneric create-bool (n)
+	(:documentation
+		"Transforms given n to T or false, when 1 or 0, respectively. And also
+		 vice-versa.")
 	(:method ((n t))
 		(error "create-bool: Only supports t, nil or a number")))
 
