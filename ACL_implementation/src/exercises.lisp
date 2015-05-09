@@ -11,12 +11,12 @@
 ; that are in the range between n1 and n2
 
 (defun within (tensor n1 n2)
-	(select (.and (.> (s n1) tensor) (.< (s n2) tensor)) tensor))
+	(select (.and (.>= tensor (s n1)) (.<= tensor (s n2))) tensor))
 
 
 ; given a tensor, returns a vector containing all the elements of the tensor
 (defun ravel (tensor)
-	(reshape (funcall (fold #.+) (shape tensor)) (v 1 2)))
+	(reshape (v (funcall (fold #'.*) (shape tensor))) tensor))
 
 ;given a scalar, returns a vector with all prime numbers from 2 up to the scalar, inclusive
 (defun prime (n1)
