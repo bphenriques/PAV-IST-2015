@@ -20,7 +20,7 @@
 
 ; makes fucking sense!
 (defmethod inner-product-aux ((t1 tensor-vector) (t2 tensor-vector) (f1 function) (f2 function))
-	(funcall (fold f1) (map-tensor f2 t1 t2)))
+	(funcall (fold f1) (funcall f2 t1 t2)))
 
 
 ;hmmmmmmmmmm
