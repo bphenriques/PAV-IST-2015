@@ -11,13 +11,28 @@
 ;;;; Created for PAV APL project.
 
 
-;;; Tensor Definition
+;;; Structure definitions
+
 (defstruct (tensor (:copier nil))
-    "Represents an array of values.
-     Content contains a vector of tensors,
-     which values must be fetched recursively."
+    "Represents an array of values. Content contains a vector of tensors, which
+     values must be fetched recursively."
     content)
 
+(defstruct (tensor-scalar (:include tensor))
+    "Represents a specific case of tensor, in which it has 0 dimensions, so
+     it represents just a single element.
+     Internally, content just contains the value, not tensors.")
+
+(defstruct (tensor-vector (:include tensor))
+    "Represents a specific case of tensor, in which it has just 1 dimension.")
+
+
+(defstruct (tensor-matrix (:include tensor))
+    "Represents a specific case of tensor, in which it has just 2 dimensions.")
+
+
+
+;;; Print-object redefinitions
 (defmethod print-object ((object tensor) stream)
    (let* ((dimensions (tensor-dimensions object))
           (dimensions-number (length dimensions)))
@@ -27,19 +42,8 @@
               (print-n-lines (- dimensions-number 1) stream)))))
 
 
-
-
-;;; Scalar Definition
-(defstruct (tensor-scalar
-            (:include tensor)))
-
 (defmethod print-object ((object tensor-scalar) stream)
     (format stream "~D" (tensor-scalar-content object)))
-
-
-;;; Vector Definition
-(defstruct (tensor-vector
-            (:include tensor)))
 
 (defmethod print-object ((object tensor-vector) stream)
    (let* ((dimensions (tensor-dimensions object)))
@@ -49,10 +53,6 @@
                     "~S"
                     "~S ")
                 (aref (tensor-content object) i)))))
-
-;;; Matrix defenition
-(defstruct (tensor-matrix
-        (:include tensor)))
 
 (defmethod print-object ((object tensor-matrix) stream)
    (let* ((dimensions (tensor-dimensions object)))
@@ -65,7 +65,7 @@
 
 
 
-;;; Copy tensor functions
+;;; Copy tensor methods
 (defgeneric copy-tensor (tensor)
     (:method ((tensor tensor))
         (make-tensor :content (tensor-vector-copy tensor))))
@@ -80,8 +80,6 @@
 (defmethod copy-tensor ((tensor tensor-matrix))
     (make-tensor-matrix :content (tensor-vector-copy tensor)))
 
-
-
 (defun tensor-vector-copy (tensor)
 	(let ((tensorContent (tensor-content tensor))
 		  (tensorList nil))
@@ -90,75 +88,43 @@
 		(make-array (length tensorContent) :initial-contents tensorList)))
 
 
-;;; Map-tensor functions
-(defun map-tensor (function &rest tensors)
-    (let ((num-tensors (length tensors)))
-        (cond ((= num-tensors 1)
-               (map-single function (car tensors)))
-              ((= num-tensors 2)
-               (map-double function (car tensors) (second tensors)))
-              (t (error "Apply only supports one or two tensors")))))
+
+;;; Internal contructors
+(defun create-tensor (dimensions &optional (initial-value 0))
+   (s-to-t (s initial-value) dimensions))
 
 
-(defgeneric map-single (function t1)
-    (:method ((function t) (t1 t))
-        (error "Not supported")))
+(defun s-to-t (scalar dimensions)
+    (cond ((eq (length dimensions) 1) (promoter scalar (first dimensions)))
+          (t (promoter (s-to-t scalar (rest dimensions)) (first dimensions)))))
 
 
-(defmethod map-single (function (t1 tensor))
-    (let* ((new-tensor (copy-tensor t1))
-           (dimension (first (tensor-dimensions t1)))
-           (new-tensor-content (tensor-content new-tensor)))
-        (dotimes (i dimension)
-            (let ((content (aref new-tensor-content i)))
-                (setf (aref new-tensor-content i) (map-single function content))))
-        new-tensor))
+
+;;; Getters and Setters
+(defgeneric tensor-ref (tensor &rest values))
+
+(defmethod tensor-ref ((tensor tensor-scalar) &rest values)
+    (if (not (null values))
+        (error "Too many coordinates.")
+        (tensor-content tensor)))
+
+(defmethod tensor-ref ((tensor tensor) &rest values)
+    (apply #'tensor-ref (aref (tensor-content tensor) (first values)) (rest values)))
+
+(defgeneric tensor-set (tensor value &rest values))
+
+(defmethod tensor-set ((tensor tensor-scalar) value &rest values)
+    (if (not (null values))
+        (error "Scalars don't accept coordinates for set")
+          (setf (tensor-content tensor) value)))
+
+(defmethod tensor-set ((tensor tensor) value &rest values)
+    (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
+    tensor)
 
 
-(defmethod map-single (function (t1 tensor-scalar))
-    (s (funcall function (tensor-content t1))))
 
-
-(defgeneric map-double (function t1 t2)
-    (:method ((function t) (t1 t) (t2 t))
-        (multiple-value-bind (t1p t2p)
-            (promote t1 t2)
-            (funcall #'map-double function t1p t2p))))
-
-(defmethod map-double (function (t1 tensor-scalar) (t2 tensor-scalar))
-    (s (funcall function (tensor-content t1) (tensor-content t2))))
-
-(defmethod map-double (function (t1 tensor-scalar) (t2 tensor))
-    (multiple-value-bind (t1p t2p)
-        (promote t1 t2)
-        (funcall #'map-double function t1p t2p)))
-
-(defmethod map-double (function (t1 tensor) (t2 tensor-scalar))
-    (multiple-value-bind (t1p t2p)
-        (promote t1 t2)
-        (funcall #'map-double function t1p t2p)))
-
-(defmethod map-double (function (t1 tensor) (t2 tensor))
-    (let* ((new-tensor (copy-tensor t1))
-           (dimension-t1 (first (tensor-dimensions t1)))
-           (dimension-t2 (first (tensor-dimensions t2)))
-           (new-tensor-content (tensor-content new-tensor)))
-
-        (cond ((not (equal dimension-t1 dimension-t2))
-               (error "Tensor dimensions not equal."))
-              (t (dotimes (i dimension-t1)
-                    (let ((content-t1 (aref (tensor-content t1) i))
-                          (content-t2 (aref (tensor-content t2) i)))
-                      (setf (aref new-tensor-content i)
-                            (map-double function content-t1 content-t2))))
-                new-tensor))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Public functions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;create a scalar
-
+;;; Main APL Constructors
 (defgeneric s (value)
   (:method ((value t))
     (error "s: Only supports numbers but got ~S" (class-name (class-of value)))))
@@ -175,75 +141,9 @@
           (t (setf values (map 'list (lambda (x) (s x)) values))
              (make-tensor-vector :content (make-array (length values) :initial-contents values)))))
 
-(defgeneric tensor-set (tensor value &rest values))
-
-(defmethod tensor-set ((tensor tensor-scalar) value &rest values)
-    (if (not (null values))
-        (error "Scalars don't accept coordinates for set")
-        (setf (tensor-content tensor) value)))
-
-(defmethod tensor-set ((tensor tensor) value &rest values)
-    (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
-    tensor
-)
-
-(defgeneric tensor-ref (tensor &rest values))
-
-(defmethod tensor-ref ((tensor tensor-scalar) &rest values)
-    (if (not (null values))
-        (error "Too many coordinates.")
-        (tensor-content tensor)))
-
-(defmethod tensor-ref ((tensor tensor) &rest values)
-    (apply #'tensor-ref (aref (tensor-content tensor) (first values)) (rest values)))
-
-(defun create-tensor (dimensions &optional (initial-value 0))
-   (s-to-t (s initial-value) dimensions))
 
 
-(defun s-to-t (scalar dimensions)
-    (cond ((eq (length dimensions) 1) (promoter scalar (first dimensions)))
-          (t (promoter (s-to-t scalar (rest dimensions)) (first dimensions)))))
-
-(defgeneric tensor-dimensions (tensor))
-
-(defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
-
-(defmethod tensor-dimensions ((tensor tensor))
-    (cons (length (tensor-content tensor))
-          (tensor-dimensions (aref (tensor-content tensor) 0))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; PROMOTER
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defgeneric promoter (tensor dimension)
-    (:method ((tensor tensor) dimension)
-        (let ((elements (make-array (list dimension))))
-            (dotimes (i dimension)
-                (setf (aref elements i) (copy-tensor tensor)))
-            (make-tensor :content elements))))
-
-(defmethod promoter ((tensor tensor-scalar) dimension)
-    (let ((elements (make-array (list dimension))))
-        (dotimes (i dimension)
-            (setf (aref elements i) (copy-tensor tensor)))
-        (make-tensor-vector
-            :content elements)))
-
-(defmethod promoter ((tensor tensor-vector) dimension)
-    (let ((elements (make-array (list dimension))))
-        (dotimes (i dimension)
-            (setf (aref elements i) (copy-tensor tensor)))
-        (make-tensor-matrix
-            :content elements)))
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; PROMOTION
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;; Promotion methods
 (defgeneric promote (x y)
     (:method ((x t) (y t))
         (error "No promotion for args (~S ~S) of classes (~S ~S)"
