@@ -53,11 +53,11 @@
 
 ; Same as the previous one, but using the logical disjunction.
 (defun .or (tensor1 tensor2)
-    (map-tensor (lambda (n1 n2) (create-bool (or n1 n2))) tensor1 tensor2))
+    (map-tensor (lambda (n1 n2) (create-bool (or-bool (create-bool n1) (create-bool n2)))) tensor1 tensor2))
 
 ; Same as the previous one, but using the logical conjunction.
 (defun .and (tensor1 tensor2)
-    (map-tensor (lambda (n1 n2) (create-bool (and n1 n2))) tensor1 tensor2))
+    (map-tensor (lambda (n1 n2) (create-bool (and-bool (create-bool n1) (create-bool n2)))) tensor1 tensor2))
 
 ; Accepts a scalar n1 or vector (of elements ni) and a non-scalar tensor and
 ; returns a tensor where the first (if n > 0) or last (if n < 0) n elements of
@@ -126,6 +126,5 @@
             (when (= i 0)
                 (delete-last-dimension-nth-el tensor-copy (- pos times-deleted))
                 (incf times-deleted))
-            
             (incf pos))
         tensor-copy))
