@@ -1,7 +1,7 @@
 ;;;; acl_structures.lisp
 ;;;;
-;;;; Defines all additional strutures needed to implement APL like
-;;;; behaviour, namely tensors.
+;;;; Defines all additional strutures needed to implement APL like behaviour,
+;;;; namely tensors.
 ;;;;
 ;;;; Made by group 5:
 ;;;;    72913 - Bruno Henriques
@@ -75,8 +75,8 @@
 
 (defmethod copy-tensor ((tensor tensor-vector))
     (make-tensor-vector :content (tensor-vector-copy tensor)))
-    
-    
+
+
 (defmethod copy-tensor ((tensor tensor-matrix))
     (make-tensor-matrix :content (tensor-vector-copy tensor)))
 
@@ -85,7 +85,7 @@
 (defun tensor-vector-copy (tensor)
 	(let ((tensorContent (tensor-content tensor))
 		  (tensorList nil))
-		(dotimes (i (length tensorContent)) 
+		(dotimes (i (length tensorContent))
 			(setf tensorList (nconc tensorList (list (copy-tensor (aref tensorContent i))))))
 		(make-array (length tensorContent) :initial-contents tensorList)))
 
@@ -185,7 +185,7 @@
 (defmethod tensor-set ((tensor tensor) value &rest values)
     (apply #'tensor-set (aref (tensor-content tensor) (first values)) value (rest values))
     tensor
-)      
+)
 
 (defgeneric tensor-ref (tensor &rest values))
 
@@ -193,7 +193,7 @@
     (if (not (null values))
         (error "Too many coordinates.")
         (tensor-content tensor)))
-    
+
 (defmethod tensor-ref ((tensor tensor) &rest values)
     (apply #'tensor-ref (aref (tensor-content tensor) (first values)) (rest values)))
 
@@ -212,32 +212,32 @@
 (defmethod tensor-dimensions ((tensor tensor))
     (cons (length (tensor-content tensor))
           (tensor-dimensions (aref (tensor-content tensor) 0))))
-          
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; PROMOTER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defgeneric promoter (tensor dimension)
-    (:method ((tensor tensor) dimension)    
+    (:method ((tensor tensor) dimension)
         (let ((elements (make-array (list dimension))))
             (dotimes (i dimension)
                 (setf (aref elements i) (copy-tensor tensor)))
             (make-tensor :content elements))))
-        
+
 (defmethod promoter ((tensor tensor-scalar) dimension)
     (let ((elements (make-array (list dimension))))
         (dotimes (i dimension)
             (setf (aref elements i) (copy-tensor tensor)))
-        (make-tensor-vector 
+        (make-tensor-vector
             :content elements)))
-    
+
 (defmethod promoter ((tensor tensor-vector) dimension)
     (let ((elements (make-array (list dimension))))
         (dotimes (i dimension)
             (setf (aref elements i) (copy-tensor tensor)))
-        (make-tensor-matrix 
+        (make-tensor-matrix
             :content elements)))
-        
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -252,11 +252,7 @@
 
 (defmethod promote ((x tensor) (y tensor-scalar))
     (values x (s-to-t y (tensor-dimensions x))))
-    
-    
+
+
 (defmethod promote ((x tensor-scalar) (y tensor))
     (values (s-to-t x (tensor-dimensions y)) y))
-
-
-    
-    
