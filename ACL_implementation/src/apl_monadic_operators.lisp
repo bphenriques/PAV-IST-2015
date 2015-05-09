@@ -67,7 +67,12 @@
 			   (result (create-tensor (cons number-elements
 								  			(tensor-dimensions tensor2))))
 			   (result-content (tensor-content result)))
-			(dotimes (i number-elements)
-				(setf (aref result-content i)
-					  (funcall func (s (aref args i)) tensor2)))
+
+			(cond ((eql number-elements 1)
+				   (setf (tensor-content result)
+					  	 (tensor-content (funcall func (s (aref args 0))
+													   tensor2))))
+				  (t (dotimes (i number-elements)
+					 (setf (aref result-content i)
+					  	   (funcall func (s (aref args i)) tensor2)))))
 			result)))

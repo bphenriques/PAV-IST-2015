@@ -109,7 +109,7 @@
      is the head of the list.
      Optionally the initial value of the tensor elements can be given,
      defaulting to 0 if not provided."
-    (if (eql (first dimensions) 1)
+    (if (and (eql (length dimensions) 1) (eql (first dimensions) 1))
         (s initial-value)
         (s-to-t (s initial-value) dimensions)))
 
