@@ -12,30 +12,35 @@
 
 
 (defun .! (tensor)
-    "Same as the previous one, but using the factorial."
+    "Returns a tensor whose elements are the factorial of the corresponding
+     elements of the argument tensor."
     (map-tensor #'fact tensor))
 
-;Same as the previous one, but using the sin function
 (defun .sin (tensor)
+    "Returns a tensor whose elements are the sin of the corresponding
+     elements of the argument tensor."
     (map-tensor #'sin tensor))
 
-;Same as the previous one, but using the cos function.
 (defun .cos (tensor)
+    "Returns a tensor whose elements are the cos of the corresponding
+     elements of the argument tensor."
     (map-tensor #'cos tensor))
 
-;Same as the previous one, but using the negation. The result is a tensor containing, as element, the integer 0 or 1, depending on the corresponding element in the arugment tensor being different that zero or equal to zero.
 (defun .not (tensor)
+    "Returns a tensor whose elements are the cos of the corresponding
+     elements of the argument tensor."
     (map-tensor (lambda (n)
                     (negate (create-bool n))) tensor))
 
-;Creates a vector containing the length of each dimension of the argument tensor.
 (defun shape (tensor)
+    "Returns a vector containing the length of each dimension of the argument tensor."
     (apply #'v (tensor-dimensions tensor)))
 
-;Creates a vector containing an enumeration of all integers starting from 1 up to the argument.
 (defun interval (n)
+    "Returns a vector containing an enumeration of all integers starting from 1
+     up to the argument."
     (when (< n 0)
-        (error "interval: Must be a >1 argument"))
+        (error "interval: argument must be positive."))
     (let ((tensor (apply #'v (make-list n :initial-element 0))))
         (map-tensor
             (let ((value 1))
