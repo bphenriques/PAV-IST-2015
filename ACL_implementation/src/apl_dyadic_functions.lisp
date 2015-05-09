@@ -72,11 +72,38 @@
 		(result (create-tensor (array-to-list (expand-tensor dimensions)))))
 			(map-tensor cycler result)))
 
-; If the two arguments are scalars, returns a vector containing those
-; arguments. If the two arguments are tensors, returns a tensor that joins
-; the arguments along the their last dimension
 
-(defun catenate ())
+(defgeneric catenate (tensor1 tensor2)
+    (:documentation
+        "If the two arguments are scalars, returns a vector containing those
+         arguments. If the two arguments are tensors, returns a tensor that joins
+         the arguments along the their last dimension."))
+
+(defmethod catenate ((tensor1 tensor-scalar) (tensor2 tensor-scalar))
+    (v (tensor-content tensor1) (tensor-content tensor2)))
+
+(defmethod catenate ((tensor1 tensor-vector) (tensor2 tensor-vector))
+    (let ((result (copy-tensor tensor1))
+          (tensor2-copy (copy-tensor tensor2)))
+        (setf (tensor-content result)
+              (concatenate 'vector (tensor-content result)
+                                   (tensor-content tensor2-copy)))
+        result))
+
+(defmethod catenate ((tensor1 tensor) (tensor2 tensor))
+    (let* ((result (copy-tensor tensor1))
+           (result-dimension-length (first (tensor-dimensions result)))
+           (result-content (tensor-content result))
+           (tensor1-content (tensor-content tensor1))
+           (tensor2-content (tensor-content tensor2)))
+        (when (not (equal (butlast (tensor-dimensions tensor1))
+                          (butlast (tensor-dimensions tensor2))))
+              (error "Dimensions not compatible."))
+        (dotimes (i result-dimension-length)
+            (setf (aref result-content i)
+                  (catenate (aref tensor1-content i)
+                            (aref tensor2-content i))))
+        result))
 
 ; Returns a tensor of booleans with the same shape and dimension of the
 ; first argument, containing 1 for each element in the corresponding location

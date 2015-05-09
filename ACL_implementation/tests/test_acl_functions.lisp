@@ -10,7 +10,7 @@
 (define-test test-monadic-.-
 	; s simetric
     (assert-equalp (s -5) (.- (s 5)))
-    ; v simetric 
+    ; v simetric
     (assert-equalp (v -5 3 -2) (.- (v 5 -3 2)))
     )
 
@@ -18,14 +18,14 @@
 (define-test test-monadic-./
 	; s inverse
     (assert-equalp (s 1/5) (./ (s 5)))
-    ; v inverse 
+    ; v inverse
     (assert-equalp (v 1/5 1/3 1/2) (./ (v 5 3 2)))
     )
 
 (define-test test-.!
 	; s simetric
     (assert-equalp (s 6) (.! (s 3)))
-    ; v simetric 
+    ; v simetric
     (assert-equalp (v 1 2 6 24) (.! (v 1 2 3 4)))
     )
 
@@ -35,14 +35,14 @@
 (define-test test-.sin
 	; s sin
     (assert-equalp (s 0) (.sin (s 0)))
-    ; v sin 
+    ; v sin
     (assert-equalp (v 0 1 -1) (.sin (v 0 (Dtr 90) (Dtr -90))))
     )
 
 (define-test test-.cos
 	; s cos
     (assert-equalp (s 1) (.cos (s 0)))
-    ; v cos 
+    ; v cos
     (assert-equalp (v 1 -1) (.cos (v 0 (Dtr 180))))
     )
 
@@ -51,7 +51,7 @@
     (assert-equalp (s 0) (.not (s 200)))
     ; s not - false
     (assert-equalp (s 1) (.not (s 0)))
-    ; v not 
+    ; v not
     (assert-equalp (v 1 0 1 0) (.not (v 0 20 0.0 -10)))
     )
 
@@ -187,9 +187,14 @@
 ;	(assert-equalp  (v 1 2 3 4 5 6 7 8) (drop (s -2) (interval 10)))
 ;	)
 
-;(define-test test-.catenate
-;	(assert-equalp (v 1 2 3 4 5)  (catenate (v 1 2) (v 3 4 5)))	
-;	)
+(define-test test-.catenate
+	(assert-equalp (v 1 2 3 4 5)  (catenate (v 1 2) (v 3 4 5)))
+	(assert-equalp (reshape (v 2 4) (v 1 2 5 6 3 4 7 8))
+                   (catenate (reshape (v 2 2) (v 1 2 3 4))
+                             (reshape (v 2 2) (v 5 6 7 8))))
+ 	(assert-equalp (reshape (v 2 2 4) (v 1 2 3))
+                   (catenate (reshape (v 2 2 2) (v 1 2 2 3 3 1 1 2))
+                             (reshape (v 2 2 2) (v 3 1 1 2 2 3 3 1)))))
 
 ;(define-test test-.member?
 ;	)
