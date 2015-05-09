@@ -239,7 +239,19 @@
 	(assert-equalp (reshape (v 2 3) (v 90 120 150 190 260 330))
            	       (funcall (inner-product #'.+ #'.*)
                             (reshape (v 2 2) (v 10 20 30 40))
-                            (reshape (v 2 3) (v 1 2 3 4 5 6)))))
+                            (reshape (v 2 3) (v 1 2 3 4 5 6))))
+    (assert-equalp (s 2)
+                   (funcall (inner-product #'.* #'.+)
+                            (s 1)
+                            (s 1)))
+    (assert-equalp (v 8 12 20)
+                   (funcall (inner-product #'.+ #'.*)
+                            (s 4)
+                            (v 2 3 5)))
+    (assert-equalp (reshape (v 2 2) (v -17 -20 -9 -12))
+                   (funcall (inner-product #'.+ #'.-)
+                            (reshape (v 2 3) (v 1 2 1 3 4 5))
+                            (reshape (v 3 2) (v 5 6 7 8 9 10)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

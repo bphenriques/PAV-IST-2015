@@ -18,17 +18,20 @@
 		(error "inner-product-step1: both arguments must be functions and tensors")))
 
 ; makes fucking sense!
-(defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-scalar) (t2 tensor-scalar))
-	(funcall f1 (inner-product-step2 f2 t1 t2 0) (inner-product-step2 f2 t1 t2 0)))
+(defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-scalar) (t2 tensor))
+	(funcall f2 t1 t2))
 
+; makes fucking sense!
+(defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor) (t2 tensor-scalar))
+	(funcall f2 t1 t2))
 
 ;hmmmmmmmmmm
 (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor) (t2 tensor))
-	(let* ((last-dimension-t1 (first (tensor-dimensions t1)))
+	(let* ((last-dimension-t1 (car (last (tensor-dimensions t1))))
 		   (result (inner-product-step2 f2 t1 t2 0)))
 
 		(dolist (i (range last-dimension-t1 :min 1))
-			(setf result (funcalL f1 result (inner-product-step2 f2 t1 t2 i))))
+			(setf result (funcall f1 result (inner-product-step2 f2 t1 t2 i))))
 
 	result))
 
