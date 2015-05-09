@@ -31,23 +31,23 @@
 (defun .% (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (remainder-integer-division n1 n2)) tensor1 tensor2))
 
-; Same as the previous one, but using the relation “less than.” The result tensor will have, as elements, the integers 0 or 1.
+; Same as the previous one, but using the relation "less than." The result tensor will have, as elements, the integers 0 or 1.
 (defun .< (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (create-bool (< n1 n2))) tensor1 tensor2))
 
-; Same as the previous one, but using the relation “greater than.”
+; Same as the previous one, but using the relation "greater than."
 (defun .> (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (create-bool (> n1 n2))) tensor1 tensor2))
 
-; Same as the previous one, but using the relation “less than or equal to.”
+; Same as the previous one, but using the relation "less than or equal to."
 (defun .<= (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (create-bool (<= n1 n2))) tensor1 tensor2))
 
-; Same as the previous one, but using the relation “greater than or equal to.”
+; Same as the previous one, but using the relation "greater than or equal to."
 (defun .>= (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (create-bool (>= n1 n2))) tensor1 tensor2))
 
-; Same as the previous one, but using the relation “equal to.”
+; Same as the previous one, but using the relation "equal to."
 (defun .= (tensor1 tensor2)
     (map-tensor (lambda (n1 n2) (create-bool (= n1 n2))) tensor1 tensor2))
 

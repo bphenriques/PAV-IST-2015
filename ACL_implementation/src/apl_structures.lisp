@@ -33,36 +33,36 @@
 
 
 ;;; Print-object redefinitions
-(defmethod print-object ((object tensor) stream)
-   (let* ((dimensions (tensor-dimensions object))
-          (dimensions-number (length dimensions)))
-    (dotimes (i (first dimensions))
-        (format stream "~S" (aref (tensor-content object) i))
-        (when (not (eql i (- (first dimensions) 1)))
-              (print-n-lines (- dimensions-number 1) stream)))))
-
-
 (defmethod print-object ((object tensor-scalar) stream)
     (format stream "~D" (tensor-scalar-content object)))
 
 (defmethod print-object ((object tensor-vector) stream)
-   (let* ((dimensions (tensor-dimensions object)))
-    (dotimes (i (first dimensions))
-        (format stream
-                (if (eql i (- (first dimensions) 1))
-                    "~S"
-                    "~S ")
-                (aref (tensor-content object) i)))))
+    (let* ((dimensions (tensor-dimensions object)))
+        (dotimes (i (first dimensions))
+            (format stream
+                    (if (eql i (- (first dimensions) 1))
+                        "~S"
+                        "~S ")
+                    (aref (tensor-content object) i)))))
 
 (defmethod print-object ((object tensor-matrix) stream)
-   (let* ((dimensions (tensor-dimensions object)))
-    (dotimes (i (first dimensions))
-        (format stream
-                (if (eql i (- (first dimensions) 1))
-                    "~S"
-                    "~S~%")
-                (aref (tensor-content object) i)))))
+    (let* ((dimensions (tensor-dimensions object)))
+        (dotimes (i (first dimensions))
+            (format stream
+                    (if (eql i (- (first dimensions) 1))
+                        "~S"
+                        "~S~%")
+                        (aref (tensor-content object) i)))))
 
+(defmethod print-object ((object tensor) stream)
+    "Redefinition of print-object to conform with project specification.
+     dsa"
+    (let* ((dimensions (tensor-dimensions object))
+           (dimensions-number (length dimensions)))
+    (dotimes (i (first dimensions))
+        (format stream "~S" (aref (tensor-content object) i))
+        (when (not (eql i (- (first dimensions) 1)))
+              (print-n-lines (- dimensions-number 1) stream)))))
 
 
 ;;; Copy tensor methods
