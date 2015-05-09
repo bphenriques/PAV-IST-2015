@@ -12,7 +12,8 @@
 
 ; given a tensor, returns a scalar with the number of elements of the tensor
 (defun tally (tensor)
-	(funcall (fold #'.*) (shape tensor)))
+	(./ (funcall (fold #'.*) (shape (funcall (outer-product #'.*) tensor (v 0 0)))) (s 2)))
+	;(funcall (fold #'.*) (shape tensor)))
 
 ;given a tensor, returns a scalar with the number of dimensions of the tensor
 (defun rank (tensor)
