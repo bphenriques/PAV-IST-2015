@@ -1,3 +1,15 @@
+;;;; acl_monadic_functions.lisp
+;;;;
+;;;; Defines APL like monadic functions.
+;;;;
+;;;; Made by group 5:
+;;;;    72913 - Bruno Henriques
+;;;;    72960 - Tiago Santos
+;;;;    73378 - Nuno Xu
+;;;;
+;;;; Created for PAV APL project.
+
+
 ; given a tensor, returns a scalar with the number of elements of the tensor
 (defun tally (tensor)
 	(funcall (fold #'.*) (shape tensor)))
