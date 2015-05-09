@@ -1,6 +1,6 @@
 ;;;; apl_structure_functions.lisp
 ;;;;
-;;;; Contains functions to manipulate tensors.
+;;;; Contains functions related to tensor information and manipulation.
 ;;;;
 ;;;; Made by group 5:
 ;;;;    72913 - Bruno Henriques
@@ -11,7 +11,10 @@
 
 
 ;;; Tensor-dimensions methods
-(defgeneric tensor-dimensions (tensor))
+(defgeneric tensor-dimensions (tensor)
+    (:documentation
+        "Returns the length of each dimension of the given tensor.
+         If the tensor given is a tensor-scalar, nil is returned."))
 
 (defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
 
@@ -21,7 +24,9 @@
 
 
 ;;; Expand-tensor methods
-(defgeneric expand-tensor (tensor))
+(defgeneric expand-tensor (tensor)
+    (:documentation
+        "Returns an array vector, filled with the elements of the given tensor."))
 
 (defmethod expand-tensor ((tensor tensor-scalar))
     (make-array (list 1) :initial-contents (list (tensor-content tensor))))
@@ -36,23 +41,27 @@
 
 
 ;;; Promoter methods
-(defgeneric promoter (tensor dimension)
-    (:method ((tensor tensor) dimension)
-        (let ((elements (make-array (list dimension))))
-            (dotimes (i dimension)
+(defgeneric promoter (tensor length)
+    (:documentation
+        "Returns a tensor one dimension higher than the provided tensor, with the
+         length given. Each element of this new dimension is a copy of the given
+         tensor.")
+    (:method ((tensor tensor) length)
+        (let ((elements (make-array (list length))))
+            (dotimes (i length)
                 (setf (aref elements i) (copy-tensor tensor)))
             (make-tensor :content elements))))
 
-(defmethod promoter ((tensor tensor-scalar) dimension)
-    (let ((elements (make-array (list dimension))))
-        (dotimes (i dimension)
+(defmethod promoter ((tensor tensor-scalar) length)
+    (let ((elements (make-array (list length))))
+        (dotimes (i length)
             (setf (aref elements i) (copy-tensor tensor)))
         (make-tensor-vector
             :content elements)))
 
-(defmethod promoter ((tensor tensor-vector) dimension)
-    (let ((elements (make-array (list dimension))))
-        (dotimes (i dimension)
+(defmethod promoter ((tensor tensor-vector) length)
+    (let ((elements (make-array (list length))))
+        (dotimes (i length)
             (setf (aref elements i) (copy-tensor tensor)))
         (make-tensor-matrix
             :content elements)))
