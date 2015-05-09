@@ -43,5 +43,9 @@
             (cond((eql currentElement (- (length cycleElements) 1)) (setf currentElement 0))
                   (t (incf currentElement)))
             (aref cycleElements currentElement))))
-    
+
 (defun array-to-list(array) (map 'list (lambda (x) x) array))
+
+(defun range (max &key (min 0) (step 1))
+   (loop for n from min below max by step
+      collect n))

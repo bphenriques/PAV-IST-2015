@@ -235,8 +235,11 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(define-test test-inner-product
-;	)
+(define-test test-inner-product
+	(assert-equalp (reshape (v 2 3) (v 90 120 150 190 260 330))
+           	       (funcall (inner-product #'.+ #'.*)
+                            (reshape (v 2 2) (v 10 20 30 40))
+                            (reshape (v 2 3) (v 1 2 3 4 5 6)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

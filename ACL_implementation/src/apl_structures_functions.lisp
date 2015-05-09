@@ -161,3 +161,32 @@
     (let ((content (tensor-content tensor)))
         (dotimes (i (length content))
             (delete-last-dimension-nth-el (aref content i) n))))
+
+(defgeneric get-last-dimension-row-vector (tensor slice))
+
+(defmethod get-last-dimension-row-vector ((tensor tensor-matrix) slice)
+    (aref (tensor-content tensor) slice))
+
+(defmethod get-last-dimension-row-vector ((tensor tensor) slice)
+    (let* ((content (tensor-content tensor))
+           (dimension-length (first (tensor-dimensions tensor)))
+           (top-index-slice (integer-division slice dimension-length))
+           (bot-index-slice (remainder-integer-division slice dimension-length)))
+        (get-last-dimension-row-vector (aref content top-index-slice) bot-index-slice)))
+
+
+(defgeneric get-last-dimension-slice (tensor slice))
+
+(defmethod get-last-dimension-slice ((tensor tensor-vector) slice)
+    (tensor-content (aref (tensor-content tensor) slice)))
+
+(defmethod get-last-dimension-slice ((tensor tensor) slice)
+    (let* ((dimension-length (first (tensor-dimensions tensor)))
+           (content (tensor-content tensor))
+           (result (list)))
+        (dotimes (i dimension-length)
+            (let ((dimension-slice (get-last-dimension-slice (aref content i) slice)))
+                (setf result (append result (if (listp dimension-slice)
+                                                dimension-slice
+                                                (list dimension-slice))))))
+        result))
