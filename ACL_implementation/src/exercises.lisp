@@ -16,10 +16,10 @@
 
 ; given a tensor, returns a vector containing all the elements of the tensor
 (defun ravel (tensor)
-	(reshape (v (funcall (fold #'.*) (shape tensor))) tensor))
+	(reshape (v (tally tensor)) tensor))
 
 ;given a scalar, returns a vector with all prime numbers from 2 up to the scalar, inclusive
 (defun prime (n1)
-	(let* ((values (interval n1))
+	(let* ((values (drop (s -1) (drop (s 1) (interval n1))))
 		   (divisions (funcall (outer-product #.//) values values)))
-		(select (.and (s 1) divisions) divisions))) ; NOT FINISHED
+		(ravel (select (.= (s 0) divisions) divisions))))
