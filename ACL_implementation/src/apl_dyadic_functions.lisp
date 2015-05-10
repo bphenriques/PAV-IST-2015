@@ -114,9 +114,9 @@
     "Returns a tensor with the dimensions refered in the first argument,
      whose elements are taken from the second argument, repeating them if
      necessary to fill the resulting tensor."
-    (let((cycler (get-cycler (expand-tensor values)))
-		(result (create-tensor (array-to-list (expand-tensor dimensions)))))
-			(map-tensor cycler result)))
+    (let ((cycler (get-cycler (expand-tensor values)))
+		  (result (create-tensor (array-to-list (expand-tensor dimensions)))))
+        (map-tensor cycler result)))
 
 
 (defgeneric catenate (tensor1 tensor2)
