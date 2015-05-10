@@ -30,8 +30,12 @@
     "Represents a specific case of tensor, in which it has just 2 dimensions.")
 
 
-
 ;;; Print-object redefinitions
+(defmethod print-object :around ((object tensor) stream)
+    (declare (ignore stream))
+    (when (not (null (tensor-content object)))
+          (call-next-method)))
+
 (defmethod print-object ((object tensor-scalar) stream)
     "Redefinition of print-object to conform with project specification.
      Prints the tensor-scalar's single element"
@@ -47,7 +51,7 @@
                     (if (eql i (- (first dimensions) 1))
                         "~S"
                         "~S ")
-                    (aref (tensor-content object) i)))))
+                        (aref (tensor-content object) i)))))
 
 (defmethod print-object ((object tensor-matrix) stream)
     "Redefinition of print-object to conform with project specification.
@@ -181,7 +185,7 @@
     (:documentation
         "Returns a newly created scalar with the value given.")
     (:method ((value t))
-        (error "s: Only supports numbers but got ~S" 
+        (error "s: Only supports numbers but got ~S"
             (get-class-name value))))
 
 (defmethod s ((value tensor-scalar))
@@ -194,6 +198,6 @@
     "Returns a newly created vector with the values given.
      If just 1 value is given the resulting tensor IS STILL a vector,
      NOT a scalar."
-    (cond ((null values) nil)
+    (cond ((null values) (make-tensor-vector))
           (t (setf values (map 'list (lambda (x) (s x)) values))
              (make-tensor-vector :content (make-array (length values) :initial-contents values)))))

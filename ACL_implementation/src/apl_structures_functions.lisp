@@ -19,8 +19,10 @@
 (defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
 
 (defmethod tensor-dimensions ((tensor tensor))
-    (cons (length (tensor-content tensor))
-          (tensor-dimensions (aref (tensor-content tensor) 0))))
+    (if (null (tensor-content tensor))
+        nil
+        (cons (length (tensor-content tensor))
+              (tensor-dimensions (aref (tensor-content tensor) 0)))))
 
 
 ;;; Expand-tensor methods
@@ -70,7 +72,7 @@
 ;;; map-tensor methods
 (defun map-tensor (function &rest tensors)
     "Returns the resulting tensor of applying the function given to each element
-     of the tensor(s) provided. If the arguments are tensors with the same size 
+     of the tensor(s) provided. If the arguments are tensors with the same size
      and shape, the result tensor will have that same size and shape. If one of them
      is scalar, it applies the function using the scalar and the elment of the vector.
      Otherwise error."
@@ -87,7 +89,7 @@
         "Returns the resulting tensor of applying the function given to each element
          of the tensor provided.")
     (:method ((function t) (t1 t))
-        (error "map-single: Not supported for type ~S" 
+        (error "map-single: Not supported for type ~S"
           (get-class-name t1))))
 
 
@@ -146,8 +148,8 @@
 ;;; delete-last-dimension-nth-el methods
 (defgeneric delete-last-dimension-nth-el (tensor n)
     (:method ((tensor t) (n t))
-        (error "delete-last-dimension-nth-el: only supports a tensor and a integer but got ~S ~S" 
-          (get-class-name tensor) 
+        (error "delete-last-dimension-nth-el: only supports a tensor and a integer but got ~S ~S"
+          (get-class-name tensor)
           (get-class-name n))))
 
 (defmethod delete-last-dimension-nth-el ((tensor tensor-scalar) (n integer))

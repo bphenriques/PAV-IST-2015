@@ -1,4 +1,4 @@
-;;;; test_acl_structures.lisp
+;;;; test_acl_functions.lisp
 ;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -69,7 +69,7 @@
     )
 
 (define-test test-shape
-	(assert-equalp (v 0)
+	(assert-equalp (v)
 				   (shape (s 200)))
 	(assert-equalp (v 3)
 				   (shape (v 1 2 3)))
