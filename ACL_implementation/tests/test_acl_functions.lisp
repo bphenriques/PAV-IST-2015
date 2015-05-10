@@ -374,6 +374,12 @@
 				   (tally (reshape (v 3 3 2) (interval 5))))
 	(assert-equalp (s 24)
 				   (tally (reshape (v 1 2 3 4) (interval 5))))
+
+	(assert-equalp (s 1)
+				   (tally (s 99)))
+
+	(assert-equalp (s 5)
+				   (tally (v -1 -2 -3 -4 -5)))
 	)
 
 (define-test test-rank
@@ -381,6 +387,12 @@
 				   (rank (reshape (v 4 5 2) (interval 5))))
 	(assert-equalp (s 2) 
 				   (rank (reshape (v 4 5) (interval 5))))
+
+	(assert-equalp (s 0)
+				   (rank (s 10)))
+
+	(assert-equalp (s 1)
+				   (v 1 2 3 4))
 	)
 
 (define-test test-within
@@ -391,6 +403,11 @@
 (define-test test-ravel
 	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4) 
 				   (ravel (reshape (v 2 3 4) (interval 10))))
+	(assert-equalp (v 10)
+				   (s 10))
+
+	(assert-equalp (v 1 2 3 4 5)
+				   (interval 5))
 	)
 
 (define-test test-prime
