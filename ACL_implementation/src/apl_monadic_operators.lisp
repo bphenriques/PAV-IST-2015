@@ -15,13 +15,14 @@
 		"Returns a function that, given a vector, computes the application
 		 of the function given, to sucessive elements of the vector.")
 	(:method ((func t))
-		(error "fold: Argument is not a function.")))
+		(error "fold: Argument is not a function. Got ~S"
+			(get-class-name func))))
 
 (defmethod fold ((func function))
 	(lambda (vec)
 		(when (not (tensor-vector-p vec))
-			(error "fold: Argument must be a vector but got ~S." (class-name (class-of vec))))
-
+			(error "fold: Argument must be a vector but got ~S." 
+				(get-class-name vec)))
 		(s (reduce func (array-to-list (tensor-content vec))))))
 
 
@@ -33,7 +34,8 @@
 		 vector, starting from a subset containing just the first element up to
 		 a subset containing all elements.")
 	(:method ((func t))
-		(error "scan: Argument is not a function.")))
+		(error "scan: Argument is not a function. Got ~S"
+			(get-class-name func))))
 
 
 (defmethod scan ((func function))
@@ -53,7 +55,8 @@
 		 the result of applying the function to every combination of values
 		 from the first and second tensors.")
 	(:method ((func t))
-		(error "outer-product: Argument is not a function.")))
+		(error "outer-product: Argument is not a function. Got ~S"
+			(get-class-name func))))
 
 (defmethod outer-product ((func function))
 	(lambda (tensor1 tensor2)

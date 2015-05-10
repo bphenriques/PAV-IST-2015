@@ -15,7 +15,7 @@
 		"Transforms given n to T or false, when 1 or 0, respectively. And also
 		 vice-versa.")
 	(:method ((n t))
-		(error "create-bool: Only supports t, nil or a number")))
+		(error "create-bool: Only supports t, nil or a number but got ~S" (get-class-name n))))
 
 (defmethod create-bool ((n number))
 	(if (= n 0)
@@ -30,7 +30,7 @@
 
 (defgeneric negate (bool)
 	(:method ((bool t))
-		(error "negate: Only supports number")))
+		(error "negate: Only supports number but got ~S" (get-class-name bool))))
 
 (defmethod negate ((n number))
 	(if (= n 0)
@@ -39,7 +39,7 @@
 
 (defgeneric or-bool (b1 b2)
 	(:method ((b1 t) (b2 t))
-		(error "or-bool: Only supports numbers")))
+		(error "or-bool: Only supports numbers but got ~S and ~S" (get-class-name b1) (get-class-name b2))))
 
 (defmethod or-bool ((b1 number) (b2 number))
 	(if (or (= b1 1) (= b2 1))
@@ -48,7 +48,7 @@
 
 (defgeneric and-bool (b1 b2)
 	(:method ((b1 t) (b2 t))
-		(error "and-bool: Only supports numbers")))
+		(error "and-bool: Only supports numbers but got ~S and ~S" (get-class-name b1) (get-class-name b2))))
 
 (defmethod and-bool ((b1 number) (b2 number))
 	(if (and (= b1 1) (= b2 1))

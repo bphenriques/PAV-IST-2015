@@ -52,6 +52,9 @@
                    (t (incf currentElement)))
               (aref cycleElements currentElement))))
 
+(defun get-class-name (arg)
+  (class-name (class-of arg)))
+
 (defun array-to-list (array) 
   (map 'list (lambda (x) x) array))
 

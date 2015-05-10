@@ -165,7 +165,7 @@
     (:method ((x t) (y t))
         (error "promote: No promotion for args (~S ~S) of classes (~S ~S)"
                 x y
-                (class-name (class-of x)) (class-name (class-of y)))))
+                (get-class-name x) (get-class-name y))))
 
 (defmethod promote ((x tensor) (y tensor-scalar))
     (values x (s-to-t y (tensor-dimensions x))))
@@ -181,7 +181,8 @@
     (:documentation
         "Returns a newly created scalar with the value given.")
     (:method ((value t))
-        (error "s: Only supports numbers but got ~S" (class-name (class-of value)))))
+        (error "s: Only supports numbers but got ~S" 
+            (get-class-name value))))
 
 (defmethod s ((value tensor-scalar))
   value)

@@ -17,7 +17,7 @@
 		 computed according to the rules of the algebraic inner product with
 		 the first and second given functions.")
 	(:method ((f1 t) (f2 t))
-		(error "inner-product: both arguments must be functions")))
+		(error "inner-product: both arguments must be functions but got ~S and ~S" (get-class-name f1) (get-class-name f2))))
 
 (defmethod inner-product ((f1 function) (f2 function))
 	(lambda (t1 t2)
@@ -29,7 +29,11 @@
 		 Applies the outer step of the inner product, that is, it applies f1
 		 to the results of the inner step of the inner product.")
 	(:method ((f1 t) (f2 t) (t1 t) (t2 t))
-		(error "inner-product-step1: both arguments must be functions and tensors")))
+		(error "inner-product-step1: both arguments must be functions and tensors but got ~S ~S ~S ~S" 
+			(get-class-name f1)
+			(get-class-name f2) 
+			(get-class-name t1) 
+			(get-class-name t2))))
 
 (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-scalar) (t2 tensor))
 	(funcall f2 t1 t2))
@@ -52,7 +56,12 @@
 		 of tensor t1 and to a tensor representing a row in the last dimension
 		 of tensor t2.")
 	(:method ((function t) (t1 t) (t2 t) (slice t))
-		(error "inner-product-step2: both arguments must be functions and tensors")))
+		(error "inner-product-step2: only accepts function, two tensors and FIXME FIXME FIXME but got ~S ~S ~S ~S"
+			(get-class-name function)
+			(get-class-name t1)
+			(get-class-name t2)
+			(get-class-name slice))))
+
 
 (defmethod inner-product-step2 ((function function) (t1 tensor-scalar) (t2 tensor-scalar) slice)
 	(declare (ignore slice))

@@ -34,13 +34,20 @@
     (map-tensor (lambda (n)
                     (negate (create-bool n))) tensor))
 
+
 (defun shape (tensor)
     "Returns a vector containing the length of each dimension of the argument tensor."
     (apply #'v (tensor-dimensions tensor)))
 
-(defun interval (n)
-    "Returns a vector containing an enumeration of all integers starting from 1
-     up to the argument."
+
+(defgeneric interval (n)
+    (:documentation "Returns a vector containing an enumeration of all integers starting from 1
+     up to the argument.")
+    (:method ((n t))
+        (error "interval: Argument must be a number or another scalar but got ~S"
+            (get-class-name n))))
+
+(defmethod interval ((n integer))
     (when (< n 0)
         (error "interval: argument must be positive."))
     (let ((tensor (apply #'v (make-list n :initial-element 0))))
@@ -52,3 +59,6 @@
                         (incf value)
                         old)))
         tensor)))
+
+(defmethod interval ((n tensor-scalar))
+    (interval (tensor-content n)))
