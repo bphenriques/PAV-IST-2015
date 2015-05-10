@@ -1,4 +1,4 @@
-;;;; acl_monadic_operators.lisp
+;;;; apl_monadic_operators.lisp
 ;;;;
 ;;;; Defines APL like monadic operators.
 ;;;;

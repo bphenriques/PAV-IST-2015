@@ -1,4 +1,4 @@
-;;;; acl_structures.lisp
+;;;; apl_structures.lisp
 ;;;;
 ;;;; Defines all additional strutures needed to implement APL like behaviour,
 ;;;; namely tensors.

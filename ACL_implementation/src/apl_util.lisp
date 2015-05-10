@@ -1,6 +1,14 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Internal funtions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; apl_util.lisp
+;;;;
+;;;; Contains utilitary functions that do not entirely fit in other files.
+;;;;
+;;;; Made by group 5:
+;;;;    72913 - Bruno Henriques
+;;;;    72960 - Tiago Santos
+;;;;    73378 - Nuno Xu
+;;;;
+;;;; Created for PAV APL project.
+
 
 (defun copy-array (array)
   "Returns a copy of array."
@@ -71,5 +79,5 @@
 
 (defun get-member-finder (member-vector)
   (let ((members member-vector))
-    (lambda (n) 
+    (lambda (n)
       (create-bool (find n members)))))

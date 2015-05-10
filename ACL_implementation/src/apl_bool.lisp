@@ -1,4 +1,4 @@
-;;;; bool.lisp
+;;;; apl_bool.lisp
 ;;;;
 ;;;; Contains functions to handle boolean representation, namely the
 ;;;; correspondance between booleans and the integers 1 and 0.
