@@ -27,7 +27,7 @@
 
 (defun ravel (tensor)
 	"Returns a vector containing all the elements of the tensor."
-	(funcall (outer-product #'.+) (v 0) (reshape (v (tally tensor)) tensor)))
+	(reshape (v (tally tensor)) tensor))
 
 (defun primes (n1)
 	"Returns a vector with all prime numbers from 2 up to the scalar, inclusive."
