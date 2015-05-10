@@ -21,7 +21,7 @@
 (defmethod fold ((func function))
 	(lambda (vec)
 		(when (not (tensor-vector-p vec))
-			(error "fold: Argument must be a vector but got ~S." 
+			(error "fold: Argument must be a vector but got ~S."
 				(get-class-name vec)))
 		(s (reduce func (array-to-list (tensor-content vec))))))
 
@@ -48,31 +48,35 @@
 					(setf lst (butlast lst)))
 			(apply #'v result))))
 
+
+(defun outer-product (function)
+	(lambda (tensor1 tensor2)
+		(outer-product-aux function tensor1 tensor2)))
+
+
 ;;; outer-product method declarations
-(defgeneric outer-product (func)
+(defgeneric outer-product-aux (func tensor1 tensor2)
 	(:documentation
 		"Returns a function that, given two tensors, returns a new tensor with
 		 the result of applying the function to every combination of values
 		 from the first and second tensors.")
-	(:method ((func t))
+	(:method ((func t) (tensor1 t) (tensor2 t))
 		(error "outer-product: Argument is not a function. Got ~S"
 			(get-class-name func))))
 
-(defmethod outer-product ((func function))
-	(lambda (tensor1 tensor2)
-		(let* ((number-elements (apply #'+ (if (null (tensor-dimensions tensor1))
-											   '(1)
-											   (tensor-dimensions tensor1))))
-			   (args (expand-tensor tensor1))
-			   (result (create-tensor (cons number-elements
-								  			(tensor-dimensions tensor2))))
-			   (result-content (tensor-content result)))
+(defmethod outer-product-aux ((func function) (tensor1 tensor-scalar) (tensor2 tensor))
+	(funcall func tensor1 tensor2))
 
-			(cond ((eql number-elements 1)
-				   (setf (tensor-content result)
-					  	 (tensor-content (funcall func (s (aref args 0))
-													   tensor2))))
-				  (t (dotimes (i number-elements)
-					 (setf (aref result-content i)
-					  	   (funcall func (s (aref args i)) tensor2)))))
-			result)))
+(defmethod outer-product-aux ((func function) (tensor1 tensor) (tensor2 tensor-scalar))
+	(funcall func tensor1 tensor2))
+
+(defmethod outer-product-aux ((func function) (tensor1 tensor) (tensor2 tensor))
+	(let* ((number-elements (apply #'+ (tensor-dimensions tensor1)))
+		   (args (expand-tensor tensor1))
+		   (result (create-tensor (cons number-elements
+							  			(tensor-dimensions tensor2))))
+		   (result-content (tensor-content result)))
+		(dotimes (i number-elements)
+				 (setf (aref result-content i)
+				  	   (funcall func (s (aref args i)) tensor2)))
+		result))
