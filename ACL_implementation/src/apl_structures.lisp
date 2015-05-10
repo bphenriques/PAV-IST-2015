@@ -33,7 +33,7 @@
 ;;; Print-object redefinitions
 (defmethod print-object :around ((object tensor) stream)
     (declare (ignore stream))
-    (when (not (null (tensor-dimensions object)))
+    (when (tensor-content object)
           (call-next-method)))
 
 (defmethod print-object ((object tensor-scalar) stream)
