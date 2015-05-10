@@ -12,11 +12,13 @@
 
 (defun tally (tensor)
 	"Returns a scalar with the number of elements of the given tensor."
-	(./ (funcall (fold #'.*) (shape (funcall (outer-product #'.*) (v 0 0) tensor))) (s 2)))
+	(let ((non-scalar-tensor (funcall (outer-product #'.*) (v 0 0) tensor)))
+		(./ (funcall (fold #'.*) (shape non-scalar-tensor)) (s 2))))
 
 (defun rank (tensor)
 	"Returns a scalar with the number of dimensions of the tensor."
-	(funcall (fold #'.+) (.not (.* (s 0) (shape tensor)))))
+	(let ((non-scalar-tensor (funcall (outer-product #'.*) (v 0 0) tensor)))
+		(.- (funcall (fold #'.+) (.not (.* (s 0) (shape non-scalar-tensor)))) (s 1))))
 
 (defun within (tensor n1 n2)
 	"Returns a vector, containing only the elements of the given tensor,

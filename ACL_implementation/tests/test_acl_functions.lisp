@@ -392,7 +392,7 @@
 				   (rank (s 10)))
 
 	(assert-equalp (s 1)
-				   (v 1 2 3 4))
+				   (rank (v 1 2 3 4)))
 	)
 
 (define-test test-within
@@ -404,10 +404,10 @@
 	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4) 
 				   (ravel (reshape (v 2 3 4) (interval 10))))
 	(assert-equalp (v 10)
-				   (s 10))
+				   (ravel (s 10)))
 
 	(assert-equalp (v 1 2 3 4 5)
-				   (interval 5))
+				   (ravel (interval 5)))
 	)
 
 (define-test test-prime
