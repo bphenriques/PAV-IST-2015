@@ -29,7 +29,7 @@
 	"Returns a vector containing all the elements of the tensor."
 	(reshape (v (tally tensor)) tensor))
 
-(defun prime (n1)
+(defun primes (n1)
 	"Returns a vector with all prime numbers from 2 up to the scalar, inclusive."
 	(let* ((r (drop (s 1) (interval n1)))
 		   (r-outer-product-r (funcall (outer-product #'.*) r r)))

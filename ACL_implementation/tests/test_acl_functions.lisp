@@ -411,7 +411,7 @@
 				   (ravel (interval 5)))
 	)
 
-(define-test test-prime
+(define-test test-primes
 	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) 
-				   (prime (s 50)))
+				   (primes (s 50)))
 	)
