@@ -44,13 +44,13 @@
 
 (defun get-cycler (array)
     "Returns a function that when called cycles between the copied array elements and returns them."
-    (let ((cycleElements (copy-array array))
-          (currentElement -1))
+    (let ((cycle-elements (copy-array array))
+          (current-element -1))
         (lambda (&optional arr)
 			     (declare (ignore arr))
-            (cond ((eql currentElement (- (length cycleElements) 1)) (setf currentElement 0))
-                   (t (incf currentElement)))
-              (aref cycleElements currentElement))))
+            (cond ((eql current-element (- (length cycle-elements) 1)) (setf current-element 0))
+                   (t (incf current-element)))
+              (aref cycle-elements current-element))))
 
 (defun get-class-name (arg)
   (class-name (class-of arg)))
