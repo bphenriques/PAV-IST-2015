@@ -95,7 +95,9 @@
 
 (defmethod map-single (function (t1 tensor))
     (let* ((new-tensor (copy-tensor t1))
-           (dimension (first (tensor-dimensions t1)))
+           (dimension (if (tensor-dimensions t1)
+                          (first (tensor-dimensions t1))
+                          0))
            (new-tensor-content (tensor-content new-tensor)))
         (dotimes (i dimension)
             (let ((content (aref new-tensor-content i)))

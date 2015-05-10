@@ -418,4 +418,6 @@
 (define-test test-primes
 	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47)
 				   (primes (s 50)))
+    (assert-equalp (v 2)
+				   (primes (s 2)))
 	)
