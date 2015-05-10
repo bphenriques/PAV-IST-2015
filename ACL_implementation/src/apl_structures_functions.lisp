@@ -133,8 +133,12 @@
 
 (defmethod map-double (function (t1 tensor) (t2 tensor))
     (let* ((new-tensor (copy-tensor t1))
-           (dimension-t1 (first (tensor-dimensions t1)))
-           (dimension-t2 (first (tensor-dimensions t2)))
+           (dimension-t1 (if (tensor-dimensions t1)
+                             (first (tensor-dimensions t1))
+                             0))
+           (dimension-t2 (if (tensor-dimensions t2)
+                             (first (tensor-dimensions t2))
+                             0))
            (new-tensor-content (tensor-content new-tensor)))
 
         (cond ((not (equal dimension-t1 dimension-t2))

@@ -8,6 +8,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-test test-monadic-.-
+    (assert-equalp (v)
+    			   (.- (v)))
+
 	; s simetric
     (assert-equalp (s -5)
     			   (.- (s 5)))
@@ -94,6 +97,8 @@
 (define-test test-.+
     (assert-equalp (v 3 4 5)
     			   (.+ (v 2 2 2) (v 1 2 3)))
+    (assert-equalp (v)
+   			       (.+ (v) (v)))
     )
 
 (define-test test-dyadic-.-
@@ -290,10 +295,19 @@
                              (reshape (v 2 2) (v 5 6 7 8))))
  	(assert-equalp (reshape (v 2 2 4) (v 1 2 3))
                    (catenate (reshape (v 2 2 2) (v 1 2 2 3 3 1 1 2))
-                             (reshape (v 2 2 2) (v 3 1 1 2 2 3 3 1)))))
+                             (reshape (v 2 2 2) (v 3 1 1 2 2 3 3 1))))
+    )
 
 
 (define-test test-member?
+    (assert-equalp (s 1)
+				   (member? (s 2) (s 2)))
+    (assert-equalp (s 1)
+				   (member? (s 2) (v 1 5 2 1 3)))
+    (assert-equalp (s 0)
+				   (member? (s 2) (v 1 5 7 1 3)))
+    (assert-equalp (v 1 0 0 0 0 0 1)
+				   (member? (v 1 2 5 7 2 -1 1) (s 1)))
 	(assert-equalp (reshape (v 3 3) (v 1 1 0 0 1 1 0 0 1))
 				   (member? (reshape (v 3 3) (interval 4)) (v 1 2)))
 	)
@@ -420,4 +434,10 @@
 				   (primes (s 50)))
     (assert-equalp (v 2)
 				   (primes (s 2)))
+
+
+    (assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71
+        73 79 83 89 97 101 103 107 109 113 127 131 137 139 149 151 157 163 167
+        173 179 181 191 193 197 199 211)
+                   (primes (s 211)))
 	)
