@@ -23,10 +23,6 @@
 	(lambda (t1 t2)
 		(inner-product-step1 f1 f2 t1 t2)))
 
-
-
-
-
 (defgeneric inner-product-step1 (f1 f2 t1 t2)
 	(:documentation
 		"Inner-product auxiliary funcion.
@@ -47,9 +43,6 @@
 		(dolist (i (range last-dimension-t1 :min 1))
 			(setf result (funcall f1 result (inner-product-step2 f2 t1 t2 i))))
 	result))
-
-
-
 
 (defgeneric inner-product-step2 (function t1 t2 slice)
 	(:documentation

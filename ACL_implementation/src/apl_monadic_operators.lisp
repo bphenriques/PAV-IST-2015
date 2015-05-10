@@ -41,7 +41,6 @@
 		(let* ((lst (map 'list (lambda (x) x) (tensor-content vec)))
 			   (len (length lst))
 			   (result (list)))
-
 		(dotimes (l len)
 					(setf result (cons (reduce func lst) result))
 					(setf lst (butlast lst)))

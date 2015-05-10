@@ -10,13 +10,6 @@
 ;;;; Created for PAV APL project.
 
 
-;;; Scalable functions
-
-;;; If the arguments are tensors with the same size and shape, the
-;;; result tensor will have that same size and shape. If one of the arguments
-;;; is a scalar, the result tensor will have the same size and shape of the other
-;;; argument and will have, as elements, the sum of the scalar with every
-;;; element of the other argument. Otherwise, the function signals an error.
 (defun .+ (tensor1 tensor2)
     "Returns a tensor with the sum of the corresponding elements of the argument
      tensors."

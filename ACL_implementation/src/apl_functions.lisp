@@ -25,12 +25,14 @@
      the other argument and will have, as elements, the sum of the
      scalar with every element of the other argument. Otherwise, the
      function signals an error."
-    (let ((n-args (length tensors)))
-        (cond ((= 1 n-args)
-               (map-tensor (lambda (n) (- n)) (car tensors)))
-              ((= 2 n-args)
-               (map-tensor #'- (car tensors) (second tensors)))
-              (t (error ".- : Wrong number of arguments")))))
+     (labels ((apl-simetric (n)
+                  (- n)))
+      (let ((n-args (length tensors)))
+          (cond ((= 1 n-args)
+                 (map-tensor #'apl-simetric (car tensors)))
+                ((= 2 n-args)
+                 (map-tensor #'- (car tensors) (second tensors)))
+                (t (error ".- : Wrong number of arguments"))))))
 
 
 (defun ./ (&rest tensors)
@@ -47,13 +49,13 @@
      the other argument and will have, as elements, the sum of the
      scalar with every element of the other argument. Otherwise, the
      function signals an error."
-     (labels ((inverse (n)
+     (labels ((apl-inverse (n)
                 (if (= n 0)
                     0
                     (/ 1 n))))
       (let ((n-args (length tensors)))
           (cond ((= 1 n-args)
-                 (map-tensor #'inverse (car tensors)))
+                 (map-tensor #'apl-inverse (car tensors)))
                 ((= 2 n-args)
                  (map-tensor #'/ (car tensors) (second tensors)))
                 (t (error "./ : Wrong number of arguments"))))))

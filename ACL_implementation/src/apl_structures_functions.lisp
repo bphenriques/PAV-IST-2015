@@ -67,11 +67,13 @@
             :content elements)))
 
 
-
-;;; Map-tensor methods
+;;; map-tensor methods
 (defun map-tensor (function &rest tensors)
     "Returns the resulting tensor of applying the function given to each element
-     of the tensor(s) provided."
+     of the tensor(s) provided. If the arguments are tensors with the same size 
+     and shape, the result tensor will have that same size and shape. If one of them
+     is scalar, it applies the function using the scalar and the elment of the vector.
+     Otherwise error."
     (let ((num-tensors (length tensors)))
         (cond ((= num-tensors 1)
                (map-single function (car tensors)))
@@ -140,6 +142,7 @@
                 new-tensor))))
 
 
+;;; delete-last-dimension-nth-el methods
 (defgeneric delete-last-dimension-nth-el (tensor n)
     (:method ((tensor t) (n t))
         (error "delete-last-dimension-nth-el: only supports a tensor and a integer but got ~S ~S" (class-name (class-of tensor)) (class-name (class-of n)))))
@@ -175,6 +178,7 @@
         (get-last-dimension-row-vector (aref content top-index-slice) bot-index-slice)))
 
 
+;;; get-last-dimension-slide method
 (defgeneric get-last-dimension-slice (tensor slice))
 
 (defmethod get-last-dimension-slice ((tensor tensor-vector) slice)
