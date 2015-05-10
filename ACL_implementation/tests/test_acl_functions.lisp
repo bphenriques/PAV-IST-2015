@@ -274,7 +274,7 @@
     (assert-equalp  (v 0 1 0 0 0 1 0 1 1) (.and (v 1 1 1 1 0 1 1 1 1)
                                                 (v 0 1 0 0 1 1 0 1 1))))
 
-(define-test test-.drop
+(define-test test-drop
 	(assert-equalp  (v 3 4 5 6 7 8 9 10) 
 					(drop (s 2) (interval 10)))
 
@@ -282,7 +282,7 @@
 					(drop (s -2) (interval 10)))
 	)
 
-(define-test test-.catenate
+(define-test test-catenate
 	(assert-equalp (v 1 2 3 4 5)  
 				   (catenate (v 1 2) (v 3 4 5)))
 	(assert-equalp (reshape (v 2 4) (v 1 2 5 6 3 4 7 8))
@@ -293,12 +293,12 @@
                              (reshape (v 2 2 2) (v 3 1 1 2 2 3 3 1)))))
 
 
-(define-test test-.member?
+(define-test test-member?
 	(assert-equalp (reshape (v 3 3) (v 1 1 0 0 1 1 0 0 1)) 
 				   (member? (reshape (v 3 3) (interval 4)) (v 1 2)))
 	)
 
-(define-test test-.select
+(define-test test-select
 	(assert-equalp (v 4 6 9 30) 
 				   (select (v 0 1 0 0 1 1 1) 
 				   		   (v 99 4 1 2 6 9 30)))
