@@ -23,7 +23,8 @@
 (defun within (tensor n1 n2)
 	"Returns a vector, containing only the elements of the given tensor,
 	 that are in the range of the provided n1 and n2."
-	(select (.and (.>= tensor (s n1)) (.<= tensor (s n2))) tensor))
+	 (let ((values (ravel tensor)))
+		(select (.and (.>= values (s n1)) (.<= values (s n2))) values)))
 
 (defun ravel (tensor)
 	"Returns a vector containing all the elements of the tensor."
