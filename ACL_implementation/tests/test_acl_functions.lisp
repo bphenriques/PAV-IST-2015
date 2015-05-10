@@ -396,11 +396,9 @@
 	)
 
 (define-test test-within
+	; within only has as first argument a vector
 	(assert-equalp (v 7 8 6 5) 
 				   (within (v 2 7 3 1 9 8 4 6 5) (s 5) (s 8)))
-
-	(assert-equalp (v 5 6 7 8 5 6 7 8 5 6 7)
-				   (within (reshape (v 3 3 3) (interval 10)) (s 5) (s 8)))
 	)
 
 (define-test test-ravel
