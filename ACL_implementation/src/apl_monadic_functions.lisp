@@ -12,7 +12,11 @@
 (defun .! (tensor)
     "Returns a tensor whose elements are the factorial of the corresponding
      elements of the argument tensor."
-    (map-tensor #'fact tensor))
+     (labels ((fact (n)
+                (if (< n 2)
+                    1
+                    (* n (fact (- n 1))))))
+        (map-tensor #'fact tensor)))
 
 (defun .sin (tensor)
     "Returns a tensor whose elements are the sin of the corresponding

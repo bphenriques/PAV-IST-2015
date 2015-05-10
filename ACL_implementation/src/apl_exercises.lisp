@@ -13,7 +13,6 @@
 (defun tally (tensor)
 	"Returns a scalar with the number of elements of the given tensor."
 	(./ (funcall (fold #'.*) (shape (funcall (outer-product #'.*) (v 0 0) tensor))) (s 2)))
-	;(funcall (fold #'.*) (shape tensor)))
 
 (defun rank (tensor)
 	"Returns a scalar with the number of dimensions of the tensor."

@@ -1,4 +1,4 @@
-;;;; acl_dyadic_operators.lisp
+;;;; apl_dyadic_operators.lisp
 ;;;;
 ;;;; Defines APL like dyadic operators.
 ;;;;
