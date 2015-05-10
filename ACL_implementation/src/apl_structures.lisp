@@ -33,8 +33,10 @@
 ;;; Print-object redefinitions
 (defmethod print-object :around ((object tensor) stream)
     (declare (ignore stream))
-    (when (tensor-content object)
-          (call-next-method)))
+    (if (tensor-scalar-p object)
+        (call-next-method)
+        (when (tensor-dimensions object)
+              (call-next-method))))
 
 (defmethod print-object ((object tensor-scalar) stream)
     "Redefinition of print-object to conform with project specification.
