@@ -43,6 +43,7 @@
         (map-tensor
             (let ((value 1))
                 (lambda (n)
+                    (declare (ignore n))
                     (let ((old value))
                         (incf value)
                         old)))

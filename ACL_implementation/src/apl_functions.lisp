@@ -31,7 +31,7 @@
                (map-tensor #'simetric (car tensors)))
               ((= 2 n-args)
                (map-tensor #'- (car tensors) (second tensors)))
-              (t (error "Wrong number of arguments")))))
+              (t (error ".- : Wrong number of arguments")))))
 
 
 (defun ./ (&rest tensors)
@@ -53,4 +53,4 @@
                (map-tensor #'inverse (car tensors)))
               ((= 2 n-args)
                (map-tensor #'/ (car tensors) (second tensors)))
-              (t (error "Wrong number of arguments")))))
+              (t (error "./ : Wrong number of arguments")))))

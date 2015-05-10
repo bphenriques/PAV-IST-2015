@@ -48,7 +48,7 @@
 
 (defgeneric and-bool (b1 b2)
 	(:method ((b1 t) (b2 t))
-		(error "or-bool: Only supports numbers")))
+		(error "and-bool: Only supports numbers")))
 
 (defmethod and-bool ((b1 number) (b2 number))
 	(if (and (= b1 1) (= b2 1))

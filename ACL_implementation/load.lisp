@@ -24,9 +24,8 @@
     (print "------         DONE         -----")
     (print "---------------------------------"))
 
-(load-compile-file "generic_functions.lisp")
-(load-compile-file "util.lisp")
-(load-compile-file "bool.lisp")
+(load-compile-file "apl_util.lisp")
+(load-compile-file "apl_bool.lisp")
 (load-compile-file "apl_structures.lisp")
 (load-compile-file "apl_structures_functions.lisp")
 (load-compile-file "apl_functions.lisp")

@@ -77,7 +77,7 @@
                (map-single function (car tensors)))
               ((= num-tensors 2)
                (map-double function (car tensors) (second tensors)))
-              (t (error "Apply only supports one or two tensors")))))
+              (t (error "map-tensor: Apply only supports one or two tensors")))))
 
 
 (defgeneric map-single (function t1)
@@ -85,7 +85,7 @@
         "Returns the resulting tensor of applying the function given to each element
          of the tensor provided.")
     (:method ((function t) (t1 t))
-        (error "Not supported")))
+        (error "map-single: Not supported for type ~S" (class-name (class-of t1)))))
 
 
 (defmethod map-single (function (t1 tensor))
@@ -131,7 +131,7 @@
            (new-tensor-content (tensor-content new-tensor)))
 
         (cond ((not (equal dimension-t1 dimension-t2))
-               (error "Tensor dimensions not equal."))
+               (error "map-double: tensors must have same dimensions."))
               (t (dotimes (i dimension-t1)
                     (let ((content-t1 (aref (tensor-content t1) i))
                           (content-t2 (aref (tensor-content t2) i)))
@@ -142,7 +142,7 @@
 
 (defgeneric delete-last-dimension-nth-el (tensor n)
     (:method ((tensor t) (n t))
-        (error "delete-last-dimension-nth-el only supports a tensor and a integer but got ~S ~S" (class-name (class-of tensor)) (class-name (class-of n)))))
+        (error "delete-last-dimension-nth-el: only supports a tensor and a integer but got ~S ~S" (class-name (class-of tensor)) (class-name (class-of n)))))
 
 (defmethod delete-last-dimension-nth-el ((tensor tensor-scalar) (n integer))
     tensor)

@@ -133,7 +133,7 @@
 
 (defmethod tensor-ref ((tensor tensor-scalar) &rest coordinates)
     (if (not (null coordinates))
-        (error "Too many coordinates.")
+        (error "tensor-ref: Too many coordinates.")
         (tensor-content tensor)))
 
 (defmethod tensor-ref ((tensor tensor) &rest coordinates)
@@ -148,7 +148,7 @@
 
 (defmethod tensor-set ((tensor tensor-scalar) value &rest coordinates)
     (if (not (null coordinates))
-        (error "Scalars don't accept coordinates for set")
+        (error "tensor-set: Scalars don't accept coordinates for set")
           (setf (tensor-content tensor) value)))
 
 (defmethod tensor-set ((tensor tensor) value &rest coordinates)
@@ -163,7 +163,7 @@
         "Promotes one of the arguments to one functionally compatible
          with the other argument.")
     (:method ((x t) (y t))
-        (error "No promotion for args (~S ~S) of classes (~S ~S)"
+        (error "promote: No promotion for args (~S ~S) of classes (~S ~S)"
                 x y
                 (class-name (class-of x)) (class-name (class-of y)))))
 

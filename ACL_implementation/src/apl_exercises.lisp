@@ -33,6 +33,6 @@
 
 ;given a scalar, returns a vector with all prime numbers from 2 up to the scalar, inclusive
 (defun prime (n1)
-	(let* ((values (drop (s -1) (drop (s 1) (interval n1))))
-		   (divisions (funcall (outer-product #.//) values values)))
-		(ravel (select (.= (s 0) divisions) divisions))))
+	(let* ((r (drop (s 1) (interval n1)))
+		   (r-outer-product-r (funcall (outer-product #'.*) r r)))
+		(select (.not (member? r r-outer-product-r)) r)))

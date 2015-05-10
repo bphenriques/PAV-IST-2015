@@ -270,14 +270,14 @@
 	(assert-equalp (s 2) (rank (reshape (v 4 5) (interval 5))))
 	)
 
-;(define-test test-within
-;	(assert-equalp (v 7 8 6 5) (within (v 2 7 3 1 9 8 4 6 5) (s 5) (s 8)))
-;	)
+(define-test test-within
+	(assert-equalp (v 7 8 6 5) (within (v 2 7 3 1 9 8 4 6 5) (s 5) (s 8)))
+	)
 
-;(define-test test-ravel
-;	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4)  (ravel (reshape (v 2 3 4) (interval 10))))
-;	)
+(define-test test-ravel
+	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4)  (ravel (reshape (v 2 3 4) (interval 10))))
+	)
 
-;(define-test test-primes
-;	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) (primes (s 50)))
-;	)
+(define-test test-primes
+	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) (primes (s 50)))
+	)
