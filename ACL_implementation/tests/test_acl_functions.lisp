@@ -278,6 +278,6 @@
 	(assert-equalp (v 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4)  (ravel (reshape (v 2 3 4) (interval 10))))
 	)
 
-(define-test test-primes
-	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) (primes (s 50)))
+(define-test test-prime
+	(assert-equalp (v 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47) (prime (s 50)))
 	)
