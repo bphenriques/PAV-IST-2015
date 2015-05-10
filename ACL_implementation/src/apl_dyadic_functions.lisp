@@ -163,9 +163,13 @@
      first argument, containing 1 for each element in the corresponding location
      in the first argument that occurs somewhere in the second argument and
      0 otherwise."
-	(let ((result (copy-tensor tensor))
-		  (member-finder (get-member-finder (expand-tensor members))))
-	  (map-tensor member-finder result)))
+     (labels ((get-member-finder (member-vector)
+                  (let ((members member-vector))
+                    (lambda (n)
+                      (create-bool (find n members))))))     
+    	(let ((result (copy-tensor tensor))
+    		  (member-finder (get-member-finder (expand-tensor members))))
+    	  (map-tensor member-finder result))))
 
 
 (defun select (tensor-locations tensor)

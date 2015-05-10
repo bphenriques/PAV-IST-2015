@@ -38,15 +38,13 @@
 
 (defmethod scan ((func function))
 	(lambda (vec)
-		(let* ((lst (map 'list (lambda (x) x) (tensor-content vec)))
+		(let* ((lst (array-to-list (tensor-content vec)))
 			   (len (length lst))
 			   (result (list)))
 		(dotimes (l len)
 					(setf result (cons (reduce func lst) result))
 					(setf lst (butlast lst)))
-				(apply #'v result))))
-
-
+			(apply #'v result))))
 
 ;;; outer-product method declarations
 (defgeneric outer-product (func)
