@@ -29,10 +29,10 @@
 		 Applies the outer step of the inner product, that is, it applies f1
 		 to the results of the inner step of the inner product.")
 	(:method ((f1 t) (f2 t) (t1 t) (t2 t))
-		(error "inner-product-step1: both arguments must be functions and tensors but got ~S ~S ~S ~S" 
+		(error "inner-product-step1: both arguments must be functions and tensors but got ~S ~S ~S ~S"
 			(get-class-name f1)
-			(get-class-name f2) 
-			(get-class-name t1) 
+			(get-class-name f2)
+			(get-class-name t1)
 			(get-class-name t2))))
 
 (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-scalar) (t2 tensor))
@@ -56,7 +56,7 @@
 		 of tensor t1 and to a tensor representing a row in the last dimension
 		 of tensor t2.")
 	(:method ((function t) (t1 t) (t2 t) (slice t))
-		(error "inner-product-step2: only accepts function, two tensors and FIXME FIXME FIXME but got ~S ~S ~S ~S"
+		(error "inner-product-step2: only accepts a function, two tensors and a number but got ~S ~S ~S ~S"
 			(get-class-name function)
 			(get-class-name t1)
 			(get-class-name t2)
