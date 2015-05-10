@@ -299,8 +299,8 @@
 	)
 
 (define-test test-.select
-	(assert-equalp (v 4 6 9) 
-				   (select (v 0 1 0 0 1 1) 
+	(assert-equalp (v 4 6 9 30) 
+				   (select (v 0 1 0 0 1 1 1) 
 				   		   (v 99 4 1 2 6 9 30)))
 	(assert-equalp (v 6 7 5 4)  
 				   (let ((v (v 1 6 2 7 3 0 5 4)))
