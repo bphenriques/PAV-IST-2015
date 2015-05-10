@@ -98,6 +98,8 @@
 (defmethod drop ((tensor tensor-scalar) tensor2)
 	(let ((remove-count (tensor-content tensor))
 		  (tensor-copy (copy-tensor tensor2)))
+		(when (< (length (tensor-content tensor2)) remove-count)
+				(error "Can't remove more elements than the tensor has"))
 		(if (< remove-count 0)
 				(setf (tensor-content tensor-copy)
 					(delete-if
