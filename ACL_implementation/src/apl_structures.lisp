@@ -33,7 +33,7 @@
 ;;; Print-object redefinitions
 (defmethod print-object :around ((object tensor) stream)
     (declare (ignore stream))
-    (when (not (null (tensor-content object)))
+    (when (not (null (tensor-dimensions object)))
           (call-next-method)))
 
 (defmethod print-object ((object tensor-scalar) stream)
@@ -198,6 +198,6 @@
     "Returns a newly created vector with the values given.
      If just 1 value is given the resulting tensor IS STILL a vector,
      NOT a scalar."
-    (cond ((null values) (make-tensor-vector))
+    (cond ((null values) (make-tensor-vector :content (make-array '(0))))
           (t (setf values (map 'list (lambda (x) (s x)) values))
              (make-tensor-vector :content (make-array (length values) :initial-contents values)))))

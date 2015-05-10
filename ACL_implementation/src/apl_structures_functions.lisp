@@ -19,7 +19,7 @@
 (defmethod tensor-dimensions ((tensor tensor-scalar)) nil)
 
 (defmethod tensor-dimensions ((tensor tensor))
-    (if (null (tensor-content tensor))
+    (if (eql (length (tensor-content tensor)) 0)
         nil
         (cons (length (tensor-content tensor))
               (tensor-dimensions (aref (tensor-content tensor) 0)))))
