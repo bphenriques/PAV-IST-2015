@@ -54,3 +54,7 @@
 	(if (and (= b1 1) (= b2 1))
 		1
 		0))
+
+(defun bool-args-function (function)
+	(lambda (arg1 arg2)
+		(funcall function (create-bool arg1) (create-bool arg2))))
