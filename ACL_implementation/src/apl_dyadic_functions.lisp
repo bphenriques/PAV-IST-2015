@@ -30,7 +30,7 @@
 (defun .// (tensor1 tensor2)
     "Returns a tensor with the integer division of the corresponding elements of
      the argument tensors."
-    (map-tensor (lambda (n1 n2) (nth-value 10 (floor n1 n2))) tensor1 tensor2))
+    (map-tensor (lambda (n1 n2) (nth-value 0 (floor n1 n2))) tensor1 tensor2))
 
 (defun .% (tensor1 tensor2)
     "Returns a tensor with the integer division of the corresponding elements of
