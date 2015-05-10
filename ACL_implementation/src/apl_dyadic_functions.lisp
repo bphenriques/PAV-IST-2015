@@ -64,13 +64,15 @@
     "Returns a tensor of booleans (represented by the integers 0 and 1), using
      the relation of logical disjunction between the corresponding elements of
      the argument tensors."
-    (map-tensor (lambda (n1 n2) (create-bool (or n1 n2))) tensor1 tensor2))
+    (map-tensor (lambda (n1 n2)
+                        (create-bool (or-bool n1 n2))) tensor1 tensor2))
 
 (defun .and (tensor1 tensor2)
     "Returns a tensor of booleans (represented by the integers 0 and 1), using
      the relation of logical conjunction between the corresponding elements of
      the argument tensors."
-    (map-tensor (lambda (n1 n2) (create-bool (and n1 n2))) tensor1 tensor2))
+    (map-tensor (lambda (n1 n2)
+                        (create-bool (and-bool n1 n2))) tensor1 tensor2))
 
 
 
@@ -159,7 +161,7 @@
      (labels ((get-member-finder (member-vector)
                   (let ((members member-vector))
                     (lambda (n)
-                      (create-bool (find n members))))))     
+                      (create-bool (find n members))))))
     	(let ((result (copy-tensor tensor))
     		  (member-finder (get-member-finder (expand-tensor members))))
     	  (map-tensor member-finder result))))

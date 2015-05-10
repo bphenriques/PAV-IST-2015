@@ -184,10 +184,34 @@
 
 
 (define-test test-.or
+    (assert-equalp  (s 0) (.or (s 0)
+                               (s 0)))
+    (assert-equalp  (s 1) (.or (s 0)
+                               (s 1)))
+    (assert-equalp  (s 1) (.or (s 1)
+                               (s 0)))
+    (assert-equalp  (s 1) (.or (s 1)
+                               (s 1)))
+    (assert-equalp  (v 1 0 0 1 1 0) (.or (s 0)
+                                         (v 1 0 0 1 1 0)))
+    (assert-equalp  (v 1 1 1 1 1 1) (.or (s 1)
+                                         (v 1 0 0 1 1 0)))
     (assert-equalp  (v 1 1 1 1 1 1 1 1 1) (.or (v 1 1 1 1 0 1 1 1 1)
                                                (v 0 1 0 0 1 1 0 1 1))))
 
 (define-test test-.and
+    (assert-equalp  (s 0) (.and (s 0)
+                                (s 0)))
+    (assert-equalp  (s 0) (.and (s 0)
+                                (s 1)))
+    (assert-equalp  (s 0) (.and (s 1)
+                                (s 0)))
+    (assert-equalp  (s 1) (.and (s 1)
+                                (s 1)))
+    (assert-equalp  (v 0 0 0 0 0 0) (.and (s 0)
+                                          (v 1 0 0 1 1 0)))
+    (assert-equalp  (v 1 0 0 1 1 0) (.and (s 1)
+                                          (v 1 0 0 1 1 0)))
     (assert-equalp  (v 0 1 0 0 0 1 0 1 1) (.and (v 1 1 1 1 0 1 1 1 1)
                                                 (v 0 1 0 0 1 1 0 1 1))))
 
