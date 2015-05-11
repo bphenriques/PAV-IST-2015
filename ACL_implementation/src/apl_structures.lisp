@@ -130,40 +130,6 @@
           (t (promoter (s-to-t scalar (rest dimensions)) (first dimensions)))))
 
 
-
-;;; Getters and Setters
-(defgeneric tensor-ref (tensor &rest coordinates)
-    (:documentation
-        "Returns the tensor's element in the given coordinates.
-         The number of coordinates must be equal to the number of dimensions of the
-         given tensor."))
-
-(defmethod tensor-ref ((tensor tensor-scalar) &rest coordinates)
-    (if (not (null coordinates))
-        (error "tensor-ref: Too many coordinates.")
-        (tensor-content tensor)))
-
-(defmethod tensor-ref ((tensor tensor) &rest coordinates)
-    (apply #'tensor-ref (aref (tensor-content tensor) (first coordinates)) (rest coordinates)))
-
-
-(defgeneric tensor-set (tensor value &rest coordinates)
-    (:documentation
-        "Replaces the tensor's element in the given coordinates by the value provided.
-         The number of coordinates must be equal to the number of dimensions of the
-         given tensor."))
-
-(defmethod tensor-set ((tensor tensor-scalar) value &rest coordinates)
-    (if (not (null coordinates))
-        (error "tensor-set: Scalars don't accept coordinates for set")
-          (setf (tensor-content tensor) value)))
-
-(defmethod tensor-set ((tensor tensor) value &rest coordinates)
-    (apply #'tensor-set (aref (tensor-content tensor) (first coordinates)) value (rest coordinates))
-    tensor)
-
-
-
 ;;; Promotion methods
 (defgeneric promote (x y)
     (:documentation

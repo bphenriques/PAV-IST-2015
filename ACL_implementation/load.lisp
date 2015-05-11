@@ -34,3 +34,4 @@
 (load-compile-file "apl_monadic_operators.lisp")
 (load-compile-file "apl_dyadic_operators.lisp")
 (load-compile-file "apl_exercises.lisp")
+(load-compile-file "apl_extensions.lisp")

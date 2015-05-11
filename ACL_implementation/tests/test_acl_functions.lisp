@@ -525,4 +525,16 @@
 				   
 	(assert-equalp (s 1/24)
 				   (./ (s 1) (s 2) (s 3) (s 4)))
+				   
+	(assert-equalp 10
+				   (.get (v 1 10 3 4) 1))
+				   
+	(assert-equalp 92
+				   (.get (s 92)))
+				   
+	(assert-equalp (v 1 2 3 4 5)
+				   (.set (v 1 10 3 4 5) 2 1))
+				   
+	(assert-equalp (s 5)
+				   (.set (s 92) 5))
 	)

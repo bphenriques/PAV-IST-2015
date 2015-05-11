@@ -30,9 +30,6 @@
      the argument tensors."
      (apply #'map-tensor (lambda (n1 n2) (remainder-integer-division n1 n2)) tensor1 tensor2 tensors))
 
-(defun .expt (tensor1 tensor2 &rest tensors)
-	(apply #'map-tensor #'expt tensor1 tensor2 tensors))
-
 (defun .< (tensor1 tensor2)
     "Returns a tensor of booleans (represented by the integers 0 and 1), using
      the relation of 'less than' between the corresponding elements of
