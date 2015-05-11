@@ -99,15 +99,12 @@
 		  (tensor-copy (copy-tensor tensor2)))
 		(when (< (length (tensor-content tensor2)) remove-count)
 				(error "Can't remove more elements than the tensor has"))
-		(if (< remove-count 0)
-				(setf (tensor-content tensor-copy)
-					(delete-if
-						(lambda (&optional element) (declare (ignore element)) t)
-						(tensor-content tensor-copy) :count (abs remove-count) :from-end t))
-				(setf (tensor-content tensor-copy)
-					(delete-if
-						(lambda (&optional element) (declare (ignore element)) t)
-						(tensor-content tensor-copy) :count (abs remove-count))))
+		(setf (tensor-content tensor-copy)
+			  (delete-if
+					(lambda (&optional element) (declare (ignore element)) t)
+					(tensor-content tensor-copy) 
+					:count (abs remove-count) 
+					:from-end (< remove-count 0)))
 		tensor-copy))
 
 
