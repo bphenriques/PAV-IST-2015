@@ -81,7 +81,8 @@
                (map-single function (car tensors)))
               ((= num-tensors 2)
                (map-double function (car tensors) (second tensors)))
-              (t (error "map-tensor: Only supports one or two tensors.")))))
+              (t (apply #'map-tensor function (map-double function (car tensors) (second tensors)) 
+											  (nthcdr 2 tensors))))))
 
 
 (defgeneric map-single (function t1)

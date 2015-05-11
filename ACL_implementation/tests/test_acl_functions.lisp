@@ -498,3 +498,31 @@
         173 179 181 191 193 197 199 211)
                    (primes (s 211)))
 	)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; TEST EXTENSIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-test test-extensions
+	(assert-equalp (s 6)
+				   (.+ (s 1) (s 2) (s 3)))
+	
+	(assert-equalp (s -4)
+				   (.- (s 1) (s 2) (s 3)))
+	(assert-equalp (s 8)
+				   (.* (s 2) (s 2) (s 2)))
+				   
+	(assert-equalp (s 1)
+				   (.% (s 9) (s 5) (s 3)))
+				   
+	(assert-equalp (s 0)
+				   (.// (s 9) (s 5) (s 3)))
+				   
+	(assert-equalp (s 256)
+				   (.expt (s 2) (s 2) (s 2) (s 2)))
+				   
+	(assert-equalp (s 1/24)
+				   (./ (s 1) (s 2) (s 3) (s 4)))
+	)

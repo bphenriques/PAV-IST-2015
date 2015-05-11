@@ -10,25 +10,28 @@
 ;;;; Created for PAV APL project.
 
 
-(defun .+ (tensor1 tensor2)
+(defun .+ (tensor1 tensor2 &rest tensors) 
     "Returns a tensor with the sum of the corresponding elements of the argument
      tensors."
-    (map-tensor #'+ tensor1 tensor2))
+    (apply #'map-tensor #'+ tensor1 tensor2 tensors))
 
-(defun .* (tensor1 tensor2)
+(defun .* (tensor1 tensor2 &rest tensors)
     "Returns a tensor with the multiplication of the corresponding elements of
      the argument tensors."
-    (map-tensor #'* tensor1 tensor2))
+     (apply #'map-tensor #'* tensor1 tensor2 tensors))
 
-(defun .// (tensor1 tensor2)
+(defun .// (tensor1 tensor2 &rest tensors)
     "Returns a tensor with the integer division of the corresponding elements of
      the argument tensors."
-    (map-tensor (lambda (n1 n2) (integer-division n1 n2)) tensor1 tensor2))
+     (apply #'map-tensor (lambda (n1 n2) (integer-division n1 n2)) tensor1 tensor2 tensors))
 
-(defun .% (tensor1 tensor2)
+(defun .% (tensor1 tensor2 &rest tensors)
     "Returns a tensor with the integer division of the corresponding elements of
      the argument tensors."
-    (map-tensor (lambda (n1 n2) (remainder-integer-division n1 n2)) tensor1 tensor2))
+     (apply #'map-tensor (lambda (n1 n2) (remainder-integer-division n1 n2)) tensor1 tensor2 tensors))
+
+(defun .expt (tensor1 tensor2 &rest tensors)
+	(apply #'map-tensor #'expt tensor1 tensor2 tensors))
 
 (defun .< (tensor1 tensor2)
     "Returns a tensor of booleans (represented by the integers 0 and 1), using
@@ -73,8 +76,6 @@
      the argument tensors."
     (map-tensor (lambda (n1 n2)
                         (create-bool (and-bool n1 n2))) tensor1 tensor2))
-
-
 
 ;;; Non-scalable Functions
 
