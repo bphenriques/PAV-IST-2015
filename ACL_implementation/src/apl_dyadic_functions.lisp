@@ -87,9 +87,10 @@
 		(let ((content (tensor-content tensor))
 			   (tensor-copy1 nil)
 			   (tensor-copy2 nil))
-			(if (= 1 (length content))
-				(drop (s (aref content 0)) tensor2)
-				(progn 	(setf tensor-copy2 (drop (aref content 0) tensor2))
+			(cond ((= 0 (length content)) tensor2)
+                  ((= 1 (length content))
+                   (drop (s (aref content 0)) tensor2))
+                  (t 	(setf tensor-copy2 (drop (aref content 0) tensor2))
 						(setf tensor-copy1 (drop (s 1) tensor))
 						(dotimes (i (length (tensor-content tensor-copy2)))
 							(setf (aref (tensor-content tensor-copy2) i) (drop tensor-copy1 (aref (tensor-content tensor-copy2) i))))
@@ -169,10 +170,24 @@
     	  (map-tensor member-finder result))))
 
 
-(defun select (tensor-locations tensor)
-    "From a tensor of booleans and another tensor, returns a tensor containing
-     only the elements of the last dimension of the second argument whose
-     corresponding element in the first tensor is 1."
+(defgeneric select (tensor-locations tensor)
+    (:documentation 
+        "From a tensor of booleans and another tensor, returns a tensor containing
+         only the elements of the last dimension of the second argument whose
+         corresponding element in the first tensor is 1."))
+
+(defmethod select ((tensor-locations tensor) (tensor tensor-scalar))
+    (error "select function not applicable to scalar tensors."))
+    
+(defmethod select ((tensor-locations tensor-scalar) (tensor tensor))
+    (let* ((tensor-copy (copy-tensor tensor))
+           (value (tensor-content tensor-locations)))
+           (when (= value 0)           
+                 (delete-last-dimension-nth-el tensor-copy 0))
+      tensor-copy))
+
+
+(defmethod select ((tensor-locations tensor) (tensor tensor))
     (let* ((tensor-copy (copy-tensor tensor))
            (lst-indexes (map 'list (lambda (x) (tensor-content x)) (array-to-list (tensor-content tensor-locations))))
            (pos 0)
