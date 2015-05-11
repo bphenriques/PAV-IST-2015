@@ -167,6 +167,7 @@
     "Returns a newly created vector with the values given.
      If just 1 value is given the resulting tensor IS STILL a vector,
      NOT a scalar."
-    (cond ((null values) (make-tensor-vector :content (make-array '(0))))
+    (cond ((null values) 
+		   (make-tensor-vector :content (make-array '(0))))
           (t (setf values (map 'list (lambda (x) (s x)) values))
              (make-tensor-vector :content (make-array (length values) :initial-contents values)))))

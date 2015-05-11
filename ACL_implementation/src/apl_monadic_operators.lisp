@@ -37,7 +37,6 @@
 		(error "scan: Argument is not a function. Got ~S"
 			(get-class-name func))))
 
-
 (defmethod scan ((func function))
 	(lambda (vec)
 		(let* ((lst (array-to-list (tensor-content vec)))
