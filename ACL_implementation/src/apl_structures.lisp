@@ -32,6 +32,9 @@
 
 ;;; Print-object redefinitions
 (defmethod print-object :around ((object tensor) stream)
+    "Redefinition of print-object to conform with project specification.
+     Required for printing null tensors. With the exception of scalars,
+     tensors with null dimensions should not be printed."
     (declare (ignore stream))
     (if (tensor-scalar-p object)
         (call-next-method)
