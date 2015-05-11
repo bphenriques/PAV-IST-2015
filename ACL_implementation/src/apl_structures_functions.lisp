@@ -155,12 +155,9 @@
 ;;; delete-last-dimension-nth-el methods
 (defgeneric delete-last-dimension-nth-el (tensor n)
     (:method ((tensor t) (n t))
-        (error "delete-last-dimension-nth-el: only supports a tensor and a integer but got ~S ~S"
+        (error "delete-last-dimension-nth-el: only supports a non-scalar tensor and a integer but got ~S ~S"
           (get-class-name tensor)
           (get-class-name n))))
-
-(defmethod delete-last-dimension-nth-el ((tensor tensor-scalar) (n integer))
-    tensor)
 
 (defmethod delete-last-dimension-nth-el ((tensor tensor-vector) (n integer))
     (let ((content (tensor-content tensor)))
