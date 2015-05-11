@@ -18,7 +18,8 @@
 (defun rank (tensor)
 	"Returns a scalar with the number of dimensions of the tensor."
 	(let ((non-scalar-tensor (funcall (outer-product #'.*) (v 0 0) tensor)))
-		(.- (funcall (fold #'.+) (.not (.* (s 0) (shape non-scalar-tensor)))) (s 1))))
+		(.- (funcall (fold #'.+) (.not (.* (s 0) (shape non-scalar-tensor)))) 
+			(s 1))))
 
 (defun within (tensor n1 n2)
 	"Returns a vector, containing only the elements of the given tensor,
