@@ -50,25 +50,23 @@
     "Redefinition of print-object to conform with project specification.
      Prints the tensor-vector's elements on the same line,
      separated by one white space."
+     (print-non-scalar-tensor object stream))
+
+
+(defun print-non-scalar-tensor (object stream)
     (let* ((dimensions (tensor-dimensions object)))
         (dotimes (i (first dimensions))
-            (format stream
-                    (if (eql i (- (first dimensions) 1))
-                        "~S"
-                        "~S ")
-                        (aref (tensor-content object) i)))))
+            (format stream "~S" (aref (tensor-content object) i))
+            (when (not (eql i (- (first dimensions) 1)))
+                  (format stream (if (tensor-vector-p object) 
+                                     " " 
+                                     "~%"))))))
 
 (defmethod print-object ((object tensor-matrix) stream)
     "Redefinition of print-object to conform with project specification.
      Prints the tensor-matrix's rows as if they were vectors,
      separated by line breaks."
-    (let* ((dimensions (tensor-dimensions object)))
-        (dotimes (i (first dimensions))
-            (format stream
-                    (if (eql i (- (first dimensions) 1))
-                        "~S"
-                        "~S~%")
-                        (aref (tensor-content object) i)))))
+     (print-non-scalar-tensor object stream))
 
 (defmethod print-object ((object tensor) stream)
     "Redefinition of print-object to conform with project specification.
