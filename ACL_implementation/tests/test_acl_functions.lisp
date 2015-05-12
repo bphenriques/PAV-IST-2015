@@ -71,9 +71,22 @@
     			   (.not (v 0 20 0.0 -10)))
     )
 
+(define-test test-reshape 
+	(assert-equalp (s 34)
+				   (reshape (v) (s 34)))
+	(assert-equalp (s 3)
+				   (reshape (v) (v 3 4 6)))
+
+	(assert-equalp (v 1 1 1 1 1 1 1 1 1)
+				   (reshape (v 9) (v 1)))
+
+
+	)
+
 (define-test test-shape
 	(assert-equalp (v)
 				   (shape (s 200)))
+
 	(assert-equalp (v 3)
 				   (shape (v 1 2 3)))
 	(assert-equalp (v 2 3)
@@ -344,7 +357,6 @@
                    (catenate (reshape (v 2 2 2) (v 1 2 2 3 3 1 1 2))
                              (reshape (v 2 2 2) (v 3 1 1 2 2 3 3 1))))
     )
-
 
 (define-test test-member?
     (assert-equalp (s 1)

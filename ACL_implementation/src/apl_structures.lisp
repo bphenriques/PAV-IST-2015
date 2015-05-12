@@ -46,27 +46,26 @@
      Prints the tensor-scalar's single element"
     (format stream "~D" (tensor-scalar-content object)))
 
-(defmethod print-object ((object tensor-vector) stream)
-    "Redefinition of print-object to conform with project specification.
-     Prints the tensor-vector's elements on the same line,
-     separated by one white space."
-     (print-non-scalar-tensor object stream))
 
 
-(defun print-non-scalar-tensor (object stream)
+(defun print-non-scalar-tensor (object stream delimiter)
     (let* ((dimensions (tensor-dimensions object)))
         (dotimes (i (first dimensions))
             (format stream "~S" (aref (tensor-content object) i))
             (when (not (eql i (- (first dimensions) 1)))
-                  (format stream (if (tensor-vector-p object) 
-                                     " " 
-                                     "~%"))))))
+                  (format stream delimiter)))))
+
+(defmethod print-object ((object tensor-vector) stream)
+    "Redefinition of print-object to conform with project specification.
+     Prints the tensor-vector's elements on the same line,
+     separated by one white space."
+     (print-non-scalar-tensor object stream " "))
 
 (defmethod print-object ((object tensor-matrix) stream)
     "Redefinition of print-object to conform with project specification.
      Prints the tensor-matrix's rows as if they were vectors,
      separated by line breaks."
-     (print-non-scalar-tensor object stream))
+     (print-non-scalar-tensor object stream "~%"))
 
 (defmethod print-object ((object tensor) stream)
     "Redefinition of print-object to conform with project specification.
@@ -116,7 +115,9 @@
      is the head of the list.
      Optionally the initial value of the tensor elements can be given,
      defaulting to 0 if not provided."
-    (s-to-t (s initial-value) dimensions))
+     (if (null dimensions)
+         (s initial-value)
+         (s-to-t (s initial-value) dimensions)))
 
 
 (defun s-to-t (scalar dimensions)
