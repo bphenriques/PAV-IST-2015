@@ -8,6 +8,5 @@
 (primes (s 20))
 (primes (s 37))
 (primes (s 50))
-(primes (s 100))
-(primes (s 1000))
-
+;(primes (s 100))
+;(primes (s 1000))

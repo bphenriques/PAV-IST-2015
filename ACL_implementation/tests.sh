@@ -57,7 +57,6 @@ if [ "$1" ==  "" ] # Run all tests
 	    #diff -b $OUTDIR/$filename.output $EXPECTEDDIR/$filename.output
 	    #echo "=============================================================================================="
 	    echo " "
-        exit
 	    failed=`expr $failed + 1`
 	fi
 	i=`expr $i + 1`

@@ -81,7 +81,7 @@
                (map-single function (car tensors)))
               ((= num-tensors 2)
                (map-double function (car tensors) (second tensors)))
-              (t (apply #'map-tensor function (map-double function (car tensors) (second tensors)) 
+              (t (apply #'map-tensor function (map-double function (car tensors) (second tensors))
 											  (nthcdr 2 tensors))))))
 
 
@@ -191,7 +191,7 @@
 (defgeneric get-last-dimension-slice (tensor slice))
 
 (defmethod get-last-dimension-slice ((tensor tensor-vector) slice)
-    (tensor-content (aref (tensor-content tensor) slice)))
+    (list (tensor-content (aref (tensor-content tensor) slice))))
 
 (defmethod get-last-dimension-slice ((tensor tensor) slice)
     (let* ((dimension-length (first (tensor-dimensions tensor)))
