@@ -1,126 +1,30 @@
+This is SBCL 1.1.14.debian, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
 
-"---------------------------------" 
-"LOADING: apl_util.lisp" 
-; compiling (DEFUN COPY-ARRAY ...)
-; compiling (DEFUN PRINT-N-LINES ...)
-; compiling (DEFUN ARRAY-SLICE ...)
-; compiling (DEFUN EQUAL-ARRAY ...)
-; compiling (DEFUN EQUAL-ARRAY-POS ...)
-; compiling (DEFUN GET-CYCLER ...)
-; compiling (DEFUN INTEGER-DIVISION ...)
-; compiling (DEFUN REMAINDER-INTEGER-DIVISION ...)
-; compiling (DEFUN GET-CLASS-NAME ...)
-; compiling (DEFUN ARRAY-TO-LIST ...)
-; compiling (DEFUN RANGE ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_bool.lisp" 
-; compiling (DEFGENERIC CREATE-BOOL ...)
-; compiling (DEFMETHOD CREATE-BOOL ...)
-; compiling (DEFMETHOD CREATE-BOOL ...)
-; compiling (DEFMETHOD CREATE-BOOL ...)
-; compiling (DEFGENERIC NEGATE ...)
-; compiling (DEFMETHOD NEGATE ...)
-; compiling (DEFGENERIC OR-BOOL ...)
-; compiling (DEFMETHOD OR-BOOL ...)
-; compiling (DEFGENERIC AND-BOOL ...)
-; compiling (DEFMETHOD AND-BOOL ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_structures.lisp" 
-; compiling (DEFSTRUCT (TENSOR #) ...)
-; compiling (DEFSTRUCT (TENSOR-SCALAR #) ...)
-; compiling (DEFSTRUCT (TENSOR-VECTOR #) ...)
-; compiling (DEFSTRUCT (TENSOR-MATRIX #) ...)
-; compiling (DEFMETHOD PRINT-OBJECT ...)
-; compiling (DEFMETHOD PRINT-OBJECT ...)
-; compiling (DEFUN PRINT-NON-SCALAR-TENSOR ...)
-; compiling (DEFMETHOD PRINT-OBJECT ...)
-; compiling (DEFMETHOD PRINT-OBJECT ...)
-; compiling (DEFMETHOD PRINT-OBJECT ...)
-; compiling (DEFGENERIC COPY-TENSOR ...)
-; compiling (DEFMETHOD COPY-TENSOR ...)
-; compiling (DEFMETHOD COPY-TENSOR ...)
-; compiling (DEFMETHOD COPY-TENSOR ...)
-; compiling (DEFUN TENSOR-VECTOR-COPY ...)
-; compiling (DEFUN CREATE-TENSOR ...)
-; compiling (DEFUN S-TO-T ...)
-; compiling (DEFGENERIC PROMOTE ...)
-; compiling (DEFMETHOD PROMOTE ...)
-; compiling (DEFMETHOD PROMOTE ...)
-; compiling (DEFGENERIC S ...)
-; compiling (DEFMETHOD S ...)
-; compiling (DEFMETHOD S ...)
-; compiling (DEFUN V ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_structures_functions.lisp" 
-; compiling (DEFGENERIC TENSOR-DIMENSIONS ...)
-; compiling (DEFMETHOD TENSOR-DIMENSIONS ...)
-; compiling (DEFMETHOD TENSOR-DIMENSIONS ...)
-; compiling (DEFGENERIC EXPAND-TENSOR ...)
-; compiling (DEFMETHOD EXPAND-TENSOR ...)
-; compiling (DEFMETHOD EXPAND-TENSOR ...)
-; compiling (DEFGENERIC PROMOTER ...)
-; compiling (DEFMETHOD PROMOTER ...)
-; compiling (DEFMETHOD PROMOTER ...)
-; compiling (DEFUN MAP-TENSOR ...)
-; compiling (DEFGENERIC MAP-SINGLE ...)
-; compiling (DEFMETHOD MAP-SINGLE ...)
-; compiling (DEFMETHOD MAP-SINGLE ...)
-; compiling (DEFGENERIC MAP-DOUBLE ...)
-; compiling (DEFMETHOD MAP-DOUBLE ...)
-; compiling (DEFMETHOD MAP-DOUBLE ...)
-; compiling (DEFMETHOD MAP-DOUBLE ...)
-; compiling (DEFMETHOD MAP-DOUBLE ...)
-; compiling (DEFGENERIC DELETE-LAST-DIMENSION-NTH-EL ...)
-; compiling (DEFMETHOD DELETE-LAST-DIMENSION-NTH-EL ...)
-; compiling (DEFMETHOD DELETE-LAST-DIMENSION-NTH-EL ...)
-; compiling (DEFGENERIC GET-LAST-DIMENSION-ROW-VECTOR ...)
-; compiling (DEFMETHOD GET-LAST-DIMENSION-ROW-VECTOR ...)
-; compiling (DEFMETHOD GET-LAST-DIMENSION-ROW-VECTOR ...)
-; compiling (DEFGENERIC GET-LAST-DIMENSION-SLICE ...)
-; compiling (DEFMETHOD GET-LAST-DIMENSION-SLICE ...)
-; compiling (DEFMETHOD GET-LAST-DIMENSION-SLICE ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_functions.lisp" 
-; compiling (DEFUN .- ...)
-; compiling (DEFUN ./ ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_monadic_functions.lisp" 
-; compiling (DEFUN .! ...)
-; compiling (DEFUN .SIN ...)
-; compiling (DEFUN .COS ...)
-; compiling (DEFUN .NOT ...)
-; compiling (DEFUN SHAPE ...)
-; compiling (DEFGENERIC INTERVAL ...)
-; compiling (DEFMETHOD INTERVAL ...)
-; compiling (DEFMETHOD INTERVAL ...)
-"------         DONE         -----" 
-"---------------------------------" 
-"---------------------------------" 
-"LOADING: apl_dyadic_functions.lisp" 
-; compiling (DEFUN .+ ...)
-; compiling (DEFUN .* ...)
-; compiling (DEFUN .// ...)
-; compiling (DEFUN .% ...)
-; compiling (DEFUN .< ...)
-; compiling (DEFUN .> ...)
-; compiling (DEFUN .<= ...)
-; compiling (DEFUN .>= ...)
-; compiling (DEFUN .= ...)
-; compiling (DEFUN .OR ...)
-; compiling (DEFUN .AND ...)
-; compiling (DEFGENERIC DROP ...)
-; compiling (DEFMETHOD DROP ...)
-; compiling (DEFUN RESHAPE ...)
-; compiling (DEFGENERIC CATENATE ...)
-; compiling (DEFMETHOD CATENATE ...)
-; compiling (DEFMETHOD CATENATE ...)While evaluating the form starting at line 33, column 0
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* 
+T
+* 
+4 5 6 7 8 9
+* 
+6 7 8 9
+* 
+1 2 3 4 5 6
+* 
+1 2 3 4
+* 
+11 12
+15 16
+* 
+3 4
+7 8
+* 
+9 10
+13 14
+* 
+1 2
+5 6
+* 

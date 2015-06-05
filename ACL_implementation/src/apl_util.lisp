@@ -52,16 +52,16 @@
                    (t (incf current-element)))
               (aref cycle-elements current-element))))
 
-(defun integer-division (n1 n2)    
-  (nth-value 0 (floor n1 n2)))   
-   
-(defun remainder-integer-division (n1 n2)    
-  (nth-value 1 (floor n1 n2)))
+(defun integer-division (n1 n2)
+  (nth-value 0 (truncate n1 n2)))
+
+(defun remainder-integer-division (n1 n2)
+  (nth-value 1 (truncate n1 n2)))
 
 (defun get-class-name (arg)
   (class-name (class-of arg)))
 
-(defun array-to-list (array) 
+(defun array-to-list (array)
   (map 'list (lambda (x) x) array))
 
 (defun range (max &key (min 0) (step 1))

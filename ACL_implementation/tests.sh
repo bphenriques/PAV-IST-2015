@@ -44,8 +44,8 @@ if [ "$1" ==  "" ] # Run all tests
 	filename=${filename%%.*}
 	cp -f $file $BASEDIR/testFile.lisp
 	mkdir -p $OUTDIR/$outputdir
-	sbcl --script $BASEDIR/testFile.lisp &> $OUTDIR/$outputfile.output
-	diff -b $OUTDIR/$outputfile.output $EXPECTEDDIR/$outputfile.lisp.output >/dev/null
+	sbcl < $file &> $OUTDIR/$outputfile.output
+	diff <(tail -n +2 $OUTDIR/$outputfile.output) <(tail -n +2 $EXPECTEDDIR/$outputfile.lisp.output) >/dev/null
 	dif=$?
 	if  [ "$dif" -eq "0" ]; then
 	    echo "==Passed test $filename"
@@ -57,10 +57,11 @@ if [ "$1" ==  "" ] # Run all tests
 	    #diff -b $OUTDIR/$filename.output $EXPECTEDDIR/$filename.output
 	    #echo "=============================================================================================="
 	    echo " "
+        exit
 	    failed=`expr $failed + 1`
 	fi
 	i=`expr $i + 1`
-	    
+
     done
 else # run specific test
   filename=$(basename $1)
@@ -89,7 +90,7 @@ fi
 echo "**********************************************************************************************"
 echo "**** Tests terminated"
 echo "**********************************************************************************************"
-echo "**** PASSED: $passed" 
+echo "**** PASSED: $passed"
 echo "**** FAILED: $failed"
 echo "**** TOTAL: $i"
 echo "**********************************************************************************************"
