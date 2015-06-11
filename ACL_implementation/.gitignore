@@ -4,3 +4,5 @@
 *.fas
 *.lib
 .directory
+tests/out
+testFile.lisp

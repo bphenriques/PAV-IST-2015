@@ -35,6 +35,9 @@
 			(get-class-name t1)
 			(get-class-name t2))))
 
+(defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-vector) (t2 tensor-vector))
+	(inner-product-step1 f1 f2 t1 (reshape (v (first (tensor-dimensions t2)) 1) t2)))
+
 (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-scalar) (t2 tensor))
 	(funcall f2 t1 t2))
 

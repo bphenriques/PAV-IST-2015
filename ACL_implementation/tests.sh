@@ -32,10 +32,8 @@ echo "==========================================================================
 echo "== Starting tests now"
 echo "=============================================================================================="
 
-if [ "$1" ==  "" ] # Run all tests
-  then
-    for file in $INDIR/**/*.lisp
-    do
+for file in $INDIR/**/*.lisp
+do
 	outputfile=${file:${#INDIR}}
 	outputfile=${outputfile:1}
 	outputfile=${outputfile%%.*}
@@ -44,7 +42,7 @@ if [ "$1" ==  "" ] # Run all tests
 	filename=${filename%%.*}
 	cp -f $file $BASEDIR/testFile.lisp
 	mkdir -p $OUTDIR/$outputdir
-	sbcl < $file &> $OUTDIR/$outputfile.output
+	sbcl --disable-debugger < $file &> $OUTDIR/$outputfile.output
 	diff <(tail -n +2 $OUTDIR/$outputfile.output) <(tail -n +2 $EXPECTEDDIR/$outputfile.lisp.output) >/dev/null
 	dif=$?
 	if  [ "$dif" -eq "0" ]; then
@@ -61,30 +59,7 @@ if [ "$1" ==  "" ] # Run all tests
 	fi
 	i=`expr $i + 1`
 
-    done
-else # run specific test
-  filename=$(basename $1)
-  filename=${filename%%.*}
-  $PROJDIR/mayfly -g $INDIR/$filename.mf -o $OUTDIR/$filename.asm
-  yasm -felf $OUTDIR/$filename.asm -o $TEMPDIR/$filename.o
-  ld -o $TEMPDIR/$filename $TEMPDIR/$filename.o -lrts
-  $TEMPDIR/$filename > $OUTDIR/$filename.out
-  diff -b $OUTDIR/$filename.out $EXPECTEDDIR/$filename.out >/dev/null
-  dif=$?
-  if  [ "$dif" -eq "0" ]; then
-      echo "==Passed test $filename"
-      passed=`expr $passed + 1`
-  else
-      #echo "=============================================================================================="
-      echo "==Failed test $filename"
-      #echo "=============================================================================================="
-      #diff -b $OUTDIR/$filename.out $EXPECTEDDIR/$filename.out
-      #echo "=============================================================================================="
-      echo " "
-      failed=`expr $failed + 1`
-  fi
-  i=`expr $i + 1`
-fi
+done
 
 echo "**********************************************************************************************"
 echo "**** Tests terminated"
