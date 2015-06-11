@@ -33,3 +33,13 @@ apl_dyadic_operators.lisp:
         add:
             (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-vector) (t2 tensor-vector))
             	(inner-product-step1 f1 f2 t1 (reshape (v (first (tensor-dimensions t2)) 1) t2)))
+    
+    FIX SELECT
+    Add on line 187:
+	     (num-last-dimensions (car (last (tensor-dimensions tensor-copy))))
+           
+    Add between line 194-195:
+		(decf pos)
+       		(dotimes (i (- num-last-dimensions pos))
+          		(delete-last-dimension-nth-el tensor-copy pos))
+

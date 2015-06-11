@@ -1,4 +1,4 @@
-This is SBCL 1.1.14.debian, an implementation of ANSI Common Lisp.
+This is SBCL 1.1.6.0-3c5581a, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
 
 SBCL is free software, provided as is, with absolutely no warranty.
