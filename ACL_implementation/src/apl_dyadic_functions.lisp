@@ -181,15 +181,21 @@
                  (delete-last-dimension-nth-el tensor-copy 0))
       tensor-copy))
 
-
 (defmethod select ((tensor-locations tensor) (tensor tensor))
     (let* ((tensor-copy (copy-tensor tensor))
+           (num-last-dimensions (car (last (tensor-dimensions tensor-copy))))
            (lst-indexes (map 'list (lambda (x) (tensor-content x)) (array-to-list (tensor-content tensor-locations))))
            (pos 0)
            (times-deleted 0))
+
        (dolist (i lst-indexes)
           (when (= i 0)
                 (delete-last-dimension-nth-el tensor-copy (- pos times-deleted))
                 (incf times-deleted))
           (incf pos))
+
+       (decf pos)
+       (dotimes (i (- num-last-dimensions pos))
+          (delete-last-dimension-nth-el tensor-copy pos))
+
       tensor-copy))

@@ -1,0 +1,47 @@
+load.lisp:
+    line 21-23:
+        from:
+            (load (compile-file (concatenate 'string +source-folder-location+ file-name)
+                    :verbose nil)
+                :verbose nil))
+        to:
+            (load (concatenate 'string +source-folder-location+ file-name) :verbose nil))
+
+
+apl_util.lisp:
+    line 56:
+        from:
+            (nth-value 0 (floor n1 n2)))
+        to:
+            (nth-value 0 (truncate n1 n2)))
+    line 59:
+        from:
+            (nth-value 1 (floor n1 n2)))
+        to:
+            (nth-value 1 (truncate n1 n2)))
+
+
+apl_structures_functions.lisp:
+    line 194:
+        from:
+            (tensor-content (aref (tensor-content tensor) slice)))
+        to:
+            (list (tensor-content (aref (tensor-content tensor) slice))))
+
+apl_dyadic_operators.lisp:
+    line 38:
+        add:
+            (defmethod inner-product-step1 ((f1 function) (f2 function) (t1 tensor-vector) (t2 tensor-vector))
+            	(inner-product-step1 f1 f2 t1 (reshape (v (first (tensor-dimensions t2)) 1) t2)))
+            	
+            	
+ apl_dyadic_functions.lisp
+    FIX SELECT
+    Add on line 187:
+	     (num-last-dimensions (car (last (tensor-dimensions tensor-copy))))
+           
+    Add between line 194-195:
+		(decf pos)
+       		(dotimes (i (- num-last-dimensions pos))
+          		(delete-last-dimension-nth-el tensor-copy pos))
+
